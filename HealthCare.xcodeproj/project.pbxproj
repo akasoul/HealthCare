@@ -7,19 +7,94 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31004C2F263BDD000073F8FB /* modelPeaksDetection3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31004C2E263BDD000073F8FB /* modelPeaksDetection3.mlmodel */; };
+		310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */; };
+		3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */; };
 		312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */; };
-		312E5C622631FDA0005F9B40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C612631FDA0005F9B40 /* ContentView.swift */; };
+		312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C612631FDA0005F9B40 /* DetailView.swift */; };
 		312E5C642631FDA0005F9B40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 312E5C632631FDA0005F9B40 /* Assets.xcassets */; };
 		312E5C672631FDA0005F9B40 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 312E5C662631FDA0005F9B40 /* Preview Assets.xcassets */; };
+		312E5C702631FDBB005F9B40 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C6F2631FDBB005F9B40 /* DetailViewModel.swift */; };
+		3148600326498B51006AB0D6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3148600226498B51006AB0D6 /* MainViewModel.swift */; };
+		315ED3B5263292DA00BE453C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312E5C752632001E005F9B40 /* HealthKit.framework */; };
+		315ED3C12632C02500BE453C /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C02632C02500BE453C /* Grid.swift */; };
+		315ED3C42632C03700BE453C /* Offset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C32632C03600BE453C /* Offset.swift */; };
+		315ED3C72632C21000BE453C /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C62632C21000BE453C /* Math.swift */; };
+		315ED3CA2632C52100BE453C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C92632C52100BE453C /* Colors.swift */; };
+		315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3CC2632C80400BE453C /* ChartEcg.swift */; };
+		315ED3D32632E81400BE453C /* ChartEcgModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3D22632E81400BE453C /* ChartEcgModel.swift */; };
+		3161A4EF2633504E00F2D4B1 /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4EE2633504E00F2D4B1 /* Calculations.swift */; };
+		3161A4F32634746C00F2D4B1 /* TabSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */; };
+		3161A4F82634783800F2D4B1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4F72634783800F2D4B1 /* MainView.swift */; };
+		3161A4FB2634796900F2D4B1 /* RecordsNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4FA2634796900F2D4B1 /* RecordsNavigationView.swift */; };
+		31722B0E263AADBA007AE1B9 /* modelPeaksDetection.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31722B0D263AADBA007AE1B9 /* modelPeaksDetection.mlmodel */; };
+		31722B11263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */; };
+		31722B14263ADB65007AE1B9 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B13263ADB65007AE1B9 /* Storage.swift */; };
+		31722B19263ADF44007AE1B9 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */; };
+		31DBAC43263DB22900F55CDE /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DBAC42263DB22900F55CDE /* NavigationItemView.swift */; };
+		31DBAC47263DEC1100F55CDE /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DBAC46263DEC1100F55CDE /* BackgroundView.swift */; };
+		31DE43932643DF97007A2D91 /* modelPeaksDetection5.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */; };
+		31DE439826453127007A2D91 /* langRU.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31DE439726453127007A2D91 /* langRU.strings */; };
+		31DE439C26453133007A2D91 /* langEN.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31DE439B26453133007A2D91 /* langEN.strings */; };
+		31DE439F264531FC007A2D91 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE439E264531FC007A2D91 /* Localization.swift */; };
+		31DE43A226456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */; };
+		31DE43A92646EEBB007A2D91 /* ChartTimeDistributionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */; };
+		31DE43AA2646EEBB007A2D91 /* ChartTimeDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */; };
+		31DE43AD2647DC4C007A2D91 /* mpd500_0905.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */; };
+		31ED56C4263FE51900828A5B /* ChartBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56C3263FE51900828A5B /* ChartBase.swift */; };
+		31ED56CC264069F600828A5B /* ChartRhythmogram2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56CB264069F600828A5B /* ChartRhythmogram2.swift */; };
+		31ED56D026406AA100828A5B /* ChartRhythmogram2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56CF26406AA100828A5B /* ChartRhythmogram2Model.swift */; };
+		31ED56D326413C7300828A5B /* ChartHistogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56D226413C7300828A5B /* ChartHistogram.swift */; };
+		31ED56D626413C9800828A5B /* ChartHistogramModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56D526413C9800828A5B /* ChartHistogramModel.swift */; };
+		31ED56D926413CD600828A5B /* ChartScaterogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56D826413CD600828A5B /* ChartScaterogram.swift */; };
+		31ED56DC26413CE200828A5B /* ChartScaterogramModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31004C2E263BDD000073F8FB /* modelPeaksDetection3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection3.mlmodel; sourceTree = "<group>"; };
+		310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection4.mlmodel; sourceTree = "<group>"; };
+		3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelTest.mlmodel; sourceTree = "<group>"; };
 		312E5C5C2631FDA0005F9B40 /* HealthCare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthCare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCareApp.swift; sourceTree = "<group>"; };
-		312E5C612631FDA0005F9B40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		312E5C612631FDA0005F9B40 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		312E5C632631FDA0005F9B40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		312E5C662631FDA0005F9B40 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		312E5C682631FDA0005F9B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		312E5C6F2631FDBB005F9B40 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		312E5C732632001E005F9B40 /* HealthCare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthCare.entitlements; sourceTree = "<group>"; };
+		312E5C752632001E005F9B40 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		3148600226498B51006AB0D6 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		315ED3C02632C02500BE453C /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		315ED3C32632C03600BE453C /* Offset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offset.swift; sourceTree = "<group>"; };
+		315ED3C62632C21000BE453C /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		315ED3C92632C52100BE453C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		315ED3CC2632C80400BE453C /* ChartEcg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartEcg.swift; sourceTree = "<group>"; };
+		315ED3D22632E81400BE453C /* ChartEcgModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEcgModel.swift; sourceTree = "<group>"; };
+		3161A4EE2633504E00F2D4B1 /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
+		3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelectionView.swift; sourceTree = "<group>"; };
+		3161A4F72634783800F2D4B1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		3161A4FA2634796900F2D4B1 /* RecordsNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsNavigationView.swift; sourceTree = "<group>"; };
+		31722B0D263AADBA007AE1B9 /* modelPeaksDetection.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection.mlmodel; sourceTree = "<group>"; };
+		31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection2.mlmodel; sourceTree = "<group>"; };
+		31722B13263ADB65007AE1B9 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
+		31DBAC42263DB22900F55CDE /* NavigationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
+		31DBAC46263DEC1100F55CDE /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection5.mlmodel; sourceTree = "<group>"; };
+		31DE439726453127007A2D91 /* langRU.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = langRU.strings; sourceTree = "<group>"; };
+		31DE439B26453133007A2D91 /* langEN.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = langEN.strings; sourceTree = "<group>"; };
+		31DE439E264531FC007A2D91 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetectionScaling.mlmodel; sourceTree = "<group>"; };
+		31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimeDistribution.swift; sourceTree = "<group>"; };
+		31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimeDistributionModel.swift; sourceTree = "<group>"; };
+		31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mpd500_0905.mlmodel; sourceTree = "<group>"; };
+		31ED56C3263FE51900828A5B /* ChartBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartBase.swift; sourceTree = "<group>"; };
+		31ED56CB264069F600828A5B /* ChartRhythmogram2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRhythmogram2.swift; sourceTree = "<group>"; };
+		31ED56CF26406AA100828A5B /* ChartRhythmogram2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartRhythmogram2Model.swift; sourceTree = "<group>"; };
+		31ED56D226413C7300828A5B /* ChartHistogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartHistogram.swift; sourceTree = "<group>"; };
+		31ED56D526413C9800828A5B /* ChartHistogramModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartHistogramModel.swift; sourceTree = "<group>"; };
+		31ED56D826413CD600828A5B /* ChartScaterogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartScaterogram.swift; sourceTree = "<group>"; };
+		31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartScaterogramModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,17 +102,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				315ED3B5263292DA00BE453C /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31004C31263BE10B0073F8FB /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				3161A4F72634783800F2D4B1 /* MainView.swift */,
+				3148600226498B51006AB0D6 /* MainViewModel.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		31004C32263BE1290073F8FB /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				312E5C612631FDA0005F9B40 /* DetailView.swift */,
+				312E5C6F2631FDBB005F9B40 /* DetailViewModel.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
+		3116EFE22636CF5400442138 /* NN */ = {
+			isa = PBXGroup;
+			children = (
+				31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */,
+				31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */,
+				31722B0D263AADBA007AE1B9 /* modelPeaksDetection.mlmodel */,
+				31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */,
+				31004C2E263BDD000073F8FB /* modelPeaksDetection3.mlmodel */,
+				310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */,
+				31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */,
+				3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */,
+			);
+			path = NN;
+			sourceTree = "<group>";
+		};
 		312E5C532631FDA0005F9B40 = {
 			isa = PBXGroup;
 			children = (
 				312E5C5E2631FDA0005F9B40 /* HealthCare */,
 				312E5C5D2631FDA0005F9B40 /* Products */,
+				312E5C742632001E005F9B40 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,8 +162,20 @@
 		312E5C5E2631FDA0005F9B40 /* HealthCare */ = {
 			isa = PBXGroup;
 			children = (
+				3116EFE22636CF5400442138 /* NN */,
+				31DE4395264530C9007A2D91 /* Localization */,
+				312E5C732632001E005F9B40 /* HealthCare.entitlements */,
 				312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */,
-				312E5C612631FDA0005F9B40 /* ContentView.swift */,
+				3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */,
+				31DBAC46263DEC1100F55CDE /* BackgroundView.swift */,
+				31004C31263BE10B0073F8FB /* MainView */,
+				31722B17263ADEFB007AE1B9 /* NavigationView */,
+				31004C32263BE1290073F8FB /* DetailView */,
+				315ED3CF2632E53100BE453C /* Charts */,
+				31722B13263ADB65007AE1B9 /* Storage.swift */,
+				3161A4EE2633504E00F2D4B1 /* Calculations.swift */,
+				315ED3C62632C21000BE453C /* Math.swift */,
+				315ED3C92632C52100BE453C /* Colors.swift */,
 				312E5C632631FDA0005F9B40 /* Assets.xcassets */,
 				312E5C682631FDA0005F9B40 /* Info.plist */,
 				312E5C652631FDA0005F9B40 /* Preview Content */,
@@ -67,6 +189,102 @@
 				312E5C662631FDA0005F9B40 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		312E5C742632001E005F9B40 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				312E5C752632001E005F9B40 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		315ED3CF2632E53100BE453C /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				315ED3C02632C02500BE453C /* Grid.swift */,
+				315ED3C32632C03600BE453C /* Offset.swift */,
+				31ED56C3263FE51900828A5B /* ChartBase.swift */,
+				31DE43A52646EBA0007A2D91 /* ChartTimeDistribution */,
+				315ED3D02632E54000BE453C /* ChartEcg */,
+				31ED56C826402B9500828A5B /* ChartScaterogram */,
+				31ED56C726402B8800828A5B /* ChartHistogram */,
+				31ED56C626402B4700828A5B /* ChartRhythmogram2 */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		315ED3D02632E54000BE453C /* ChartEcg */ = {
+			isa = PBXGroup;
+			children = (
+				315ED3CC2632C80400BE453C /* ChartEcg.swift */,
+				315ED3D22632E81400BE453C /* ChartEcgModel.swift */,
+			);
+			path = ChartEcg;
+			sourceTree = "<group>";
+		};
+		31722B17263ADEFB007AE1B9 /* NavigationView */ = {
+			isa = PBXGroup;
+			children = (
+				3161A4FA2634796900F2D4B1 /* RecordsNavigationView.swift */,
+				31DBAC42263DB22900F55CDE /* NavigationItemView.swift */,
+				31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */,
+			);
+			path = NavigationView;
+			sourceTree = "<group>";
+		};
+		31DE4395264530C9007A2D91 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				31DE43962645310D007A2D91 /* Languages */,
+				31DE439E264531FC007A2D91 /* Localization.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		31DE43962645310D007A2D91 /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				31DE439726453127007A2D91 /* langRU.strings */,
+				31DE439B26453133007A2D91 /* langEN.strings */,
+			);
+			path = Languages;
+			sourceTree = "<group>";
+		};
+		31DE43A52646EBA0007A2D91 /* ChartTimeDistribution */ = {
+			isa = PBXGroup;
+			children = (
+				31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */,
+				31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */,
+			);
+			path = ChartTimeDistribution;
+			sourceTree = "<group>";
+		};
+		31ED56C626402B4700828A5B /* ChartRhythmogram2 */ = {
+			isa = PBXGroup;
+			children = (
+				31ED56CB264069F600828A5B /* ChartRhythmogram2.swift */,
+				31ED56CF26406AA100828A5B /* ChartRhythmogram2Model.swift */,
+			);
+			path = ChartRhythmogram2;
+			sourceTree = "<group>";
+		};
+		31ED56C726402B8800828A5B /* ChartHistogram */ = {
+			isa = PBXGroup;
+			children = (
+				31ED56D226413C7300828A5B /* ChartHistogram.swift */,
+				31ED56D526413C9800828A5B /* ChartHistogramModel.swift */,
+			);
+			path = ChartHistogram;
+			sourceTree = "<group>";
+		};
+		31ED56C826402B9500828A5B /* ChartScaterogram */ = {
+			isa = PBXGroup;
+			children = (
+				31ED56D826413CD600828A5B /* ChartScaterogram.swift */,
+				31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */,
+			);
+			path = ChartScaterogram;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +345,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				312E5C672631FDA0005F9B40 /* Preview Assets.xcassets in Resources */,
+				31DE439826453127007A2D91 /* langRU.strings in Resources */,
 				312E5C642631FDA0005F9B40 /* Assets.xcassets in Resources */,
+				31DE439C26453133007A2D91 /* langEN.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +358,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				312E5C622631FDA0005F9B40 /* ContentView.swift in Sources */,
+				3161A4FB2634796900F2D4B1 /* RecordsNavigationView.swift in Sources */,
+				31ED56D626413C9800828A5B /* ChartHistogramModel.swift in Sources */,
+				31DE439F264531FC007A2D91 /* Localization.swift in Sources */,
+				31DBAC43263DB22900F55CDE /* NavigationItemView.swift in Sources */,
+				315ED3D32632E81400BE453C /* ChartEcgModel.swift in Sources */,
+				3161A4F82634783800F2D4B1 /* MainView.swift in Sources */,
+				31DBAC47263DEC1100F55CDE /* BackgroundView.swift in Sources */,
+				312E5C702631FDBB005F9B40 /* DetailViewModel.swift in Sources */,
+				31ED56CC264069F600828A5B /* ChartRhythmogram2.swift in Sources */,
+				315ED3CA2632C52100BE453C /* Colors.swift in Sources */,
+				315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */,
+				31ED56D026406AA100828A5B /* ChartRhythmogram2Model.swift in Sources */,
+				31722B19263ADF44007AE1B9 /* NavigationViewModel.swift in Sources */,
+				31722B0E263AADBA007AE1B9 /* modelPeaksDetection.mlmodel in Sources */,
+				3161A4EF2633504E00F2D4B1 /* Calculations.swift in Sources */,
+				31ED56DC26413CE200828A5B /* ChartScaterogramModel.swift in Sources */,
+				31DE43932643DF97007A2D91 /* modelPeaksDetection5.mlmodel in Sources */,
+				312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */,
+				31004C2F263BDD000073F8FB /* modelPeaksDetection3.mlmodel in Sources */,
+				31722B14263ADB65007AE1B9 /* Storage.swift in Sources */,
+				315ED3C72632C21000BE453C /* Math.swift in Sources */,
+				31ED56D326413C7300828A5B /* ChartHistogram.swift in Sources */,
+				315ED3C12632C02500BE453C /* Grid.swift in Sources */,
+				315ED3C42632C03700BE453C /* Offset.swift in Sources */,
+				31ED56D926413CD600828A5B /* ChartScaterogram.swift in Sources */,
+				31DE43AA2646EEBB007A2D91 /* ChartTimeDistribution.swift in Sources */,
+				3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */,
+				310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */,
+				31DE43A226456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel in Sources */,
+				31DE43AD2647DC4C007A2D91 /* mpd500_0905.mlmodel in Sources */,
+				31722B11263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel in Sources */,
 				312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */,
+				3161A4F32634746C00F2D4B1 /* TabSelectionView.swift in Sources */,
+				31ED56C4263FE51900828A5B /* ChartBase.swift in Sources */,
+				31DE43A92646EEBB007A2D91 /* ChartTimeDistributionModel.swift in Sources */,
+				3148600326498B51006AB0D6 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +521,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HealthCare/HealthCare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HealthCare/Preview Content\"";
 				DEVELOPMENT_TEAM = X4CC3P473W;
@@ -289,6 +544,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HealthCare/HealthCare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HealthCare/Preview Content\"";
 				DEVELOPMENT_TEAM = X4CC3P473W;

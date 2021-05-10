@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 @main
 struct HealthCareApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabSelectionView()
         }
     }
 }

@@ -1,0 +1,101 @@
+//
+//  ChartEcg.swift
+//  HealthCare
+//
+//  Created by Anton Voloshuk on 23.04.2021.
+//
+
+import Foundation
+import SwiftUI
+import Combine
+import UIKit
+
+struct ChartEcg: View {
+    
+    @State var delta: chartOffset = chartOffset(dy: 0, dx: 0)
+    @ObservedObject var model = ChartEcgModel()
+    let data: [Double]?
+    let marks: [Double]?
+    let backgroundColor: Color
+    let cornerRadius: CGFloat = 20
+    var offset: CGFloat=20
+    let miniature: Bool
+    let title: String
+    let lineColor=UIColor.blue
+    init(data:[Double]? = nil,marks:[Double]? = nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
+        self.data=data
+        self.marks=marks
+        self.miniature=miniature
+        self.backgroundColor=backgroundColor
+        
+        if(self.miniature){
+            self.title=""
+            self.offset=0
+        }
+        else{
+            self.title=Localization.getString("IDS_CHART_ECG_NAME")
+        }
+        
+        if(self.data != nil && self.marks != nil){
+            self.model.setup(data: self.data!, marks: self.marks!, lineColor: self.lineColor)
+        }
+        
+    }
+    
+    func setup(data: [Double],marks: [Double]){
+        self.model.setup(data: data, marks: marks,lineColor: self.lineColor)
+    }
+    
+    var body: some View{
+        GeometryReader{ g in
+            Group{
+                ChartBase(text: self.title,backgroundColor:self.backgroundColor)
+                
+                Image(uiImage: self.model.img ?? UIImage())
+                    .frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
+                    .offset(x: self.delta.dx, y: self.delta.dy)
+                    .clipped()
+                    .offset(x: self.offset, y: 2*self.offset)
+                    .gesture(
+                        DragGesture()
+                            .onChanged({ (value) in
+                                let scrollDirection:CGFloat = -1.0
+                                let offsetX = self.delta.x + scrollDirection * (value.startLocation.x-value.location.x)
+                                let offsetY = self.delta.y + scrollDirection * (value.startLocation.y-value.location.y)
+                                
+                                let tmpView = UIImageView(image: self.model.img ?? UIImage())
+                                let width = tmpView.frame.width
+                                let height = tmpView.frame.height
+                                
+                                if(-offsetX < (width - g.size.width)/2 + self.offset && -offsetX > 0){
+                                    self.delta.dx =  offsetX// < 0 ? -1.0 : 1.0
+                                }
+                                if(-offsetY < height-0.5*g.size.height && -offsetY > 0){
+                                    self.delta.dy =  offsetY// < 0 ? -1.0 : 1.0
+                                }
+                            })
+                            .onEnded({ value in
+                                self.delta.x=self.delta.dx
+                                self.delta.y=self.delta.dy
+                            })
+                    )
+            }
+            .onAppear(perform: {
+                if(!miniature){
+                    self.model.setSize(height: 0.75*g.size.height)
+                }
+                else{
+                    self.model.setSize(height: 0.75*g.size.height,width: g.size.width)
+                }
+            })
+            
+            
+        }
+    }
+    
+}
+
+
+
+
+
