@@ -50,13 +50,23 @@ var body: some View{
             ChartBase(text: self.title,backgroundColor:self.backgroundColor)
             
             Image(uiImage: self.model.img ?? UIImage())
-                //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                //.clipped()
+                .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+            
+            Image(uiImage: self.model.imgAxisX ?? UIImage())
                 .offset(x: self.offset, y: 2*self.offset)
+                .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+
+
+            Image(uiImage: self.model.imgAxisY ?? UIImage())
+                .offset(x: self.offset, y: 2*self.offset)
+
         }.onAppear(perform: {
-            self.model.setSize(height: 0.5*g.size.height, width: g.size.width-2*self.offset)
+            self.model.setSize(height: 0.7*g.size.height, width: g.size.width-2*self.offset)
         })
-    }
+        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification), perform: {i in
+            self.model.setSize(height: 0.7*g.size.height, width: g.size.width-2*self.offset)
+        })
+   }
 }
 
 

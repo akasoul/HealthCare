@@ -21,9 +21,9 @@ struct ChartScaterogram: View {
     let title: String
     
     let fillColor = UIColor.blue
-
+    
     init(data:[Double]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
-
+        
         self.data=data
         self.miniature=miniature
         self.backgroundColor=backgroundColor
@@ -39,27 +39,38 @@ struct ChartScaterogram: View {
         if(self.data != nil){
             self.setup(data: self.data!)
         }
-
-}
+        
+    }
     func setup(data: [Double]){
         self.model.setup(data: data, fillColor: self.fillColor)
     }
-
-var body: some View{
-    GeometryReader{ g in
-        Group{
-            ChartBase(text: self.title,backgroundColor:self.backgroundColor)
-            
-            Image(uiImage: self.model.img ?? UIImage())
-                .offset(x: self.offset, y: 2*self.offset)
-            
-        }.onAppear(perform: {
-            self.model.setSize(height: 0.5*g.size.height, width: g.size.width-2*self.offset)
-        })
+    
+    var body: some View{
+        GeometryReader{ g in
+            Group{
+                ChartBase(text: self.title,backgroundColor:self.backgroundColor)
+                
+                Image(uiImage: self.model.img ?? UIImage())
+                    .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                
+                Image(uiImage: self.model.imgAxisX ?? UIImage())
+                    .offset(x: self.offset, y: 2*self.offset)
+                    .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+                
+                
+                Image(uiImage: self.model.imgAxisY ?? UIImage())
+                    .offset(x: self.offset, y: 2*self.offset)
+                
+            }.onAppear(perform: {
+                self.model.setSize(height: 0.7*g.size.height, width: g.size.width-2*self.offset)
+            })
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification), perform: {i in
+                self.model.setSize(height: 0.7*g.size.height, width: g.size.width-2*self.offset)
+            })
+        }
     }
-}
-
-
+    
+    
 }
 
 

@@ -72,13 +72,13 @@ struct ChartTimeDistribution: View {
                         
                     })
                 if(self.timePicker==timePickerOptions[0]){
-                Image(uiImage: self.model.imgDaily ?? UIImage())
+                    Image(uiImage: self.model.daily.img ?? UIImage())
                     //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
                     //.clipped()
                     .offset(x: self.offset, y: 2*self.offset)
                 }
                 else{
-                    Image(uiImage: self.model.imgWeekly ?? UIImage())
+                    Image(uiImage: self.model.weekly.img ?? UIImage())
                         //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
                         //.clipped()
                         .offset(x: self.offset, y: 2*self.offset)                }

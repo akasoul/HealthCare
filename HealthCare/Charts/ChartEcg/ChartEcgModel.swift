@@ -11,7 +11,27 @@ import UIKit
 
 class ChartEcgModel: ObservableObject{
     
-    @Published var img: UIImage?
+    @Published var img: UIImage?{
+        didSet{
+            try? self.img?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/Ecg.png"))
+        }
+    }
+    @Published var imgAxisX: UIImage?{
+        didSet{
+            try? self.imgAxisX?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/EcgXMarks.png"))
+        }
+    }
+    @Published var imgAxisY: UIImage?{
+        didSet{
+            try? self.imgAxisY?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/EcgYMarks.png"))
+        }
+    }
+    
+    var axisColor=UIColor.blue
+    var axisWidth: CGFloat = 40
+    var axisHeight: CGFloat = 20
+    let axisFontSize:CGFloat=12
+    
     var height: CGFloat?
     var width: CGFloat?
     var data: [Double]?
@@ -24,8 +44,16 @@ class ChartEcgModel: ObservableObject{
     }
     
     func setSize(height: CGFloat,width:CGFloat? = nil){
-        self.height=height
-        self.width=width
+        if(width != nil){
+            self.height=height
+            self.width=width
+            self.axisWidth=0
+            self.axisHeight=0
+        }
+        else{
+            self.height=height - self.axisHeight
+            
+        }
         self.update()
     }
     
@@ -37,7 +65,7 @@ class ChartEcgModel: ObservableObject{
     }
     
     func update(){
-        DispatchQueue.global().async{
+            
             guard let data=self.data,
                   let marks=self.marks,
                   let lineColor=self.lineColor,
@@ -47,7 +75,7 @@ class ChartEcgModel: ObservableObject{
                   var max = data.max()
             else{ return }
             
-        
+            
             let dist = 0.1*(max-min)
             min -= dist
             max += dist
@@ -86,14 +114,14 @@ class ChartEcgModel: ObservableObject{
                 else{
                     path.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
                     if(self.width == nil){
-                    if(i<marks.count){
-                        if(marks[i]==1){
-                            subPath.move(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)-self.marksSize, y: self.marksSize+CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)+self.marksSize, y: self.marksSize+CGFloat(pointY)))
+                        if(i<marks.count){
+                            if(marks[i]==1){
+                                subPath.move(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
+                                subPath.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
+                                subPath.addLine(to: .init(x: 0.2*CGFloat(i)-self.marksSize, y: self.marksSize+CGFloat(pointY)))
+                                subPath.addLine(to: .init(x: 0.2*CGFloat(i)+self.marksSize, y: self.marksSize+CGFloat(pointY)))
+                            }
                         }
-                    }
                     }
                 }
             }
@@ -101,7 +129,7 @@ class ChartEcgModel: ObservableObject{
             shadowLayer.path=path.cgPath
             shadowLayer.strokeColor=lineColor.withAlphaComponent(0.2).cgColor
             shadowLayer.lineWidth=4
-
+            
             lineLayer.path=path.cgPath
             lineLayer.strokeColor=lineColor.cgColor
             lineLayer.lineWidth=1
@@ -113,11 +141,6 @@ class ChartEcgModel: ObservableObject{
             shadowLayer.addSublayer(marksLayer)
             if(self.width == nil){
             }
-            let rendererMarks = UIGraphicsImageRenderer(bounds: marksLayer.bounds)
-            let imgMarks = rendererMarks.image(actions: { context in
-                marksLayer.render(in: context.cgContext)
-            })
-            try? imgMarks.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/file.png"))
             
             let renderer = UIGraphicsImageRenderer(bounds: shadowLayer.bounds)
             DispatchQueue.main.async{
@@ -125,6 +148,74 @@ class ChartEcgModel: ObservableObject{
                     shadowLayer.render(in: context.cgContext)
                 })
             }
-        }
+            
+            if(self.width == nil){
+                
+                let xMarksPeriod=50
+                let xMarksCount = Int(width/CGFloat(xMarksPeriod))
+                let xMarksStartValue:CGFloat=0
+                let xMarksEndValue:CGFloat=CGFloat(data.count)
+                let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_ECG_X_MARKS_FORMAT"))
+                
+                let yMarksPeriod=25
+                let yMarksCount = Int(height/CGFloat(yMarksPeriod))
+                let yMarksStartValue:CGFloat=0
+                let yMarksEndValue:CGFloat=1
+                let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_ECG_Y_MARKS_FORMAT"))
+                
+                //axis x
+                do{
+                    let layer = CALayer()
+                    layer.frame=CGRect(x: 0, y: 0, width: width, height: self.axisHeight)
+                    
+                    let count = xMarksCount
+                    let step = width/CGFloat(count)
+                    for i in 0..<count{
+                        let textLayer=CATextLayer()
+                        textLayer.frame=CGRect(x: step*CGFloat(i), y: 5, width: step, height: self.axisHeight-5)
+                        let value = Double((CGFloat(i)/CGFloat(count-1)) * (xMarksEndValue-xMarksStartValue) + xMarksStartValue)
+                        textLayer.string = NSString(format: xMarksFormat, value)
+                        textLayer.foregroundColor=self.axisColor.cgColor
+                        textLayer.fontSize=self.axisFontSize
+                        textLayer.alignmentMode = .left
+                        
+                        
+                        layer.addSublayer(textLayer)
+                    }
+                    let renderer = UIGraphicsImageRenderer(bounds: layer.bounds)
+                    
+                        self.imgAxisX = renderer.image(actions: { context in
+                            layer.render(in: context.cgContext)
+                        })
+                    
+
+                }
+                //axis y
+                do{
+                    let layer = CALayer()
+                    layer.frame=CGRect(x: 0, y: 0, width: self.axisWidth, height: height)
+                    let count = yMarksCount
+                    let step = height/CGFloat(count)
+                    for i in 0..<count{
+                        let textLayer=CATextLayer()
+                        textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+self.axisFontSize, width: self.axisWidth-10, height: self.axisFontSize)
+                        let value = Double((CGFloat(i)/CGFloat(count-1)) * (yMarksEndValue-yMarksStartValue) + yMarksStartValue)
+                        textLayer.string = NSString(format: yMarksFormat, value)
+                        textLayer.foregroundColor=self.axisColor.cgColor
+                        textLayer.fontSize=self.axisFontSize
+                        textLayer.alignmentMode = .right
+                        layer.addSublayer(textLayer)
+                    }
+                    let renderer = UIGraphicsImageRenderer(bounds: layer.bounds)
+                        self.imgAxisY = renderer.image(actions: { context in
+                            layer.render(in: context.cgContext)
+                        })
+                    
+
+                }
+            }
+            
+            
+        
     }
 }

@@ -51,11 +51,27 @@ struct ChartEcg: View {
             Group{
                 ChartBase(text: self.title,backgroundColor:self.backgroundColor)
                 
-                Image(uiImage: self.model.img ?? UIImage())
-                    .frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                    .offset(x: self.delta.dx, y: self.delta.dy)
+                if(!self.miniature){
+                Image(uiImage: self.model.imgAxisX ?? UIImage())
+                    .frame(width: g.size.width-4*self.offset,height: self.model.axisHeight,alignment:.leading)
+                    .offset(x: self.delta.dx)
                     .clipped()
                     .offset(x: self.offset, y: 2*self.offset)
+                    .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+
+                Image(uiImage: self.model.imgAxisY ?? UIImage())
+                    .frame(width: self.model.axisWidth,height: g.size.height-3*self.offset,alignment:.leading)
+                    .offset(y: self.delta.dy)
+                    .clipped()
+                    .offset(x: self.offset, y: 2*self.offset)
+                    
+                }
+                
+                Image(uiImage: self.model.img ?? UIImage())
+                    .frame(width: g.size.width-2*self.offset-self.model.axisWidth, height: g.size.height-2*self.offset-self.model.axisHeight)
+                    .offset(x: self.delta.dx, y: self.delta.dy)
+                    .clipped()
+                    .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
                     .gesture(
                         DragGesture()
                             .onChanged({ (value) in

@@ -10,8 +10,24 @@ import CoreGraphics
 import UIKit
 
 class ChartTimeDistributionModel: ObservableObject{
+    struct Wrapped{
+        var img: UIImage?
+        var imgAxisX: UIImage?
+        var imgAxisY: UIImage?
+    }
+    @Published var daily = Wrapped()
+    @Published var weekly = Wrapped()
+    
     @Published var imgDaily: UIImage?
     @Published var imgWeekly: UIImage?
+    @Published var imgAxisXDaily: UIImage?
+    @Published var imgAxisYDaily: UIImage?
+    
+    var axisColor=UIColor.blue
+    var axisWidth: CGFloat?
+    var axisHeight: CGFloat?
+    let axisFontSize:CGFloat=12
+
     var height: CGFloat?
     var width: CGFloat?
     var topColor: UIColor?
@@ -37,8 +53,6 @@ class ChartTimeDistributionModel: ObservableObject{
     
     func update(){
         guard let data=self.data,
-              let topColor=self.topColor,
-              let bottomColor=self.bottomColor,
               let height=self.height,
               let width=self.width
         else{ return }
@@ -82,7 +96,7 @@ class ChartTimeDistributionModel: ObservableObject{
                 gridLayer.addSublayer(recordLayer)
             }
             let renderer = UIGraphicsImageRenderer(bounds: gridLayer.bounds)
-                    self.imgDaily = renderer.image(actions: { context in
+            self.daily.img = renderer.image(actions: { context in
                         gridLayer.render(in: context.cgContext)
                     })
             
@@ -111,7 +125,7 @@ class ChartTimeDistributionModel: ObservableObject{
              gridLayer.path=path.cgPath
              
              let renderer = UIGraphicsImageRenderer(bounds: gridLayer.bounds)
-                     self.imgWeekly = renderer.image(actions: { context in
+            self.weekly.img = renderer.image(actions: { context in
                          gridLayer.render(in: context.cgContext)
                      })
         }

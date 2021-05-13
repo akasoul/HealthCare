@@ -1,14 +1,15 @@
 //
-//  ChartHistogramModel.swift
+//  ChartRhythmogram2Model.swift
 //  HealthCare
 //
-//  Created by Anton Voloshuk on 04.05.2021.
+//  Created by Anton Voloshuk on 03.05.2021.
 //
 
 import Foundation
+import CoreGraphics
 import UIKit
 
-class ChartHistogramModel: ObservableObject{
+class ChartRhythmogram2Model: ObservableObject{
     @Published var img: UIImage?
     @Published var imgAxisX: UIImage?
     @Published var imgAxisY: UIImage?
@@ -22,7 +23,6 @@ class ChartHistogramModel: ObservableObject{
     var topColor: UIColor?
     var bottomColor: UIColor?
     var data: [Double]?
-
     init() {
         
     }
@@ -47,88 +47,75 @@ class ChartHistogramModel: ObservableObject{
               let height=self.height,
               let width=self.width
         else{ return }
-        
-        var dict: [Int:Int] = [:]
-        
+
+        var tmpData: [Double]=[]
         for i in 0..<data.count{
-            if let _ = dict[Int(data[i])] {
-                dict[Int(data[i])]! += 1
+            tmpData.append(data[i])
+            tmpData.append(data[i])
+        }
+        guard var min = tmpData.min(),
+              var max = tmpData.max()
+        else{ return }
+
+        
+        min = 0
+        let dist = 0.25*(max-min)
+        max += dist
+        min = 0
+        max = 2000
+        let dataHeight=max-min
+        let step = width/CGFloat(tmpData.count)
+        
+        let layer=CAShapeLayer()
+        let grLayer=CAGradientLayer()
+        
+        grLayer.colors=[topColor.cgColor,bottomColor.cgColor]
+        
+        layer.frame=CGRect(x: 0, y: 0, width: width, height: height)
+        grLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
+        
+        let path = UIBezierPath()
+        for i in 0..<tmpData.count{
+            var pointY = tmpData[i]
+            pointY -= min
+            pointY /= dataHeight
+            pointY *= Double(height)
+            pointY = Double(height) - pointY
+            if(i==0){
+                path.move(to: .init(x: step*CGFloat(i), y: CGFloat(pointY)))
             }
             else{
-                dict[Int(data[i])]=0
+                path.addLine(to: .init(x: step*CGFloat(i), y: CGFloat(pointY)))
+                
             }
-            
         }
+        path.addLine(to: .init(x: width, y: height))
+        path.addLine(to: .init(x: 0, y: height))
+        path.close()
+        layer.path=path.cgPath
+
+        layer.fillColor = UIColor.red.cgColor
         
         
-        guard var max = dict.map({ $1 }).max()
-        else{ return }
-        let min = 0
+        grLayer.mask=layer
 
-        let sorted = dict.sorted(by: { $0.0 < $1.0})
-
-        var counters = sorted.map({ $0.1 })
-        
-        for _ in 0..<3{
-            counters.insert(0, at: 0)
-            counters.insert(0, at: counters.count)
-        }
-        let count: CGFloat = CGFloat(counters.count)
-        let step = width / count
-
-        let dist = Int(0.25*CGFloat(max-min))
-        max += dist
-        let dataHeight=CGFloat(max-min)
-
-        let mainLayer = CALayer()
-        mainLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
-        mainLayer.backgroundColor = UIColor.clear.cgColor
-
-        for i in 0..<counters.count{
-            let maskLayer = CAShapeLayer()
-            maskLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
-            maskLayer.backgroundColor = UIColor.clear.cgColor
-            let posY = height-CGFloat(counters[i])*height/dataHeight
-            let path=UIBezierPath(rect: CGRect(x: CGFloat(i)*step, y: posY, width: step, height: height-posY))
-            maskLayer.path = path.cgPath
-            maskLayer.fillColor = UIColor.red.cgColor
-            
-            let gradientLayer=CAGradientLayer()
-            gradientLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
-            gradientLayer.backgroundColor = UIColor.clear.cgColor
-            gradientLayer.colors=[topColor.cgColor,bottomColor.cgColor]
-            gradientLayer.mask=maskLayer
-            
-            mainLayer.addSublayer(gradientLayer)
-            
-            let borderLayer=CAShapeLayer()
-            borderLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
-            borderLayer.backgroundColor = UIColor.clear.cgColor
-            borderLayer.path=path.cgPath
-            borderLayer.strokeColor = UIColor.white.cgColor
-            borderLayer.fillColor=UIColor.clear.cgColor
-            borderLayer.lineWidth=0.5
-            
-            mainLayer.addSublayer(borderLayer)
-        }
-
-        let renderer = UIGraphicsImageRenderer(bounds: mainLayer.bounds)
+        let renderer = UIGraphicsImageRenderer(bounds: grLayer.bounds)
         self.img = renderer.image(actions: { context in
-            mainLayer.render(in: context.cgContext)
+            grLayer.render(in: context.cgContext)
         })
         
         
         let xMarksPeriod=50
         let xMarksCount = Int(width/CGFloat(xMarksPeriod))
         let xMarksStartValue:CGFloat=0
-        let xMarksEndValue:CGFloat=1
-        let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_HISTOGRAM_X_MARKS_FORMAT"))
+        let xMarksEndValue:CGFloat=CGFloat(data.count)
+        let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT"))
 
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
-        let yMarksEndValue:CGFloat=2000
-        let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT"))
+        let yMarksEndValue:CGFloat=2
+        let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT"))
 
         //axis x
         do{
@@ -160,12 +147,13 @@ class ChartHistogramModel: ObservableObject{
             let step = height/CGFloat(count)
             for i in 0..<count{
                 let textLayer=CATextLayer()
-                textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+self.axisFontSize, width: axisWidth-10, height: self.axisFontSize)
+                textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+(step-self.axisFontSize), width: axisWidth-10, height: self.axisFontSize)
                 let value = Double((CGFloat(i)/CGFloat(count-1)) * (yMarksEndValue-yMarksStartValue) + yMarksStartValue)
                 textLayer.string = NSString(format: yMarksFormat, value)
                 textLayer.foregroundColor=self.axisColor.cgColor
                 textLayer.fontSize=self.axisFontSize
                 textLayer.alignmentMode = .right
+
                 layer.addSublayer(textLayer)
             }
             
@@ -174,6 +162,5 @@ class ChartHistogramModel: ObservableObject{
                 layer.render(in: context.cgContext)
             })
         }
-        
     }
 }
