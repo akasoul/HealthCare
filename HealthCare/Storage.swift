@@ -18,6 +18,7 @@ class Storage{
         let symptomsStatus: HKElectrocardiogram.SymptomsStatus?
         let classification: HKElectrocardiogram.Classification?
         let samplingFrequency: HKQuantity?
+        let duration: Double
     }
     private var finished = false
     static var shared=Storage()
@@ -67,8 +68,9 @@ class Storage{
                             let samplingFrequency = (allSamples[i]).samplingFrequency
                             let classification = (allSamples[i]).classification
                             let ecgData=ecgSamples.map( { $0.0 } )
+                            let duration=Double((allSamples[i] as HKSample).endDate.timeIntervalSince1970 - (allSamples[i] as HKSample).startDate.timeIntervalSince1970)
                             
-                            let record = Record(date: date, ecgData: ecgData, heartRate: heartRate, symptomsStatus: symtomsStatus, classification: classification, samplingFrequency: samplingFrequency)
+                            let record = Record(date: date, ecgData: ecgData, heartRate: heartRate, symptomsStatus: symtomsStatus, classification: classification, samplingFrequency: samplingFrequency,duration: duration)
                             self.all?.append(record)
                             queryIsFinished.append(true)
                         }

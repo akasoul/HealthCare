@@ -16,6 +16,9 @@
 		312E5C672631FDA0005F9B40 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 312E5C662631FDA0005F9B40 /* Preview Assets.xcassets */; };
 		312E5C702631FDBB005F9B40 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C6F2631FDBB005F9B40 /* DetailViewModel.swift */; };
 		3148600326498B51006AB0D6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3148600226498B51006AB0D6 /* MainViewModel.swift */; };
+		315BD515264D7FC6004EB841 /* model1205.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 315BD514264D7FC6004EB841 /* model1205.mlmodel */; };
+		315BD519264DA501004EB841 /* model1305.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 315BD518264DA501004EB841 /* model1305.mlmodel */; };
+		315BD51D264E9914004EB841 /* model1405.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 315BD51C264E9914004EB841 /* model1405.mlmodel */; };
 		315ED3B5263292DA00BE453C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312E5C752632001E005F9B40 /* HealthKit.framework */; };
 		315ED3C12632C02500BE453C /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C02632C02500BE453C /* Grid.swift */; };
 		315ED3C42632C03700BE453C /* Offset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C32632C03600BE453C /* Offset.swift */; };
@@ -23,6 +26,7 @@
 		315ED3CA2632C52100BE453C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C92632C52100BE453C /* Colors.swift */; };
 		315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3CC2632C80400BE453C /* ChartEcg.swift */; };
 		315ED3D32632E81400BE453C /* ChartEcgModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3D22632E81400BE453C /* ChartEcgModel.swift */; };
+		31607F85265191B300837D0A /* model1605.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31607F84265191B300837D0A /* model1605.mlmodel */; };
 		3161A4EF2633504E00F2D4B1 /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4EE2633504E00F2D4B1 /* Calculations.swift */; };
 		3161A4F32634746C00F2D4B1 /* TabSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */; };
 		3161A4F82634783800F2D4B1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161A4F72634783800F2D4B1 /* MainView.swift */; };
@@ -31,6 +35,7 @@
 		31722B11263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */; };
 		31722B14263ADB65007AE1B9 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B13263ADB65007AE1B9 /* Storage.swift */; };
 		31722B19263ADF44007AE1B9 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */; };
+		317FC62F264FBB7E00F09527 /* model1505.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 317FC62E264FBB7E00F09527 /* model1505.mlmodel */; };
 		31DBAC43263DB22900F55CDE /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DBAC42263DB22900F55CDE /* NavigationItemView.swift */; };
 		31DBAC47263DEC1100F55CDE /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DBAC46263DEC1100F55CDE /* BackgroundView.swift */; };
 		31DE43932643DF97007A2D91 /* modelPeaksDetection5.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */; };
@@ -64,12 +69,16 @@
 		312E5C732632001E005F9B40 /* HealthCare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthCare.entitlements; sourceTree = "<group>"; };
 		312E5C752632001E005F9B40 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		3148600226498B51006AB0D6 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		315BD514264D7FC6004EB841 /* model1205.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1205.mlmodel; sourceTree = "<group>"; };
+		315BD518264DA501004EB841 /* model1305.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1305.mlmodel; sourceTree = "<group>"; };
+		315BD51C264E9914004EB841 /* model1405.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1405.mlmodel; sourceTree = "<group>"; };
 		315ED3C02632C02500BE453C /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		315ED3C32632C03600BE453C /* Offset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offset.swift; sourceTree = "<group>"; };
 		315ED3C62632C21000BE453C /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		315ED3C92632C52100BE453C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		315ED3CC2632C80400BE453C /* ChartEcg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartEcg.swift; sourceTree = "<group>"; };
 		315ED3D22632E81400BE453C /* ChartEcgModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEcgModel.swift; sourceTree = "<group>"; };
+		31607F84265191B300837D0A /* model1605.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1605.mlmodel; sourceTree = "<group>"; };
 		3161A4EE2633504E00F2D4B1 /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
 		3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelectionView.swift; sourceTree = "<group>"; };
 		3161A4F72634783800F2D4B1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -78,6 +87,7 @@
 		31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection2.mlmodel; sourceTree = "<group>"; };
 		31722B13263ADB65007AE1B9 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
+		317FC62E264FBB7E00F09527 /* model1505.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1505.mlmodel; sourceTree = "<group>"; };
 		31DBAC42263DB22900F55CDE /* NavigationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
 		31DBAC46263DEC1100F55CDE /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection5.mlmodel; sourceTree = "<group>"; };
@@ -130,7 +140,12 @@
 		3116EFE22636CF5400442138 /* NN */ = {
 			isa = PBXGroup;
 			children = (
+				315BD518264DA501004EB841 /* model1305.mlmodel */,
+				317FC62E264FBB7E00F09527 /* model1505.mlmodel */,
+				31607F84265191B300837D0A /* model1605.mlmodel */,
+				315BD51C264E9914004EB841 /* model1405.mlmodel */,
 				31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */,
+				315BD514264D7FC6004EB841 /* model1205.mlmodel */,
 				31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */,
 				31722B0D263AADBA007AE1B9 /* modelPeaksDetection.mlmodel */,
 				31722B10263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel */,
@@ -361,14 +376,18 @@
 				3161A4FB2634796900F2D4B1 /* RecordsNavigationView.swift in Sources */,
 				31ED56D626413C9800828A5B /* ChartHistogramModel.swift in Sources */,
 				31DE439F264531FC007A2D91 /* Localization.swift in Sources */,
+				31607F85265191B300837D0A /* model1605.mlmodel in Sources */,
 				31DBAC43263DB22900F55CDE /* NavigationItemView.swift in Sources */,
 				315ED3D32632E81400BE453C /* ChartEcgModel.swift in Sources */,
+				315BD51D264E9914004EB841 /* model1405.mlmodel in Sources */,
 				3161A4F82634783800F2D4B1 /* MainView.swift in Sources */,
+				315BD515264D7FC6004EB841 /* model1205.mlmodel in Sources */,
 				31DBAC47263DEC1100F55CDE /* BackgroundView.swift in Sources */,
 				312E5C702631FDBB005F9B40 /* DetailViewModel.swift in Sources */,
 				31ED56CC264069F600828A5B /* ChartRhythmogram2.swift in Sources */,
 				315ED3CA2632C52100BE453C /* Colors.swift in Sources */,
 				315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */,
+				315BD519264DA501004EB841 /* model1305.mlmodel in Sources */,
 				31ED56D026406AA100828A5B /* ChartRhythmogram2Model.swift in Sources */,
 				31722B19263ADF44007AE1B9 /* NavigationViewModel.swift in Sources */,
 				31722B0E263AADBA007AE1B9 /* modelPeaksDetection.mlmodel in Sources */,
@@ -387,6 +406,7 @@
 				3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */,
 				310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */,
 				31DE43A226456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel in Sources */,
+				317FC62F264FBB7E00F09527 /* model1505.mlmodel in Sources */,
 				31DE43AD2647DC4C007A2D91 /* mpd500_0905.mlmodel in Sources */,
 				31722B11263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel in Sources */,
 				312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */,

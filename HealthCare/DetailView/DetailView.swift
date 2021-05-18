@@ -62,6 +62,7 @@ struct DetailView: View {
                 }.frame(width:g.size.width,alignment:.leading)
                 .offset(x:self.offset)
             }
+            .mask(Rectangle())
             .frame(width:g.size.width,height:g.size.height)
             .background(BackgroundView())
             
@@ -70,7 +71,7 @@ struct DetailView: View {
             self.model.setRecord(self.record)
         })
         .onReceive(self.model.$recentEcgData2, perform: { i in
-            self.chartEcg.setup(data: i.data,marks: i.marks)
+            self.chartEcg.setup(data: i.data,marks: i.marks,duration: i.duration)
             self.chartScat.setup(data: i.rrs)
             self.chartHisto.setup(data: i.rrs)
             self.chartRhythmogram.setup(data: i.rrs)

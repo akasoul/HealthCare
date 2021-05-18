@@ -1,14 +1,6 @@
 import Foundation
 import SwiftUI
-/* Функции под вопросом
- 
- internal static func MtGetPiram(nClearRRArray: inout [Int], nCount: Int,
-                                 nPyramideArray: inout [Int]/*[26]*/, dC2: inout Double, fDelta: inout Double,
-                                 nStartPos: Int=3 )->Bool
- 
- 
- 
- */
+
 
 
 

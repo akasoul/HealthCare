@@ -16,15 +16,17 @@ struct ChartEcg: View {
     @ObservedObject var model = ChartEcgModel()
     let data: [Double]?
     let marks: [Double]?
+    let duration: Double?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
     let title: String
     let lineColor=UIColor.blue
-    init(data:[Double]? = nil,marks:[Double]? = nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
+    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
         self.marks=marks
+        self.duration=duration
         self.miniature=miniature
         self.backgroundColor=backgroundColor
         
@@ -42,8 +44,8 @@ struct ChartEcg: View {
         
     }
     
-    func setup(data: [Double],marks: [Double]){
-        self.model.setup(data: data, marks: marks,lineColor: self.lineColor)
+    func setup(data: [Double],marks: [Double],duration: Double?=nil){
+        self.model.setup(data: data, marks: marks,duration: duration, lineColor: self.lineColor)
     }
     
     var body: some View{
@@ -68,7 +70,7 @@ struct ChartEcg: View {
                 }
                 
                 Image(uiImage: self.model.img ?? UIImage())
-                    .frame(width: g.size.width-2*self.offset-self.model.axisWidth, height: g.size.height-2*self.offset-self.model.axisHeight)
+                    .frame(width: g.size.width-2*self.offset-self.model.axisWidth, height: g.size.height-2*self.offset-self.model.axisHeight,alignment:.leading)
                     .offset(x: self.delta.dx, y: self.delta.dy)
                     .clipped()
                     .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)

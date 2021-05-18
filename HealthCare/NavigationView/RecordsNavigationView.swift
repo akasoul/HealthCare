@@ -12,11 +12,15 @@ import Combine
 struct RecordsNavigationView: View {
     @ObservedObject var model = NavigationViewModel()
     let backgroundColor = UIColor(red: 1, green: 1, blue: 1,alpha: 0.0)
-    
+    let coloredNavAppearance = UINavigationBarAppearance()
+
     init() {
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().isTranslucent = true
+        UINavigationBar.appearance().backIndicatorImage=UIImage()
+        
+       
     }
     var body: some View {
         GeometryReader{ g in
@@ -29,53 +33,18 @@ struct RecordsNavigationView: View {
                             }//.frame(height:30)
                         }
                     }
-                }.background(BackgroundView())
+                }
+                .mask(Rectangle())
+                //.mask(Rectangle().fill(LinearGradient(gradient: Gradient(colors: [.black,.clear]), startPoint: UnitPoint.top, endPoint: .bottom)).edgesIgnoringSafeArea(.all))
+                .background(BackgroundView())
                 .navigationBarTitleDisplayMode(.inline)
             }
             .navigationBarHidden(true)
-            .statusBar(hidden: false)
+            .statusBar(hidden: true)
+            
         }
     }
 }
 
 
 
-struct DstView: View {
-    init() {
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().isTranslucent = true
-    }
-    
-    var body: some View{
-        GeometryReader{ g in
-            Rectangle().fill(Color.blue).frame(width: g.size.width, height: g.size.height)
-        }
-        .background(BackgroundView())
-    }
-}
-
-struct HiddenNavigationBar: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarHidden(true)
-    }
-}
-
-extension View {
-    func hiddenNavigationBarStyle() -> some View {
-        modifier( HiddenNavigationBar() )
-    }
-}
-
-
-struct NavigationLazyView<Content: View>: View {
-    let build: () -> Content
-    init(_ build: @autoclosure @escaping () -> Content) {
-        self.build = build
-    }
-    var body: Content {
-        build()
-    }
-}

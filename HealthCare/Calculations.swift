@@ -11,49 +11,32 @@ import CoreML
 class Calculations{
     
     let mpd500 = try? mpd500_0905.init(configuration: MLModelConfiguration())
+    let mpd1000 = try? model1205.init(configuration: MLModelConfiguration())
+    let mpd1305 = try? model1305.init(configuration: MLModelConfiguration())
+    let mpd1405 = try? model1405.init(configuration: MLModelConfiguration())
+    let mpd1505 = try? model1505.init(configuration: MLModelConfiguration())
+    let mpd1605 = try? model1605.init(configuration: MLModelConfiguration())
     
-    func getRRs2(data: [Double])->[Double]{
-        var marks:[Double]=[]
-        var data=data
-        guard let minValue=data.min(),
-              let maxValue=data.max(),
-              let model = self.mpd500
-        else{ return [] }
-        let scaledMin:Double=0
-        let scaledMax:Double=1
-        
-        for j in 0..<data.count{
-            let value = (scaledMax-scaledMin)*(data[j]-minValue)/(maxValue-minValue)+scaledMin
-            data[j]=value
-        }
-        let frameWidth=1000
-        for j in 0..<Int(data.count/frameWidth){
-            if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .double){
-                for i in 0..<frameWidth{
-                    tmpMLarr[i] = NSNumber(value:data[i+j*frameWidth])
-                }
-                let out = try? model.prediction(input1: tmpMLarr)
-                if let output = out?.output1{
-                    for i in 0..<frameWidth{
-                        marks.append( Double(output[i].doubleValue) )
-                    }
-                }
+    let treshhold: Double = 0.3
+    let filterRadius: Int = 10
+    
+    func getRRs(ecgMarks: [Double])->[Double]{
+        var indexes: [Int]=[]
+        for i in 0..<ecgMarks.count{
+            if(ecgMarks[i]>self.treshhold){
+                indexes.append(i)
             }
         }
-        for i in 0..<marks.count{
-            if(marks[i]>0.5){
-                marks[i]=1
-            }
+        var rrs:[Double]=[]
+        if(indexes.count>1){
+        for i in 1..<indexes.count{
+            rrs.append(Double(indexes[i]-indexes[i-1]))
         }
-        //let newmarks=self.getRRs2(data: data)
-        print(marks.count)
-        //print(newmarks.count)
-        return marks
+        }
+        return rrs
     }
     
-    
-    
-    func getRRs(data: [Double])->[Double]{
+    func getEcgMarks(data: [Double])->[Double]{
         var data=data
                         let str = data.map({ String($0) }).joined(separator: " ")
                         try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/current.txt"))
@@ -61,7 +44,7 @@ class Calculations{
 
         guard let minValue=data.min(),
               let maxValue=data.max(),
-              let model = self.mpd500
+              let model = self.mpd1605
         else{ return [] }
         let scaledMin:Double=0
         let scaledMax:Double=1
@@ -70,43 +53,98 @@ class Calculations{
             let value = (scaledMax-scaledMin)*(data[j]-minValue)/(maxValue-minValue)+scaledMin
             data[j]=value
         }
-        let frameWidth=1000
+        let frameWidth=500
+        
+        //
+//        if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
+//            for i in 0..<frameWidth{
+//                tmpMLarr[i] = NSNumber(value:data[2220 + i])
+//            }
+//            let out = try? model.prediction(input1: tmpMLarr)
+//            if let output = out?.output1{
+//                var tmp=[Double]()
+//                for i in 0..<frameWidth{
+//                    tmp.append(Double(output[i].doubleValue))
+//                }
+//                print(tmp)
+//            }
+//        }
+//        //
+        
         let step = frameWidth/10
         var marks:[Double] = .init(repeating: 0, count: data.count*2)
         let count = data.count/step + 1
+        data.append(contentsOf: [Double].init(repeating: 0, count: frameWidth))
         for j in 0..<count{
-            //init the data which would be sended to nn
-            if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .double){
+            if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
+                let tmpArr=Array(data[j*step..<j*step + frameWidth])
+//                let tmpStr=tmpArr.map({ String($0) }).joined(separator: " ")
+//                try? tmpStr.write(toFile: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/frames/in_\(j+1).txt", atomically: true, encoding: .utf8)
                 for i in 0..<frameWidth{
-                    if(j*step + i < data.count){
-                    tmpMLarr[i] = NSNumber(value:data[step*j + i])
-                    }
-                    else{
-                        tmpMLarr[i] = NSNumber(value:0)
-                    }
+                    tmpMLarr[i] = NSNumber(value:tmpArr[i])
                 }
                 let out = try? model.prediction(input1: tmpMLarr)
                 if let output = out?.output1{
+//                    var tmpOut=[Double]()
                     for i in 0..<frameWidth{
-                        if(marks[step*j + i] == 0){
+//                        tmpOut.append(output[i].doubleValue)
+                        if(marks[step*j + i] < Double(output[i].doubleValue)){
                             marks[step*j + i] = Double(output[i].doubleValue)
                         }
+                    }
+//                    print(tmpOut.max())
+                }
+            }
+        }
+        
+        marks.removeSubrange(data.count..<marks.count)
+        self.filterMarks2(ecg: data, marks: &marks)
+        for i in 0..<marks.count{
+            if(marks[i]>self.treshhold){
+                marks[i]=1
+            }
+        }
+        //self.filterMarks2(ecg: data, marks: &marks)
+        print(marks.max())
+        return marks
+    }
+    
+    func filterMarks(ecg: [Double],marks: inout [Double]){
+        for i in 0..<ecg.count{
+            if(marks[i]==1){
+                var backRadius=self.filterRadius
+                var forwardRadius=self.filterRadius
+                while(i-backRadius<0){
+                    backRadius -= 1
+                }
+                while(i+forwardRadius>ecg.count){
+                    forwardRadius -= 1
+                }
+                let maxValue=ecg[i-backRadius..<i+forwardRadius].max()
+                for j in i-backRadius..<i+forwardRadius{
+                    if(ecg[j] != maxValue!){
+                        marks[j]=0
+                    }
+                }
+            }
+        }
+    }
+    
+    func filterMarks2(ecg: [Double],marks: inout [Double]){
+        let rad = 30
+        for i in 0..<ecg.count-rad{
+            let tmp = Array(marks[i..<i+rad])
+            if let tmpMax=tmp.max(){
+                for j in i..<i+rad{
+                    if(marks[j] != tmpMax){
+                        marks[j]=0
                     }
                 }
             }
         }
         
-        
-        
-        for i in 0..<marks.count{
-            if(marks[i]>0.5){
-                marks[i]=1
-            }
-        }
-        //let newmarks=self.getRRs2(data: data)
-        print(marks.count)
-        //print(newmarks.count)
-        return marks
     }
+    
+
     
 }

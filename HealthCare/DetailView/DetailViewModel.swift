@@ -16,26 +16,14 @@ class DetailViewModel: ObservableObject{
         var data:[Double]=[]{
             didSet{
                 if(self.data != []){
-                    self.marks=self.calculations.getRRs(data: self.data)
-                    var indexes: [Int]=[]
-
-                    for i in 0..<self.marks.count{
-                        if(marks[i]>0){
-                            indexes.append(i)
-                        }
-                    }
-                    var _rrs:[Double]=[]
-                    if(indexes.count>1){
-                    for i in 1..<indexes.count{
-                        _rrs.append(Double(indexes[i]-indexes[i-1]))
-                    }
-                    }
-                    self.rrs=_rrs
+                    self.marks=self.calculations.getEcgMarks(data: self.data)
+                    self.rrs=self.calculations.getRRs(ecgMarks: self.marks)
                 }
             }
         }
         var marks:[Double]=[]
         var rrs:[Double]=[]
+        var duration: Double = 0
     }
     let storage = Storage.shared
     var record: Storage.Record? = nil{
@@ -48,6 +36,7 @@ class DetailViewModel: ObservableObject{
                     }
                     DispatchQueue.main.async{
                         self.recentEcgData2.data=self.record!.ecgData
+                        self.recentEcgData2.duration=self.record!.duration
                         self.recentRRData=rrValues
                     }
                 }

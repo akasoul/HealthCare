@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct BackgroundView: View {
-    var body: some View {
+    var body: some View{
+        return self.style3
+    }
+    
+    var style1: some View {
         GeometryReader{ g in
             Group{
                 VStack{
@@ -22,6 +26,12 @@ struct BackgroundView: View {
                 }
             }
         }
+    }
+    var style2: some View {
+        Image("Background1").resizable().scaledToFill().scaleEffect(1.1)
+    }
+    var style3: some View {
+        Image("Background4").resizable().scaledToFill().scaleEffect(1.1).opacity(0.9)
     }
 }
 

@@ -55,33 +55,42 @@ struct ChartTimeDistribution: View {
         GeometryReader{ g in
             Group{
                 ChartBase(text: self.title,backgroundColor:self.backgroundColor)
-                Text("↓ "+self.timePicker)
+                Text( (self.pickerIsPresented ? "↓ " : "↑ ") + self.timePicker)
                     .foregroundColor(self.textColor)
                     .frame(width:g.size.width-self.offset,alignment: .trailing)
                     .offset(x:0,y:self.offset)
                     .onTapGesture {
-                        self.pickerIsPresented=true
+                        print("tap")
+                        self.pickerIsPresented = self.pickerIsPresented ? false : true
                     }
-                    .popover(isPresented: self.$pickerIsPresented, content: {
-                        Picker("", selection: self.$timePicker, content: {
-                            ForEach(self.timePickerOptions,id:\.self){ i in
-                                Text(i).foregroundColor(self.textColor)
-                            }
-                        })
-                        .pickerStyle(WheelPickerStyle())
+                
+                if(self.pickerIsPresented){
+                    Picker("", selection: self.$timePicker, content: {
+                        ForEach(self.timePickerOptions,id:\.self){ i in
+                            Text(i).foregroundColor(self.textColor)
+                        }
+                        
                         
                     })
-                if(self.timePicker==timePickerOptions[0]){
-                    Image(uiImage: self.model.daily.img ?? UIImage())
-                    //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                    //.clipped()
+                    .border(Color.red)
+                    .frame(width: g.size.width-2*self.offset, height: 100,alignment: . topLeading)
                     .offset(x: self.offset, y: 2*self.offset)
+                    
                 }
                 else{
-                    Image(uiImage: self.model.weekly.img ?? UIImage())
-                        //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                        //.clipped()
-                        .offset(x: self.offset, y: 2*self.offset)                }
+                    if(self.timePicker==timePickerOptions[0]){
+                        Image(uiImage: self.model.daily.img ?? UIImage())
+                            //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
+                            //.clipped()
+                            .offset(x: self.offset, y: 2*self.offset)
+                    }
+                    else{
+                        Image(uiImage: self.model.weekly.img ?? UIImage())
+                            //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
+                            //.clipped()
+                            .offset(x: self.offset, y: 2*self.offset)
+                    }
+                }
             }.onAppear(perform: {
                 self.model.setSize(height: 0.5*g.size.height, width: g.size.width-2*self.offset)
             })

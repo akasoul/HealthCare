@@ -64,7 +64,7 @@ class ChartRhythmogram2Model: ObservableObject{
         min = 0
         max = 2000
         let dataHeight=max-min
-        let step = width/CGFloat(tmpData.count)
+        let step = width/CGFloat(tmpData.count-1)
         
         let layer=CAShapeLayer()
         let grLayer=CAGradientLayer()
@@ -93,7 +93,6 @@ class ChartRhythmogram2Model: ObservableObject{
         path.addLine(to: .init(x: 0, y: height))
         path.close()
         layer.path=path.cgPath
-
         layer.fillColor = UIColor.red.cgColor
         
         

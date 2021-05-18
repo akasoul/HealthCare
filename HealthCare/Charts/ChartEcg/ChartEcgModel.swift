@@ -36,6 +36,7 @@ class ChartEcgModel: ObservableObject{
     var width: CGFloat?
     var data: [Double]?
     var marks: [Double]?
+    var duration: Double?
     var lineColor: UIColor?
     let marksSize: CGFloat=5
     
@@ -57,9 +58,10 @@ class ChartEcgModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],marks:[Double],lineColor: UIColor){
+    func setup(data: [Double],marks:[Double],duration: Double?=nil,lineColor: UIColor){
         self.data=data
         self.marks=marks
+        self.duration=duration
         self.lineColor=lineColor
         self.update()
     }
@@ -154,7 +156,7 @@ class ChartEcgModel: ObservableObject{
                 let xMarksPeriod=50
                 let xMarksCount = Int(width/CGFloat(xMarksPeriod))
                 let xMarksStartValue:CGFloat=0
-                let xMarksEndValue:CGFloat=CGFloat(data.count)
+                let xMarksEndValue:CGFloat=CGFloat(self.duration ?? 0)
                 let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_ECG_X_MARKS_FORMAT"))
                 
                 let yMarksPeriod=25
