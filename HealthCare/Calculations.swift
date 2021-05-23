@@ -17,6 +17,8 @@ class Calculations{
     let mpd1505 = try? model1505.init(configuration: MLModelConfiguration())
     let mpd1605 = try? model1605.init(configuration: MLModelConfiguration())
     
+    let mh = try? healthModel.init(configuration: MLModelConfiguration())
+    
     let treshhold: Double = 0.3
     let filterRadius: Int = 10
     
@@ -143,6 +145,31 @@ class Calculations{
             }
         }
         
+    }
+    
+    func getHealthValue(rrs: [Double]) -> Double{
+        var out: Double = 0
+        guard let model = self.mh
+        else{
+            return out
+        }
+        var counter = 0
+        let frameWidth=100
+        if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
+
+            for i in 0..<frameWidth{
+                tmpMLarr[i] = NSNumber(value:rrs[counter])
+                counter += 1
+                if(counter==rrs.count){
+                    counter = 0
+                }
+            }
+            let ans = try? model.prediction(input1: tmpMLarr)
+            if let output = ans?.output1{
+                out=output[0].doubleValue
+            }
+        }
+        return out
     }
     
 

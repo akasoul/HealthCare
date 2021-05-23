@@ -15,7 +15,7 @@ class ChartRhythmogram2Model: ObservableObject{
     @Published var imgAxisY: UIImage?
     
     var axisColor=UIColor.blue
-    var axisWidth: CGFloat = 40
+    var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
     var height: CGFloat?
@@ -23,6 +23,7 @@ class ChartRhythmogram2Model: ObservableObject{
     var topColor: UIColor?
     var bottomColor: UIColor?
     var data: [Double]?
+    var frequency: Double?
     init() {
         
     }
@@ -33,8 +34,9 @@ class ChartRhythmogram2Model: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],topColor: UIColor,bottomColor: UIColor){
+    func setup(data: [Double],frequency: Double,topColor: UIColor,bottomColor: UIColor){
         self.data=data
+        self.frequency=frequency
         self.topColor=topColor
         self.bottomColor=bottomColor
         self.update()
@@ -42,6 +44,7 @@ class ChartRhythmogram2Model: ObservableObject{
     
     func update(){
         guard let data=self.data,
+              let frequency=self.frequency,
               let topColor=self.topColor,
               let bottomColor=self.bottomColor,
               let height=self.height,
@@ -59,10 +62,10 @@ class ChartRhythmogram2Model: ObservableObject{
 
         
         min = 0
-        let dist = 0.25*(max-min)
-        max += dist
+        
+//        max += 100
         min = 0
-        max = 2000
+//        max = 2000
         let dataHeight=max-min
         let step = width/CGFloat(tmpData.count-1)
         
@@ -113,7 +116,10 @@ class ChartRhythmogram2Model: ObservableObject{
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
-        let yMarksEndValue:CGFloat=2
+        var yMarksEndValue:CGFloat=1
+        if(frequency != 0){
+        yMarksEndValue=CGFloat(Double(max)/frequency)
+        }
         let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT"))
 
         //axis x
@@ -161,5 +167,6 @@ class ChartRhythmogram2Model: ObservableObject{
                 layer.render(in: context.cgContext)
             })
         }
+        
     }
 }

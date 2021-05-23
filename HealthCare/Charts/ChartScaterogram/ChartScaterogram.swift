@@ -14,6 +14,7 @@ struct ChartScaterogram: View {
     
     @ObservedObject var model = ChartScaterogramModel()
     var data: [Double]?
+    var frequency: Double?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
@@ -36,13 +37,13 @@ struct ChartScaterogram: View {
             self.title=Localization.getString("IDS_CHART_SCATEROGRAM_NAME")
         }
         
-        if(self.data != nil){
-            self.setup(data: self.data!)
+        if(self.data != nil && self.frequency != nil){
+            self.setup(data: self.data!,frequency: self.frequency!)
         }
         
     }
-    func setup(data: [Double]){
-        self.model.setup(data: data, fillColor: self.fillColor)
+    func setup(data: [Double],frequency: Double){
+        self.model.setup(data: data,frequency: frequency, fillColor: self.fillColor)
     }
     
     var body: some View{

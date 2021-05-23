@@ -17,7 +17,7 @@ class Storage{
         let heartRate: Double//HKQuantity?
         let symptomsStatus: HKElectrocardiogram.SymptomsStatus?
         let classification: HKElectrocardiogram.Classification?
-        let samplingFrequency: HKQuantity?
+        let samplingFrequency: Double?
         let duration: Double
     }
     private var finished = false
@@ -65,7 +65,7 @@ class Storage{
                             let date = (allSamples[i] as HKSample).endDate
                             let heartRate = (allSamples[i]).averageHeartRate?.doubleValue(for: HKUnit(from: "count/min")) ?? 0
                             let symtomsStatus = (allSamples[i]).symptomsStatus
-                            let samplingFrequency = (allSamples[i]).samplingFrequency
+                            let samplingFrequency = (allSamples[i]).samplingFrequency?.doubleValue(for: HKUnit.hertz()) ?? 0
                             let classification = (allSamples[i]).classification
                             let ecgData=ecgSamples.map( { $0.0 } )
                             let duration=Double((allSamples[i] as HKSample).endDate.timeIntervalSince1970 - (allSamples[i] as HKSample).startDate.timeIntervalSince1970)

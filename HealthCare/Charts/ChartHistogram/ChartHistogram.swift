@@ -13,7 +13,8 @@ import Combine
 struct ChartHistogram: View {
     
     @ObservedObject var model = ChartHistogramModel()
-    let data: [Double]?
+    var data: [Double]?
+    var frequency: Double?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
@@ -35,13 +36,13 @@ struct ChartHistogram: View {
             self.title=Localization.getString("IDS_CHART_HISTOGRAM_NAME")
         }
         
-        if(self.data != nil){
-            self.model.setup(data: self.data!, topColor: self.topColor, bottomColor: self.bottomColor)
+        if(self.data != nil && self.frequency != nil){
+            self.model.setup(data: self.data!,frequency: self.frequency!, topColor: self.topColor, bottomColor: self.bottomColor)
         }
 }
 
-    func setup(data: [Double]){
-        self.model.setup(data: data, topColor: self.topColor, bottomColor: self.bottomColor)
+    func setup(data: [Double],frequency: Double){
+        self.model.setup(data: data,frequency: frequency, topColor: self.topColor, bottomColor: self.bottomColor)
     }
     
 var body: some View{

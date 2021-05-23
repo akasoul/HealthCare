@@ -14,7 +14,7 @@ class ChartHistogramModel: ObservableObject{
     @Published var imgAxisY: UIImage?
     
     var axisColor=UIColor.blue
-    var axisWidth: CGFloat = 40
+    var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
     var height: CGFloat?
@@ -22,7 +22,8 @@ class ChartHistogramModel: ObservableObject{
     var topColor: UIColor?
     var bottomColor: UIColor?
     var data: [Double]?
-
+    var frequency: Double?
+    let divider: Double = 10
     init() {
         
     }
@@ -33,8 +34,9 @@ class ChartHistogramModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],topColor: UIColor,bottomColor: UIColor){
+    func setup(data: [Double],frequency: Double,topColor: UIColor,bottomColor: UIColor){
         self.data=data
+        self.frequency=frequency
         self.topColor=topColor
         self.bottomColor=bottomColor
         self.update()
@@ -42,6 +44,7 @@ class ChartHistogramModel: ObservableObject{
     
     func update(){
         guard let data=self.data,
+              let frequency=self.frequency,
               let topColor=self.topColor,
               let bottomColor=self.bottomColor,
               let height=self.height,
@@ -51,11 +54,12 @@ class ChartHistogramModel: ObservableObject{
         var dict: [Int:Int] = [:]
         
         for i in 0..<data.count{
-            if let _ = dict[Int(data[i])] {
-                dict[Int(data[i])]! += 1
+            let key = Int( Double(Int(data[i]/self.divider)) * self.divider)
+            if let _ = dict[key] {
+                dict[key]! += 1
             }
             else{
-                dict[Int(data[i])]=0
+                dict[key]=1
             }
             
         }
@@ -63,33 +67,32 @@ class ChartHistogramModel: ObservableObject{
         
         guard var max = dict.map({ $1 }).max()
         else{ return }
-        let min = 0
-
-        let sorted = dict.sorted(by: { $0.0 < $1.0})
-
-        var counters = sorted.map({ $0.1 })
         
-        for _ in 0..<3{
-            counters.insert(0, at: 0)
-            counters.insert(0, at: counters.count)
-        }
-        let count: CGFloat = CGFloat(counters.count)
-        let step = width / count
-
-        let dist = Int(0.25*CGFloat(max-min))
-        max += dist
+        let min = 0
+        max += 1
+        
+        let sorted = dict.sorted(by: { $0.0 < $1.0})
+        let arrSorted = Array(sorted)
+        
+        
+        let step = width / CGFloat(arrSorted.count == 0 ? 1 : arrSorted.count+2)
+        let stepAxisX=CGFloat(arrSorted[arrSorted.count-1].key-arrSorted[0].key)/CGFloat(arrSorted.count == 0 ? 1 : arrSorted.count)
+        
         let dataHeight=CGFloat(max-min)
-
+        
         let mainLayer = CALayer()
         mainLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
         mainLayer.backgroundColor = UIColor.clear.cgColor
-
-        for i in 0..<counters.count{
+        
+        for i in 0..<arrSorted.count{
             let maskLayer = CAShapeLayer()
             maskLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
             maskLayer.backgroundColor = UIColor.clear.cgColor
-            let posY = height-CGFloat(counters[i])*height/dataHeight
-            let path=UIBezierPath(rect: CGRect(x: CGFloat(i)*step, y: posY, width: step, height: height-posY))
+            let posY = height-CGFloat(arrSorted[i].value)*height/dataHeight
+            if posY == 0{
+                continue
+            }
+            let path=UIBezierPath(rect: CGRect(x: (CGFloat(i+1))*step, y: posY, width: step, height: height-posY))
             maskLayer.path = path.cgPath
             maskLayer.fillColor = UIColor.red.cgColor
             
@@ -111,7 +114,7 @@ class ChartHistogramModel: ObservableObject{
             
             mainLayer.addSublayer(borderLayer)
         }
-
+        
         let renderer = UIGraphicsImageRenderer(bounds: mainLayer.bounds)
         self.img = renderer.image(actions: { context in
             mainLayer.render(in: context.cgContext)
@@ -120,21 +123,21 @@ class ChartHistogramModel: ObservableObject{
         
         let xMarksPeriod=50
         let xMarksCount = Int(width/CGFloat(xMarksPeriod))
-        let xMarksStartValue:CGFloat=0
-        let xMarksEndValue:CGFloat=1
+        let xMarksStartValue:CGFloat=(CGFloat(arrSorted[0].key)-stepAxisX)/CGFloat(frequency)
+        let xMarksEndValue:CGFloat=(CGFloat(arrSorted[arrSorted.count-1].key)+stepAxisX)/CGFloat(frequency)
         let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_HISTOGRAM_X_MARKS_FORMAT"))
-
+        
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
-        let yMarksEndValue:CGFloat=2000
+        let yMarksEndValue:CGFloat=CGFloat(max)
         let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT"))
-
+        
         //axis x
         do{
             let layer = CALayer()
             layer.frame=CGRect(x: 0, y: 0, width: width, height: axisHeight)
-
+            
             let count = xMarksCount
             let step = width/CGFloat(count)
             for i in 0..<count{

@@ -16,19 +16,11 @@ class ChartEcgModel: ObservableObject{
             try? self.img?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/Ecg.png"))
         }
     }
-    @Published var imgAxisX: UIImage?{
-        didSet{
-            try? self.imgAxisX?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/EcgXMarks.png"))
-        }
-    }
-    @Published var imgAxisY: UIImage?{
-        didSet{
-            try? self.imgAxisY?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/EcgYMarks.png"))
-        }
-    }
+    @Published var imgAxisX: UIImage?
+    @Published var imgAxisY: UIImage?
     
     var axisColor=UIColor.blue
-    var axisWidth: CGFloat = 40
+    var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
     

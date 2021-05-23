@@ -18,13 +18,19 @@ class DetailViewModel: ObservableObject{
                 if(self.data != []){
                     self.marks=self.calculations.getEcgMarks(data: self.data)
                     self.rrs=self.calculations.getRRs(ecgMarks: self.marks)
+                    self.health = self.calculations.getHealthValue(rrs: self.rrs)
                 }
             }
         }
         var marks:[Double]=[]
         var rrs:[Double]=[]
         var duration: Double = 0
+        var frequency: Double = 0
+        var date: String=""
+        var heartRate: Double = 0
+        var health: Double = 0
     }
+    let dateFormatter=DateFormatter()
     let storage = Storage.shared
     var record: Storage.Record? = nil{
         didSet{
@@ -37,6 +43,9 @@ class DetailViewModel: ObservableObject{
                     DispatchQueue.main.async{
                         self.recentEcgData2.data=self.record!.ecgData
                         self.recentEcgData2.duration=self.record!.duration
+                        self.recentEcgData2.frequency=self.record!.samplingFrequency ?? 0
+                        self.recentEcgData2.date=self.dateFormatter.string(from: self.record!.date)
+                        self.recentEcgData2.heartRate=self.record!.heartRate
                         self.recentRRData=rrValues
                     }
                 }
@@ -49,6 +58,8 @@ class DetailViewModel: ObservableObject{
     
     
     init() {
+        self.dateFormatter.dateStyle = .medium
+        self.dateFormatter.timeStyle = .medium
     }
     
     func setRecord(_ record: Storage.Record){

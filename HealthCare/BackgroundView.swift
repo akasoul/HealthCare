@@ -31,7 +31,7 @@ struct BackgroundView: View {
         Image("Background1").resizable().scaledToFill().scaleEffect(1.1)
     }
     var style3: some View {
-        Image("Background4").resizable().scaledToFill().scaleEffect(1.1).opacity(0.9)
+        Image("Background4").resizable().scaledToFill().scaleEffect(1.1).opacity(0.7)
     }
 }
 

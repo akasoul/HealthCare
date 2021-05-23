@@ -78,21 +78,33 @@ struct ChartTimeDistribution: View {
                     
                 }
                 else{
-                    if(self.timePicker==timePickerOptions[0]){
-                        Image(uiImage: self.model.daily.img ?? UIImage())
-                            //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                            //.clipped()
+                    if(self.timePicker==timePickerOptions[1]){
+                        Image(uiImage: self.model.weekly.img ?? UIImage())
+                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                        
+                        Image(uiImage: self.model.weekly.imgAxisX ?? UIImage())
+                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+
+
+                        Image(uiImage: self.model.weekly.imgAxisY ?? UIImage())
                             .offset(x: self.offset, y: 2*self.offset)
                     }
                     else{
-                        Image(uiImage: self.model.weekly.img ?? UIImage())
-                            //.frame(width: g.size.width-2*self.offset, height: g.size.height-2*self.offset)
-                            //.clipped()
+                        Image(uiImage: self.model.daily.img ?? UIImage())
+                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                        
+                        Image(uiImage: self.model.daily.imgAxisX ?? UIImage())
+                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+
+
+                        Image(uiImage: self.model.daily.imgAxisY ?? UIImage())
                             .offset(x: self.offset, y: 2*self.offset)
                     }
                 }
             }.onAppear(perform: {
-                self.model.setSize(height: 0.5*g.size.height, width: g.size.width-2*self.offset)
+                self.model.setSize(height: 0.75*g.size.height, width: g.size.width-2*self.offset)
             })
             
         }

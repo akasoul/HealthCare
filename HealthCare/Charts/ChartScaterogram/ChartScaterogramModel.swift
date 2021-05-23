@@ -14,7 +14,7 @@ class ChartScaterogramModel: ObservableObject{
     @Published var imgAxisY: UIImage?
     
     var axisColor=UIColor.blue
-    var axisWidth: CGFloat = 40
+    var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
 
@@ -22,7 +22,8 @@ class ChartScaterogramModel: ObservableObject{
     var width: CGFloat?
     var fillColor: UIColor?
     var data: [Double]?
-    
+    var frequency: Double?
+
     init() {
         
     }
@@ -33,8 +34,9 @@ class ChartScaterogramModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],fillColor: UIColor){
+    func setup(data: [Double],frequency: Double,fillColor: UIColor){
         self.data=data
+        self.frequency=frequency
         self.fillColor=fillColor
         self.update()
     }
@@ -42,6 +44,7 @@ class ChartScaterogramModel: ObservableObject{
     func update(){
         
         guard let data=self.data,
+              let frequency=frequency,
               var dataMax=data.max(),
               var dataMin=data.min(),
               let height=self.height,
@@ -92,13 +95,19 @@ class ChartScaterogramModel: ObservableObject{
         let xMarksPeriod=50
         let xMarksCount = Int(width/CGFloat(xMarksPeriod))
         let xMarksStartValue:CGFloat=0
-        let xMarksEndValue:CGFloat=2
+        var xMarksEndValue:CGFloat=1
+        if(frequency != 0){
+        xMarksEndValue=CGFloat(Double(dataMax)/frequency)
+        }
         let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT"))
 
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
-        let yMarksEndValue:CGFloat=2
+        var yMarksEndValue:CGFloat=1
+        if(frequency != 0){
+        yMarksEndValue=CGFloat(Double(dataMax)/frequency)
+        }
         let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_SCATEROGRAM_Y_MARKS_FORMAT"))
 
         //axis x
