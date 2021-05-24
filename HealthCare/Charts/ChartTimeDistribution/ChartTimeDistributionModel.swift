@@ -33,6 +33,8 @@ class ChartTimeDistributionModel: ObservableObject{
     var topColor: UIColor?
     var bottomColor: UIColor?
     var data: [Storage.Record]?
+    var dates:[Date]?
+    var values:[Double]?
     let gridColor = UIColor.gray.cgColor
     init() {
         
@@ -49,14 +51,23 @@ class ChartTimeDistributionModel: ObservableObject{
         self.bottomColor=bottomColor
         self.update()
     }
-    
+    func setup(dates: [Date],values: [Double]){
+        self.dates=dates
+        self.values=values
+        self.update()
+    }
+
     func update(){
-        guard let data=self.data,
+        guard
               let height=self.height,
-              let width=self.width
+              let width=self.width,
+              let dates=self.dates,
+              let values=self.values
         else{ return }
         
         let calendar=Calendar.current
+        
+        
         //daily img
         do{
             let gridLayer=CAShapeLayer()
@@ -80,15 +91,14 @@ class ChartTimeDistributionModel: ObservableObject{
             gridLayer.path=path.cgPath
             
             
-            for i in 0..<data.count{
+            for i in 0..<dates.count{
                 let recordLayer=CAShapeLayer()
                 recordLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
                 recordLayer.backgroundColor = UIColor.clear.cgColor
                 recordLayer.fillColor = UIColor.blue.cgColor
                 //recordLayer.strokeColor = self.gridColor
                 
-                let hour = calendar.component(.hour, from: data[i].date)
-                let minute = calendar.component(.minute, from: data[i].date)
+                let hour = calendar.component(.hour, from: dates[i])
                 let subPath=UIBezierPath()
                 subPath.addArc(withCenter: .init(x: CGFloat(hour)*step, y: height*0.5), radius: 10, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
@@ -120,12 +130,12 @@ class ChartTimeDistributionModel: ObservableObject{
             let yMarksStartValue:CGFloat=0
             let yMarksEndValue:CGFloat=100
             let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_TIMEDISTRIBUTION_Y_MARKS_FORMAT"))
-
+            
             //axis x
             do{
                 let layer = CALayer()
                 layer.frame=CGRect(x: 0, y: 0, width: width, height: axisHeight)
-
+                
                 let count = xMarksCount
                 let step = width/CGFloat(count)
                 for i in 0..<count{
@@ -147,16 +157,25 @@ class ChartTimeDistributionModel: ObservableObject{
                 let layer = CALayer()
                 layer.frame=CGRect(x: 0, y: 0, width: axisWidth, height: height)
                 let count = yMarksCount
-                let step = height/CGFloat(count)
+                let step = height/CGFloat(count-1)
                 for i in 0..<count{
+                    var fontSizeOffset:CGFloat=0
+                    if(i==0){
+                        fontSizeOffset = -self.axisFontSize
+                    }
+                    else{
+                        if(i != count-1){
+                            fontSizeOffset = -0.5*self.axisFontSize
+                        }
+                    }
                     let textLayer=CATextLayer()
-                    textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+(step-self.axisFontSize), width: axisWidth-10, height: self.axisFontSize)
+                    textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+fontSizeOffset, width: axisWidth-10, height: self.axisFontSize)
                     let value = Double((CGFloat(i)/CGFloat(count-1)) * (yMarksEndValue-yMarksStartValue) + yMarksStartValue)
                     textLayer.string = NSString(format: yMarksFormat, value)
                     textLayer.foregroundColor=self.axisColor.cgColor
                     textLayer.fontSize=self.axisFontSize
                     textLayer.alignmentMode = .right
-
+                    
                     layer.addSublayer(textLayer)
                 }
                 
@@ -165,7 +184,7 @@ class ChartTimeDistributionModel: ObservableObject{
                     layer.render(in: context.cgContext)
                 })
             }
-
+            
         }
         
         //weekly img
@@ -190,20 +209,20 @@ class ChartTimeDistributionModel: ObservableObject{
             
             gridLayer.path=path.cgPath
             
-            for i in 0..<data.count{
+            for i in 0..<dates.count{
                 let recordLayer=CAShapeLayer()
                 recordLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
                 recordLayer.backgroundColor = UIColor.clear.cgColor
                 recordLayer.fillColor = UIColor.blue.cgColor
                 //recordLayer.strokeColor = self.gridColor
                 
-                let day = calendar.component(.day, from: data[i].date)
+                let day = calendar.component(.day, from: dates[i])
                 let subPath=UIBezierPath()
                 subPath.addArc(withCenter: .init(x: CGFloat(day)*step, y: height*0.5), radius: 10, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
                 gridLayer.addSublayer(recordLayer)
             }
-
+            
             
             let renderer = UIGraphicsImageRenderer(bounds: gridLayer.bounds)
             self.weekly.img = renderer.image(actions: { context in
@@ -226,12 +245,12 @@ class ChartTimeDistributionModel: ObservableObject{
             let yMarksStartValue:CGFloat=0
             let yMarksEndValue:CGFloat=100
             let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_TIMEDISTRIBUTION_Y_MARKS_FORMAT"))
-
+            
             //axis x
             do{
                 let layer = CALayer()
                 layer.frame=CGRect(x: 0, y: 0, width: width, height: axisHeight)
-
+                
                 let count = xMarksCount
                 let step = width/CGFloat(count)
                 for i in 0..<count{
@@ -253,16 +272,25 @@ class ChartTimeDistributionModel: ObservableObject{
                 let layer = CALayer()
                 layer.frame=CGRect(x: 0, y: 0, width: axisWidth, height: height)
                 let count = yMarksCount
-                let step = height/CGFloat(count)
+                let step = height/CGFloat(count-1)
                 for i in 0..<count{
+                    var fontSizeOffset:CGFloat=0
+                    if(i==0){
+                        fontSizeOffset = -self.axisFontSize
+                    }
+                    else{
+                        if(i != count-1){
+                            fontSizeOffset = -0.5*self.axisFontSize
+                        }
+                    }
                     let textLayer=CATextLayer()
-                    textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+(step-self.axisFontSize), width: axisWidth-10, height: self.axisFontSize)
+                    textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+fontSizeOffset, width: axisWidth-10, height: self.axisFontSize)
                     let value = Double((CGFloat(i)/CGFloat(count-1)) * (yMarksEndValue-yMarksStartValue) + yMarksStartValue)
                     textLayer.string = NSString(format: yMarksFormat, value)
                     textLayer.foregroundColor=self.axisColor.cgColor
                     textLayer.fontSize=self.axisFontSize
                     textLayer.alignmentMode = .right
-
+                    
                     layer.addSublayer(textLayer)
                 }
                 
@@ -271,7 +299,7 @@ class ChartTimeDistributionModel: ObservableObject{
                     layer.render(in: context.cgContext)
                 })
             }
-
+            
         }
     }
 }

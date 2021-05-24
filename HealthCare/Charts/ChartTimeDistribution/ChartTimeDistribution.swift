@@ -19,18 +19,18 @@ struct ChartTimeDistribution: View {
         Localization.getString("IDS_CHART_TIMEDISTRIBUTION_PICKER_DAILY"),
         Localization.getString("IDS_CHART_TIMEDISTRIBUTION_PICKER_WEEKLY")
     ]
-    var data: [Storage.Record]?
+    var dates: [Date]?
+    var values: [Double]?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
     let title: String
     
-    let topColor = UIColor.blue
-    let bottomColor = UIColor.blue.withAlphaComponent(0.3)
     let textColor=Color.blue
-    init(data:[Storage.Record]? = nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
-        self.data=data
+    init(dates:[Date]? = nil,values:[Double]?,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
+        self.dates=dates
+        self.values=values
         self.miniature=miniature
         self.backgroundColor=backgroundColor
         
@@ -41,13 +41,13 @@ struct ChartTimeDistribution: View {
         else{
             self.title=Localization.getString("IDS_CHART_TIMEDISTRIBUTION_NAME")
         }
-        if(self.data != nil){
-            self.model.setup(data: self.data!, topColor: self.topColor, bottomColor: self.bottomColor)
+        if(self.dates != nil && values != nil){
+            self.model.setup(dates: self.dates!, values: self.values!)
         }
     }
     
-    func setup(data: [Storage.Record]){
-        self.model.setup(data: data, topColor: self.topColor, bottomColor: self.bottomColor)
+    func setup(dates: [Date],values: [Double]){
+        self.model.setup(dates: dates, values: values)
     }
     
     
@@ -60,7 +60,6 @@ struct ChartTimeDistribution: View {
                     .frame(width:g.size.width-self.offset,alignment: .trailing)
                     .offset(x:0,y:self.offset)
                     .onTapGesture {
-                        print("tap")
                         self.pickerIsPresented = self.pickerIsPresented ? false : true
                     }
                 
@@ -78,7 +77,22 @@ struct ChartTimeDistribution: View {
                     
                 }
                 else{
-                    if(self.timePicker==timePickerOptions[1]){
+                    if(self.timePicker==timePickerOptions[0]){
+                        Image(uiImage: self.model.daily.img ?? UIImage())
+                            .border(Color.red)
+  .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                        
+                        Image(uiImage: self.model.daily.imgAxisX ?? UIImage())
+                            .border(Color.red)
+  .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
+
+
+                        Image(uiImage: self.model.daily.imgAxisY ?? UIImage())
+                            .border(Color.red)
+   .offset(x: self.offset, y: 2*self.offset)
+                    }
+                    else{
                         Image(uiImage: self.model.weekly.img ?? UIImage())
                             .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
                         
@@ -88,18 +102,6 @@ struct ChartTimeDistribution: View {
 
 
                         Image(uiImage: self.model.weekly.imgAxisY ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
-                    }
-                    else{
-                        Image(uiImage: self.model.daily.img ?? UIImage())
-                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
-                        
-                        Image(uiImage: self.model.daily.imgAxisX ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
-                            .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
-
-
-                        Image(uiImage: self.model.daily.imgAxisY ?? UIImage())
                             .offset(x: self.offset, y: 2*self.offset)
                     }
                 }

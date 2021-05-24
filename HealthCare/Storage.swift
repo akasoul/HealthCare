@@ -44,7 +44,6 @@ class Storage{
                 else {
                     return
                 }
-                print(allSamples)
                 expectedCount=allSamples.count
                 self.all=[]
                 for i in 0..<allSamples.count{
@@ -61,7 +60,6 @@ class Storage{
                             
                             
                         case .done:
-                            print("done")
                             let date = (allSamples[i] as HKSample).endDate
                             let heartRate = (allSamples[i]).averageHeartRate?.doubleValue(for: HKUnit(from: "count/min")) ?? 0
                             let symtomsStatus = (allSamples[i]).symptomsStatus

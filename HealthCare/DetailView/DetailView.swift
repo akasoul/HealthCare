@@ -33,7 +33,6 @@ struct DetailView: View {
     var magnification: some Gesture {
         MagnificationGesture()
             .updating($magnifyBy) { currentState, gestureState, transaction in
-                print(gestureState,currentState)
                 gestureState = currentState
             }
     }

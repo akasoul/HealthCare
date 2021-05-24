@@ -153,7 +153,7 @@ class ChartEcgModel: ObservableObject{
                 
                 let yMarksPeriod=25
                 let yMarksCount = Int(height/CGFloat(yMarksPeriod))
-                let yMarksStartValue:CGFloat=0
+                let yMarksStartValue:CGFloat = -1
                 let yMarksEndValue:CGFloat=1
                 let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_ECG_Y_MARKS_FORMAT"))
                 
@@ -189,10 +189,19 @@ class ChartEcgModel: ObservableObject{
                     let layer = CALayer()
                     layer.frame=CGRect(x: 0, y: 0, width: self.axisWidth, height: height)
                     let count = yMarksCount
-                    let step = height/CGFloat(count)
+                    let step = height/CGFloat(count-1)
                     for i in 0..<count{
+                        var fontSizeOffset:CGFloat=0
+                        if(i==0){
+                            fontSizeOffset = -self.axisFontSize
+                        }
+                        else{
+                            if(i != count-1){
+                                fontSizeOffset = -0.5*self.axisFontSize
+                            }
+                        }
                         let textLayer=CATextLayer()
-                        textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+self.axisFontSize, width: self.axisWidth-10, height: self.axisFontSize)
+                        textLayer.frame=CGRect(x: 0, y: CGFloat(count-i-1)*step+fontSizeOffset, width: axisWidth-10, height: self.axisFontSize)
                         let value = Double((CGFloat(i)/CGFloat(count-1)) * (yMarksEndValue-yMarksStartValue) + yMarksStartValue)
                         textLayer.string = NSString(format: yMarksFormat, value)
                         textLayer.foregroundColor=self.axisColor.cgColor
