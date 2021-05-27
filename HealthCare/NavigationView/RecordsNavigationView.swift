@@ -14,13 +14,14 @@ struct RecordsNavigationView: View {
     let backgroundColor = UIColor(red: 1, green: 1, blue: 1,alpha: 0.0)
     let coloredNavAppearance = UINavigationBarAppearance()
 
-    init() {
+    init(tintColor: UIColor?=nil) {
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().backIndicatorImage=UIImage()
-        
-       
+        if(tintColor != nil){
+        UINavigationBar.appearance().tintColor = tintColor!
+        }
     }
     var body: some View {
         GeometryReader{ g in

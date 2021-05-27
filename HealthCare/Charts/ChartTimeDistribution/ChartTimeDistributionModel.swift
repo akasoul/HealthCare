@@ -35,9 +35,25 @@ class ChartTimeDistributionModel: ObservableObject{
     var data: [Storage.Record]?
     var dates:[Date]?
     var values:[Double]?
-    let gridColor = UIColor.gray.cgColor
+    let colors=[UIColor.red,UIColor.yellow,UIColor.green,UIColor.blue]
+    let gridColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+    let gridSize:CGFloat=0.5
+    let circleRadius: CGFloat=10
     init() {
         
+    }
+    
+    func getColor(value: Double)->UIColor{
+        if(value<25){
+            return self.colors[0]
+        }
+        if(value<50){
+            return self.colors[1]
+        }
+        if(value<75){
+            return self.colors[2]
+        }
+        return self.colors[3]
     }
     
     func setSize(height: CGFloat,width:CGFloat){
@@ -75,7 +91,7 @@ class ChartTimeDistributionModel: ObservableObject{
             gridLayer.backgroundColor = UIColor.clear.cgColor
             gridLayer.fillColor = UIColor.clear.cgColor
             gridLayer.strokeColor = self.gridColor
-            
+            gridLayer.lineWidth=self.gridSize
             let path = UIBezierPath()
             let step = width/24
             for i in 0..<24{
@@ -95,14 +111,25 @@ class ChartTimeDistributionModel: ObservableObject{
                 let recordLayer=CAShapeLayer()
                 recordLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
                 recordLayer.backgroundColor = UIColor.clear.cgColor
-                recordLayer.fillColor = UIColor.blue.cgColor
+                recordLayer.fillColor = self.getColor(value: values[i]).cgColor
                 //recordLayer.strokeColor = self.gridColor
                 
                 let hour = calendar.component(.hour, from: dates[i])
                 let subPath=UIBezierPath()
-                subPath.addArc(withCenter: .init(x: CGFloat(hour)*step, y: height*0.5), radius: 10, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+                subPath.addArc(withCenter: .init(x: (CGFloat(hour)-0.5)*step, y: height*(1-(CGFloat(values[i]/100)))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
+                
+                let maskLayer=CAGradientLayer()
+                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(hour)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/100)))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
+                maskLayer.type = CAGradientLayerType.radial
+                maskLayer.startPoint = .init(x: 0.5, y: 0.5)
+                maskLayer.endPoint = .init(x: 1, y: 1)
+                maskLayer.colors=[UIColor.white.cgColor,UIColor.white.withAlphaComponent(0).cgColor]
+                recordLayer.mask=maskLayer
+                
+                //gridLayer.addSublayer(maskLayer)
                 gridLayer.addSublayer(recordLayer)
+
             }
             let renderer = UIGraphicsImageRenderer(bounds: gridLayer.bounds)
             self.daily.img = renderer.image(actions: { context in
@@ -194,7 +221,8 @@ class ChartTimeDistributionModel: ObservableObject{
             gridLayer.backgroundColor = UIColor.clear.cgColor
             gridLayer.fillColor = UIColor.clear.cgColor
             gridLayer.strokeColor = self.gridColor
-            
+            gridLayer.lineWidth=self.gridSize
+
             let path = UIBezierPath()
             let step = width/7
             for i in 0..<7{
@@ -213,13 +241,23 @@ class ChartTimeDistributionModel: ObservableObject{
                 let recordLayer=CAShapeLayer()
                 recordLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
                 recordLayer.backgroundColor = UIColor.clear.cgColor
-                recordLayer.fillColor = UIColor.blue.cgColor
+                recordLayer.fillColor = self.getColor(value: values[i]).cgColor
                 //recordLayer.strokeColor = self.gridColor
                 
-                let day = calendar.component(.day, from: dates[i])
+                let day = calendar.component(.weekday, from: dates[i])
                 let subPath=UIBezierPath()
-                subPath.addArc(withCenter: .init(x: CGFloat(day)*step, y: height*0.5), radius: 10, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+                subPath.addArc(withCenter: .init(x: (CGFloat(day)-0.5)*step, y: height*(1-(CGFloat(values[i]/100)))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
+                
+                let maskLayer=CAGradientLayer()
+                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(day)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/100)))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
+                maskLayer.type = CAGradientLayerType.radial
+                maskLayer.startPoint = .init(x: 0.5, y: 0.5)
+                maskLayer.endPoint = .init(x: 1, y: 1)
+                maskLayer.colors=[UIColor.white.cgColor,UIColor.white.withAlphaComponent(0).cgColor]
+                recordLayer.mask=maskLayer
+
+                
                 gridLayer.addSublayer(recordLayer)
             }
             

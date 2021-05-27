@@ -17,10 +17,11 @@ struct ChartBase: View {//
     let cornerRadius:CGFloat = 20
     let offset: CGFloat = 20
     let backgroundColor: Color
-    let textColor = Color.blue
+    var textColor = Color.blue
     
-    init(text: String,backgroundColor:Color=Color(red: 1, green: 1, blue: 1).opacity(0.3)) {
+    init(text: String,textColor: Color=Color.blue,backgroundColor:Color=Color(red: 1, green: 1, blue: 1).opacity(0.3)) {
         self.text=text
+        self.textColor=textColor
         self.backgroundColor=backgroundColor
     }
     var body: some View {
@@ -37,14 +38,5 @@ struct ChartBase: View {//
     }
 }
 
-struct ChartBase_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack{
-            Rectangle().foregroundColor(Color.red)
-            ChartBase(text: "Some title")
-                .frame(width: 400, height: 200)
-        }
-    }
-}
 
 

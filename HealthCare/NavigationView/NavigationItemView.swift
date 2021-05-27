@@ -13,8 +13,10 @@ struct NavigationItemView: View {
     let data: Storage.Record
     let offset:CGFloat=10
     let dateFormatter=DateFormatter()
-    init(data: Storage.Record) {
+    let ecgLineColor: UIColor
+    init(data: Storage.Record,ecgLineColor: UIColor=UIColor.blue) {
         self.data=data
+        self.ecgLineColor=ecgLineColor
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
     }
@@ -35,7 +37,7 @@ struct NavigationItemView: View {
                             Text(String("❤️ "+String(self.data.heartRate)))
                                 .frame(width:g2.size.width-2*self.offset,alignment:.leading)
                             
-                            ChartEcg(data: self.data.ecgData, marks: [], backgroundColor: .clear,miniature: true)
+                            ChartEcg(data: self.data.ecgData, marks: [],lineColor: self.ecgLineColor, backgroundColor: .clear,miniature: true)
                                 .frame(height: 100)
                                 .allowsHitTesting(false)
                         }.offset(x: self.offset, y: self.offset)

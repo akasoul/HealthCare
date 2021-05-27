@@ -22,14 +22,15 @@ struct ChartEcg: View {
     var offset: CGFloat=20
     let miniature: Bool
     let title: String
-    let lineColor=UIColor.blue
-    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
+    var titleColor = Color.blue
+    var lineColor: UIColor
+    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,lineColor: UIColor=UIColor.blue,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
         self.marks=marks
         self.duration=duration
         self.miniature=miniature
         self.backgroundColor=backgroundColor
-        
+        self.lineColor=lineColor
         if(self.miniature){
             self.title=""
             self.offset=0
@@ -39,23 +40,30 @@ struct ChartEcg: View {
         }
         
         if(self.data != nil && self.marks != nil){
-            self.model.setup(data: self.data!, marks: self.marks!, lineColor: self.lineColor)
+            self.model.setup(data: self.data!, marks: self.marks!)
         }
+        
+        self.model.setColors(lineColor: self.lineColor,axisColor: UIColor.blue)
         
     }
     
+    mutating func setColors(titleColor: Color,lineColor: UIColor,axisColor: UIColor){
+        self.titleColor=titleColor
+        self.model.setColors(lineColor:lineColor,axisColor:axisColor)
+    }
+    
     func setup(data: [Double],marks: [Double],duration: Double?=nil){
-        self.model.setup(data: data, marks: marks,duration: duration, lineColor: self.lineColor)
+        self.model.setup(data: data, marks: marks,duration: duration)
     }
     
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.title,backgroundColor:self.backgroundColor)
+                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
                 
                 if(!self.miniature){
                 Image(uiImage: self.model.imgAxisX ?? UIImage())
-                    .frame(width: g.size.width-4*self.offset,height: self.model.axisHeight,alignment:.leading)
+                    .frame(width: g.size.width-5*self.offset,height: self.model.axisHeight,alignment:.leading)
                     .offset(x: self.delta.dx)
                     .clipped()
                     .offset(x: self.offset, y: 2*self.offset)

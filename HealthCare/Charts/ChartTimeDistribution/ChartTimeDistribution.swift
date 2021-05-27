@@ -28,7 +28,7 @@ struct ChartTimeDistribution: View {
     let title: String
     
     let textColor=Color.blue
-    init(dates:[Date]? = nil,values:[Double]?,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
+    init(dates:[Date]? = nil,values:[Double]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
         self.dates=dates
         self.values=values
         self.miniature=miniature
@@ -71,7 +71,6 @@ struct ChartTimeDistribution: View {
                         
                         
                     })
-                    .border(Color.red)
                     .frame(width: g.size.width-2*self.offset, height: 100,alignment: . topLeading)
                     .offset(x: self.offset, y: 2*self.offset)
                     
@@ -79,18 +78,15 @@ struct ChartTimeDistribution: View {
                 else{
                     if(self.timePicker==timePickerOptions[0]){
                         Image(uiImage: self.model.daily.img ?? UIImage())
-                            .border(Color.red)
-  .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
                         
                         Image(uiImage: self.model.daily.imgAxisX ?? UIImage())
-                            .border(Color.red)
-  .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 2*self.offset)
                             .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
-
-
+                        
+                        
                         Image(uiImage: self.model.daily.imgAxisY ?? UIImage())
-                            .border(Color.red)
-   .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 2*self.offset)
                     }
                     else{
                         Image(uiImage: self.model.weekly.img ?? UIImage())
@@ -99,8 +95,8 @@ struct ChartTimeDistribution: View {
                         Image(uiImage: self.model.weekly.imgAxisX ?? UIImage())
                             .offset(x: self.offset, y: 2*self.offset)
                             .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
-
-
+                        
+                        
                         Image(uiImage: self.model.weekly.imgAxisY ?? UIImage())
                             .offset(x: self.offset, y: 2*self.offset)
                     }

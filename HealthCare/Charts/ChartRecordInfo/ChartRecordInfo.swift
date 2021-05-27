@@ -11,15 +11,16 @@ import SwiftUI
 import Combine
 
 
-struct ChartInfo: View {
-    @ObservedObject var model = ChartInfoModel()
+struct ChartRecordInfo: View {
+    @ObservedObject var model = ChartRecordInfoModel()
     var descriptions: [String]?
     var values: [String]?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let title: String
-    let textColor = Color.blue
+    var titleColor=Color.blue
+    var textColor = Color.blue
     
     
     init(descriptions:[String]?=nil,values:[String]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)){
@@ -28,7 +29,7 @@ struct ChartInfo: View {
         self.values=values
         self.backgroundColor=backgroundColor
         
-        self.title=Localization.getString("IDS_CHART_INFO_NAME")
+        self.title=Localization.getString("IDS_CHART_RECORDINFO_NAME")
         
         
         if(self.values != nil && self.descriptions != nil){
@@ -36,6 +37,12 @@ struct ChartInfo: View {
         }
         
     }
+    
+    mutating func setColors(titleColor: Color,textColor: Color){
+        self.titleColor=titleColor
+        self.textColor=textColor
+    }
+
     func setup(descriptions:[String],values:[String]){
         self.model.setup(descriptions: descriptions,values: values)
     }
@@ -44,7 +51,7 @@ struct ChartInfo: View {
         GeometryReader{ g in
             Group{
                 
-                ChartBase(text: self.title,backgroundColor:self.backgroundColor)
+                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
                 Group{
                     GeometryReader{ g2 in
                         VStack{

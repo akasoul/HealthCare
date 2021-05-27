@@ -20,13 +20,21 @@ class Storage{
         let samplingFrequency: Double?
         let duration: Double
     }
+    struct UserInfo{
+        let dateOfBirth: Date
+        let height: Double
+        let weight: Double
+        let gender: String
+    }
     private var finished = false
     static var shared=Storage()
     private var latest: Record?
     private var all: [Record]?
     private let healthStore = HKHealthStore()
     private let ecgType = HKObjectType.electrocardiogramType()
-    
+    private let heightType=HKObjectType.quantityType(forIdentifier: .height)
+    private let weightType=HKObjectType.quantityType(forIdentifier: .bodyMass)
+    private let genderType=HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)
     func getAll()->[Record]?{
         if(healthStore.authorizationStatus(for: ecgType) == .sharingDenied){
             var queryIsFinished:[Bool]=[]
@@ -101,10 +109,98 @@ class Storage{
         return nil
     }
     
+    func getUserInfo()->UserInfo?{
+        
+        guard let heightType=self.heightType,
+              let weightType=self.weightType
+        else{
+            return nil
+        }
+        
+        var dateOfBirth: Date = Date()
+        var height: Double = 0
+        var weight: Double = 0
+        var gender: String = ""
+
+        if(healthStore.authorizationStatus(for: heightType) == .sharingDenied){
+            var fetched=false
+            let heightQuery = HKSampleQuery(sampleType: heightType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
+                if let error = error {
+                    fatalError("*** An error occurred \(error.localizedDescription) ***")
+                }
+                
+                guard let samples = samples
+                else{ return }
+                guard
+                    let allSamples = (samples as? [HKQuantitySample])?.sorted(by: { $0.startDate > $1.startDate })
+                else {
+                    fetched = true
+                    return
+                }
+                height = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .centimeter))
+                fetched=true
+            }
+            self.healthStore.execute(heightQuery)
+            while(!fetched){
+                sleep(1)
+            }
+        }
+
+        
+        if(healthStore.authorizationStatus(for: weightType) == .sharingDenied){
+            var fetched=false
+            let heighQuery = HKSampleQuery(sampleType: weightType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
+                if let error = error {
+                    fatalError("*** An error occurred \(error.localizedDescription) ***")
+                }
+                
+                guard let samples = samples
+                else{
+                    fetched=true
+                    return
+                }
+                guard
+                    let allSamples = (samples as? [HKQuantitySample])?.sorted(by: { $0.startDate > $1.startDate })
+                else {
+                    fetched=true
+                    return
+                }
+                weight = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .kilogram))
+                fetched=true
+            }
+            self.healthStore.execute(heighQuery)
+            while(!fetched){
+                sleep(1)
+            }
+        }
+        
+        let tmpGender = try? healthStore.biologicalSex().biologicalSex
+            if(tmpGender == HKBiologicalSex.notSet){
+            gender = Localization.getString("IDS_CHART_USERINFO_GENDER_NONSET")
+        }
+        if(tmpGender == HKBiologicalSex.female){
+            gender = Localization.getString("IDS_CHART_USERINFO_GENDER_FEMALE")
+        }
+        if(tmpGender == HKBiologicalSex.male){
+            gender = Localization.getString("IDS_CHART_USERINFO_GENDER_MALE")
+        }
+        if(tmpGender == HKBiologicalSex.other){
+            gender = Localization.getString("IDS_CHART_USERINFO_GENDER_OTHER")
+        }
+        
+        if let birthdayComponents = try? self.healthStore.dateOfBirthComponents(){
+            if let date = birthdayComponents.date{
+                dateOfBirth=date
+            }
+        }
+        let userInfo=UserInfo(dateOfBirth: dateOfBirth, height: height, weight: weight, gender: gender)
+        return userInfo
+    }
    
     private init() {
         
-        self.healthStore.requestAuthorization(toShare: nil, read: [ecgType]) { (success, error) in
+        
+        self.healthStore.requestAuthorization(toShare: nil, read: [ecgType,heightType!,weightType!,genderType!]) { (success, error) in
             if success {
                 print("HealthKit Auth successful")
             } else {
@@ -112,5 +208,7 @@ class Storage{
             }
         }
     }
+    
+
 }
 

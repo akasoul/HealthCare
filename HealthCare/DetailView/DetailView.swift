@@ -10,11 +10,11 @@ import SwiftUI
 
 
 struct DetailView: View {
-    let chartInfo=ChartInfo()
-    let chartEcg=ChartEcg()
-    let chartScat=ChartScaterogram()
-    let chartHisto=ChartHistogram()
-    let chartRhythmogram=ChartRhythmogram2()
+    var chartInfo=ChartRecordInfo()
+    var chartEcg=ChartEcg()
+    var chartScat=ChartScaterogram()
+    var chartHisto=ChartHistogram()
+    var chartRhythmogram=ChartRhythmogram2()
     @ObservedObject var model =  DetailViewModel()
     @State var ecgScale = CGSize(width: 1, height: 1)
     @GestureState var magnifyBy = CGFloat(1.0)
@@ -23,13 +23,18 @@ struct DetailView: View {
     let offset:CGFloat=10
     var rrValues: [Double]=[]
     @State var loaded=false
+    
     init(record: Storage.Record) {
         self.record=record
-        //self.model.setRecord(self.record)
-        //        for _ in 0..<100{
-        //            self.rrValues.append(Double.random(in: 400...450))
-        //        }
+        let clr=Color(red: 0, green: 1, blue: 0)
+        let uiclr=UIColor(red: 0, green: 1, blue: 0, alpha: 1)
+        self.chartInfo.setColors(titleColor: clr,textColor:clr)
+        self.chartEcg.setColors(titleColor: clr, lineColor: uiclr, axisColor: uiclr)
+        self.chartScat.setColors(titleColor: clr, fillColor: uiclr, axisColor: uiclr)
+        self.chartRhythmogram.setColors(titleColor: clr, topColor: uiclr, bottomColor: uiclr.withAlphaComponent(0.3), axisColor: uiclr)
+        self.chartHisto.setColors(titleColor:clr,topColor: uiclr, bottomColor: uiclr.withAlphaComponent(0.3), axisColor: uiclr)
     }
+    
     var magnification: some Gesture {
         MagnificationGesture()
             .updating($magnifyBy) { currentState, gestureState, transaction in

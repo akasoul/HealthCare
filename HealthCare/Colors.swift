@@ -7,3 +7,6 @@
 
 import Foundation
 import SwiftUI
+import UIKit
+
+let tintColor=UIColor.blue

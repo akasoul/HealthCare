@@ -34,11 +34,15 @@ class ChartHistogramModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],frequency: Double,topColor: UIColor,bottomColor: UIColor){
-        self.data=data
-        self.frequency=frequency
+    func setColors(topColor: UIColor,bottomColor: UIColor,axisColor: UIColor){
         self.topColor=topColor
         self.bottomColor=bottomColor
+        self.axisColor=axisColor
+    }
+    
+    func setup(data: [Double],frequency: Double){
+        self.data=data
+        self.frequency=frequency
         self.update()
     }
     

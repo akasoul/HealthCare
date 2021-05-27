@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ChartInfoModel: ObservableObject{
+class ChartRecordInfoModel: ObservableObject{
     @Published var descriptions: [String]=[]
     @Published var values: [String]=[]
     

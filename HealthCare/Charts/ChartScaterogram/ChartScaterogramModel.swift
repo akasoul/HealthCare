@@ -28,16 +28,20 @@ class ChartScaterogramModel: ObservableObject{
         
     }
     
+    func setColors(fillColor: UIColor,axisColor: UIColor){
+        self.fillColor=fillColor
+        self.axisColor=axisColor
+    }
+    
     func setSize(height: CGFloat,width:CGFloat){
         self.height=height - self.axisHeight
         self.width=width-self.axisWidth
         self.update()
     }
     
-    func setup(data: [Double],frequency: Double,fillColor: UIColor){
+    func setup(data: [Double],frequency: Double){
         self.data=data
         self.frequency=frequency
-        self.fillColor=fillColor
         self.update()
     }
     

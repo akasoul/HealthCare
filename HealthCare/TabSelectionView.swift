@@ -15,11 +15,14 @@ struct TabSelectionView: View {
     @State var selection=0
     let backgroundColor = UIColor(red: 1, green: 1, blue: 1,alpha: 0.3)
     let borderColor = Color(red: 1, green: 1, blue: 1).opacity(0.5)
-    init() {
+    init(tintColor: UIColor? = nil) {
         UITabBar.appearance().backgroundColor = self.backgroundColor
         UITabBar.appearance().tintColor = .red
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        if( tintColor != nil){
+        UITabBar.appearance().tintColor=tintColor!
+        }
         let tabBarController = UITabBarController()
         tabBarController.view.layoutIfNeeded()
         self.tabBarHeight=tabBarController.tabBar.frame.height
@@ -30,7 +33,7 @@ struct TabSelectionView: View {
             TabView{
                 MainView()
                     .tabItem({
-                    Image(systemName: "heart.circle")
+                        Image(systemName: "heart.circle")
                 })
                 RecordsNavigationView()
                     .tabItem({

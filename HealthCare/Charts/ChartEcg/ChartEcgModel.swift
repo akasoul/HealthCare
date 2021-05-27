@@ -50,11 +50,14 @@ class ChartEcgModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],marks:[Double],duration: Double?=nil,lineColor: UIColor){
+    func setColors(lineColor: UIColor,axisColor: UIColor){
+        self.lineColor=lineColor
+        self.axisColor=axisColor
+    }
+    func setup(data: [Double],marks:[Double],duration: Double?=nil){
         self.data=data
         self.marks=marks
         self.duration=duration
-        self.lineColor=lineColor
         self.update()
     }
     
