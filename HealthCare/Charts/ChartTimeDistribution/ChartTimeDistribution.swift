@@ -21,18 +21,19 @@ struct ChartTimeDistribution: View {
     ]
     var dates: [Date]?
     var values: [Double]?
-    let backgroundColor: Color
+    var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
     let title: String
     
-    let textColor=Color.blue
-    init(dates:[Date]? = nil,values:[Double]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
+    var titleColor=Color.blue
+    var textColor=Color.blue
+    
+    init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
         self.values=values
         self.miniature=miniature
-        self.backgroundColor=backgroundColor
         
         if(self.miniature){
             self.title=""
@@ -50,11 +51,16 @@ struct ChartTimeDistribution: View {
         self.model.setup(dates: dates, values: values)
     }
     
-    
+    mutating func setColors(titleColor: Color,textColor: Color,axisColor: UIColor,gridColor: UIColor?=nil,colors: [UIColor]?=nil){
+        self.titleColor=titleColor
+        self.textColor=textColor
+        self.model.setColors(axisColor: axisColor,gridColor: gridColor,colors: colors)
+    }
+
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.title,backgroundColor:self.backgroundColor)
+                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
                 Text( (self.pickerIsPresented ? "↓ " : "↑ ") + self.timePicker)
                     .foregroundColor(self.textColor)
                     .frame(width:g.size.width-self.offset,alignment: .trailing)
@@ -78,31 +84,31 @@ struct ChartTimeDistribution: View {
                 else{
                     if(self.timePicker==timePickerOptions[0]){
                         Image(uiImage: self.model.daily.img ?? UIImage())
-                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                            .offset(x: self.offset+self.model.axisWidth, y: 3*self.offset)
                         
                         Image(uiImage: self.model.daily.imgAxisX ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 3*self.offset)
                             .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
                         
                         
                         Image(uiImage: self.model.daily.imgAxisY ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 3*self.offset)
                     }
                     else{
                         Image(uiImage: self.model.weekly.img ?? UIImage())
-                            .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                            .offset(x: self.offset+self.model.axisWidth, y: 3*self.offset)
                         
                         Image(uiImage: self.model.weekly.imgAxisX ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 3*self.offset)
                             .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
                         
                         
                         Image(uiImage: self.model.weekly.imgAxisY ?? UIImage())
-                            .offset(x: self.offset, y: 2*self.offset)
+                            .offset(x: self.offset, y: 3*self.offset)
                     }
                 }
             }.onAppear(perform: {
-                self.model.setSize(height: 0.75*g.size.height, width: g.size.width-2*self.offset)
+                self.model.setSize(height: 0.65*g.size.height, width: g.size.width-2*self.offset)
             })
             
         }

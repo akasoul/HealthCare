@@ -10,10 +10,10 @@ import Combine
 
 @main
 struct HealthCareApp: App {
-    
+    let colors = Colors()
     var body: some Scene {
         WindowGroup {
-            TabSelectionView()
+            TabSelectionView(colors: self.colors)
         }
     }
 }

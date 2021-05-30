@@ -11,14 +11,71 @@ import HealthKit
 import Combine
 
 class Storage{
-    struct Record: Hashable{
+    
+    class CalculatedData: Equatable,Hashable{
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.health)
+        }
+        var ecg:[Double]=[]
+        var marks:[Double]=[]
+        var rrs:[Double]=[]
+        var duration: Double = 0
+        var frequency: Double = 0
+        var date: String=""
+        var heartRate: Double = 0
+        var health: Double = 0
+        static func ==(lhs:CalculatedData,rhs:CalculatedData)->Bool{
+            return lhs.marks == rhs.marks
+        }
+        
+    }
+    
+    class Record: Hashable,Equatable{
+        static func ==(lhs:Record,rhs:Record)->Bool{
+            let out=lhs.ecgData==rhs.ecgData && lhs.calculatedData.health==rhs.calculatedData.health
+            print(out)
+            return out
+        }
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.calculatedData.marks)
+        }
+        var path: String
         let date: Date
         let ecgData: [Double]
-        let heartRate: Double//HKQuantity?
+        let heartRate: Double
         let symptomsStatus: HKElectrocardiogram.SymptomsStatus?
         let classification: HKElectrocardiogram.Classification?
         let samplingFrequency: Double?
         let duration: Double
+        var comment: String?
+        var calculatedData: CalculatedData = CalculatedData()
+        init(date: Date, ecgData: [Double], heartRate: Double, symptomsStatus: HKElectrocardiogram.SymptomsStatus?, classification: HKElectrocardiogram.Classification?, samplingFrequency: Double?,duration: Double){
+            self.date=date
+            self.ecgData=ecgData
+            self.heartRate=heartRate
+            self.symptomsStatus=symptomsStatus
+            self.classification=classification
+            self.samplingFrequency=samplingFrequency
+            self.duration=duration
+            
+            let calendar=Calendar.current
+            self.path=String(calendar.component(.year, from: date)) +
+                String(calendar.component(.month, from: date)) +
+                String(calendar.component(.day, from: date)) +
+                String(calendar.component(.hour, from: date)) +
+                String(calendar.component(.minute, from: date)) +
+                String(calendar.component(.second, from: date))+"/"
+            
+                        DispatchQueue.global().async{
+                        let calculations=Calculations()
+                            self.calculatedData.ecg=self.ecgData
+                            self.calculatedData.marks=calculations.getEcgMarks(data: self.calculatedData.ecg)
+                            self.calculatedData.rrs=calculations.getRRs(ecgMarks: self.calculatedData.marks)
+                            self.calculatedData.health=calculations.getHealthValue(rrs: self.calculatedData.rrs)
+                            print("cf")
+                        }
+            
+        }
     }
     struct UserInfo{
         let dateOfBirth: Date
@@ -26,16 +83,19 @@ class Storage{
         let weight: Double
         let gender: String
     }
+    
     private var finished = false
     static var shared=Storage()
     private var latest: Record?
-    private var all: [Record]?
+    var all: [Record]=[]
+    var userInfo: UserInfo?
     private let healthStore = HKHealthStore()
     private let ecgType = HKObjectType.electrocardiogramType()
     private let heightType=HKObjectType.quantityType(forIdentifier: .height)
     private let weightType=HKObjectType.quantityType(forIdentifier: .bodyMass)
     private let genderType=HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)
-    func getAll()->[Record]?{
+    
+    func getAll(){
         if(healthStore.authorizationStatus(for: ecgType) == .sharingDenied){
             var queryIsFinished:[Bool]=[]
             var expectedCount=0
@@ -77,7 +137,9 @@ class Storage{
                             let duration=Double((allSamples[i] as HKSample).endDate.timeIntervalSince1970 - (allSamples[i] as HKSample).startDate.timeIntervalSince1970)
                             
                             let record = Record(date: date, ecgData: ecgData, heartRate: heartRate, symptomsStatus: symtomsStatus, classification: classification, samplingFrequency: samplingFrequency,duration: duration)
-                            self.all?.append(record)
+                            DispatchQueue.main.async{
+                                self.all.append(record)
+                            }
                             queryIsFinished.append(true)
                         }
                     }
@@ -96,32 +158,36 @@ class Storage{
                 usleep(100)
             }
             
-//            guard let tmp = self.all
-//            else{ return nil }
-//            for i in 0..<tmp.count{
-//                let str = tmp[i].ecgData.map({ String($0) }).joined(separator: " ")
-//                try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/\(i+1).txt"))
-//            }
+            let appFolder = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask)[0].appendingPathComponent("test").absoluteString
             
-            return self.all
+            if !FileManager.default.fileExists(atPath: appFolder){
+                FileManager.default.createFile(atPath: appFolder, contents: nil, attributes: [:])
+            }
+            
+            //            guard let tmp = self.all
+            //            else{ return nil }
+            //            for i in 0..<tmp.count{
+            //                let str = tmp[i].ecgData.map({ String($0) }).joined(separator: " ")
+            //                try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/\(i+1).txt"))
+            //            }
+            
         }
         
-        return nil
     }
     
-    func getUserInfo()->UserInfo?{
+    func getUserInfo(){
         
         guard let heightType=self.heightType,
               let weightType=self.weightType
         else{
-            return nil
+            return
         }
         
         var dateOfBirth: Date = Date()
         var height: Double = 0
         var weight: Double = 0
         var gender: String = ""
-
+        
         if(healthStore.authorizationStatus(for: heightType) == .sharingDenied){
             var fetched=false
             let heightQuery = HKSampleQuery(sampleType: heightType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
@@ -145,7 +211,7 @@ class Storage{
                 sleep(1)
             }
         }
-
+        
         
         if(healthStore.authorizationStatus(for: weightType) == .sharingDenied){
             var fetched=false
@@ -175,7 +241,7 @@ class Storage{
         }
         
         let tmpGender = try? healthStore.biologicalSex().biologicalSex
-            if(tmpGender == HKBiologicalSex.notSet){
+        if(tmpGender == HKBiologicalSex.notSet){
             gender = Localization.getString("IDS_CHART_USERINFO_GENDER_NONSET")
         }
         if(tmpGender == HKBiologicalSex.female){
@@ -193,22 +259,25 @@ class Storage{
                 dateOfBirth=date
             }
         }
-        let userInfo=UserInfo(dateOfBirth: dateOfBirth, height: height, weight: weight, gender: gender)
-        return userInfo
+        self.userInfo=UserInfo(dateOfBirth: dateOfBirth, height: height, weight: weight, gender: gender)
     }
-   
+    
     private init() {
         
         
         self.healthStore.requestAuthorization(toShare: nil, read: [ecgType,heightType!,weightType!,genderType!]) { (success, error) in
             if success {
                 print("HealthKit Auth successful")
+                DispatchQueue.global().async {
+                    self.getAll()
+                }
             } else {
                 print("HealthKit Auth Error")
             }
         }
+        self.getUserInfo()
     }
     
-
+    
 }
 

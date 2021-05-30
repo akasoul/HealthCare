@@ -47,9 +47,9 @@ struct ChartEcg: View {
         
     }
     
-    mutating func setColors(titleColor: Color,lineColor: UIColor,axisColor: UIColor){
+    mutating func setColors(titleColor: Color,lineColor: UIColor,marksColor: UIColor,axisColor: UIColor){
         self.titleColor=titleColor
-        self.model.setColors(lineColor:lineColor,axisColor:axisColor)
+        self.model.setColors(lineColor:lineColor,marksColor:marksColor,axisColor:axisColor)
     }
     
     func setup(data: [Double],marks: [Double],duration: Double?=nil){

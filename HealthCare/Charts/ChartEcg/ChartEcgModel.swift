@@ -30,6 +30,7 @@ class ChartEcgModel: ObservableObject{
     var marks: [Double]?
     var duration: Double?
     var lineColor: UIColor?
+    var marksColor: UIColor = UIColor.red
     let marksSize: CGFloat=5
     
     init() {
@@ -50,8 +51,9 @@ class ChartEcgModel: ObservableObject{
         self.update()
     }
     
-    func setColors(lineColor: UIColor,axisColor: UIColor){
+    func setColors(lineColor: UIColor,marksColor: UIColor=UIColor.red,axisColor: UIColor){
         self.lineColor=lineColor
+        self.marksColor=marksColor
         self.axisColor=axisColor
     }
     func setup(data: [Double],marks:[Double],duration: Double?=nil){
@@ -132,7 +134,7 @@ class ChartEcgModel: ObservableObject{
             lineLayer.lineWidth=1
             
             marksLayer.path=subPath.cgPath
-            marksLayer.fillColor=UIColor.red.cgColor
+        marksLayer.fillColor=self.marksColor.cgColor
             
             shadowLayer.addSublayer(lineLayer)
             shadowLayer.addSublayer(marksLayer)

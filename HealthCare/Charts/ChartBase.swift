@@ -16,7 +16,7 @@ struct ChartBase: View {//
     let text: String
     let cornerRadius:CGFloat = 20
     let offset: CGFloat = 20
-    let backgroundColor: Color
+    var backgroundColor: Color
     var textColor = Color.blue
     
     init(text: String,textColor: Color=Color.blue,backgroundColor:Color=Color(red: 1, green: 1, blue: 1).opacity(0.3)) {
@@ -30,6 +30,7 @@ struct ChartBase: View {//
             RoundedRectangle(cornerRadius: self.cornerRadius)
                 .foregroundColor(self.backgroundColor)
             Text(self.text)
+                .fontWeight(.medium)
                 .foregroundColor(self.textColor)
                 .offset(x: self.offset, y: self.offset)
             

@@ -60,7 +60,7 @@ class ChartRhythmogram2Model: ObservableObject{
             tmpData.append(data[i])
         }
         guard var min = tmpData.min(),
-              var max = tmpData.max()
+              let max = tmpData.max()
         else{ return }
 
         

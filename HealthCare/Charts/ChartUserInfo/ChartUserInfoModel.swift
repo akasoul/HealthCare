@@ -19,7 +19,7 @@ class ChartUserInfoModel: ObservableObject{
     
     func setup(){
         self.values=[]
-        guard let userInfo = Storage.shared.getUserInfo()
+        guard let userInfo = Storage.shared.userInfo
         else{ return }
         
         let formatter = DateFormatter()

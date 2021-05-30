@@ -20,35 +20,29 @@ struct ChartUserInfo: View {
         Localization.getString("IDS_CHART_USERINFO_WEIGHT")
     ]
     var values: [String]?
-    let backgroundColor: Color
+    var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let title: String
     var titleColor = Color.blue
     var textColor = Color.blue
     
-    
-    init(values:[String]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)){
-        
+    init(values:[String]?=nil){
         self.values=values
-        self.backgroundColor=backgroundColor
-        
         self.title=Localization.getString("IDS_CHART_USERINFO_NAME")
-        
-        
         if(self.values != nil){
             self.setup()
         }
-        
     }
     
     func setup(){
         self.model.setup()
     }
     
-    mutating func setColors(titleColor: Color,textColor: Color){
+    mutating func setColors(titleColor: Color,textColor: Color,backgroundColor:Color=Color(red: 1, green: 1, blue: 1).opacity(0.2)){
         self.titleColor=titleColor
         self.textColor=textColor
+        self.backgroundColor=backgroundColor
     }
     
     var body: some View{

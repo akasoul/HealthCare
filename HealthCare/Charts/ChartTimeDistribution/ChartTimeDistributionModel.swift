@@ -30,20 +30,25 @@ class ChartTimeDistributionModel: ObservableObject{
     
     var height: CGFloat?
     var width: CGFloat?
-    var topColor: UIColor?
-    var bottomColor: UIColor?
     var data: [Storage.Record]?
     var dates:[Date]?
     var values:[Double]?
-    let colors=[UIColor.red,UIColor.yellow,UIColor.green,UIColor.blue]
-    let gridColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+    var colors=[UIColor.red,UIColor.yellow,UIColor.green,UIColor.blue]
+    var gridColor = UIColor.gray.withAlphaComponent(0.3)
     let gridSize:CGFloat=0.5
     let circleRadius: CGFloat=10
+    
     init() {
         
     }
     
-    func getColor(value: Double)->UIColor{
+    func setColors(axisColor: UIColor,gridColor: UIColor?=nil,colors: [UIColor]?=nil){
+        self.axisColor=axisColor
+        self.gridColor = gridColor ?? self.gridColor
+        self.colors = colors ?? self.colors
+    }
+    
+    private func getColor(value: Double)->UIColor{
         if(value<25){
             return self.colors[0]
         }
@@ -61,10 +66,8 @@ class ChartTimeDistributionModel: ObservableObject{
         self.width=width - self.axisWidth
         self.update()
     }
-    func setup(data: [Storage.Record],topColor: UIColor,bottomColor: UIColor){
+    func setup(data: [Storage.Record]){
         self.data=data
-        self.topColor=topColor
-        self.bottomColor=bottomColor
         self.update()
     }
     func setup(dates: [Date],values: [Double]){
@@ -90,7 +93,7 @@ class ChartTimeDistributionModel: ObservableObject{
             gridLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
             gridLayer.backgroundColor = UIColor.clear.cgColor
             gridLayer.fillColor = UIColor.clear.cgColor
-            gridLayer.strokeColor = self.gridColor
+            gridLayer.strokeColor = self.gridColor.cgColor
             gridLayer.lineWidth=self.gridSize
             let path = UIBezierPath()
             let step = width/24
@@ -108,6 +111,9 @@ class ChartTimeDistributionModel: ObservableObject{
             
             
             for i in 0..<dates.count{
+                if(i>=values.count){
+                    return
+                }
                 let recordLayer=CAShapeLayer()
                 recordLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
                 recordLayer.backgroundColor = UIColor.clear.cgColor
@@ -220,7 +226,7 @@ class ChartTimeDistributionModel: ObservableObject{
             gridLayer.frame=CGRect(x: 0, y: 0, width: width, height: height)
             gridLayer.backgroundColor = UIColor.clear.cgColor
             gridLayer.fillColor = UIColor.clear.cgColor
-            gridLayer.strokeColor = self.gridColor
+            gridLayer.strokeColor = self.gridColor.cgColor
             gridLayer.lineWidth=self.gridSize
 
             let path = UIBezierPath()

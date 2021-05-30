@@ -18,7 +18,8 @@ class Calculations{
     let mpd1605 = try? model1605.init(configuration: MLModelConfiguration())
     
     let mh = try? healthModel.init(configuration: MLModelConfiguration())
-    
+    let mh2605 = try? healthModel2605.init(configuration: MLModelConfiguration())
+
     let treshhold: Double = 0.3
     let filterRadius: Int = 10
     
@@ -31,19 +32,19 @@ class Calculations{
         }
         var rrs:[Double]=[]
         if(indexes.count>1){
-        for i in 1..<indexes.count{
-            rrs.append(Double(indexes[i]-indexes[i-1]))
-        }
+            for i in 1..<indexes.count{
+                rrs.append(Double(indexes[i]-indexes[i-1]))
+            }
         }
         return rrs
     }
     
     func getEcgMarks(data: [Double])->[Double]{
         var data=data
-                        let str = data.map({ String($0) }).joined(separator: " ")
-                        try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/current.txt"))
-                    
-
+        let str = data.map({ String($0) }).joined(separator: " ")
+        try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/current.txt"))
+        
+        
         guard let minValue=data.min(),
               let maxValue=data.max(),
               let model = self.mpd1605
@@ -57,44 +58,23 @@ class Calculations{
         }
         let frameWidth=500
         
-        //
-//        if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
-//            for i in 0..<frameWidth{
-//                tmpMLarr[i] = NSNumber(value:data[2220 + i])
-//            }
-//            let out = try? model.prediction(input1: tmpMLarr)
-//            if let output = out?.output1{
-//                var tmp=[Double]()
-//                for i in 0..<frameWidth{
-//                    tmp.append(Double(output[i].doubleValue))
-//                }
-//                print(tmp)
-//            }
-//        }
-//        //
-        
-        let step = frameWidth/10
+        let step = frameWidth/2
         var marks:[Double] = .init(repeating: 0, count: data.count*2)
         let count = data.count/step + 1
         data.append(contentsOf: [Double].init(repeating: 0, count: frameWidth))
         for j in 0..<count{
             if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
                 let tmpArr=Array(data[j*step..<j*step + frameWidth])
-//                let tmpStr=tmpArr.map({ String($0) }).joined(separator: " ")
-//                try? tmpStr.write(toFile: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/frames/in_\(j+1).txt", atomically: true, encoding: .utf8)
                 for i in 0..<frameWidth{
                     tmpMLarr[i] = NSNumber(value:tmpArr[i])
                 }
                 let out = try? model.prediction(input1: tmpMLarr)
                 if let output = out?.output1{
-//                    var tmpOut=[Double]()
                     for i in 0..<frameWidth{
-//                        tmpOut.append(output[i].doubleValue)
                         if(marks[step*j + i] < Double(output[i].doubleValue)){
                             marks[step*j + i] = Double(output[i].doubleValue)
                         }
                     }
-//                    print(tmpOut.max())
                 }
             }
         }
@@ -107,7 +87,6 @@ class Calculations{
             }
         }
         //self.filterMarks2(ecg: data, marks: &marks)
-        print(marks.max())
         return marks
     }
     
@@ -149,14 +128,14 @@ class Calculations{
     
     func getHealthValue(rrs: [Double]) -> Double{
         var out: Double = 0
-        guard let model = self.mh
+        guard let model = self.mh2605
         else{
             return out
         }
         var counter = 0
         let frameWidth=100
         if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
-
+            
             for i in 0..<frameWidth{
                 tmpMLarr[i] = NSNumber(value:rrs[counter])
                 counter += 1
@@ -169,9 +148,15 @@ class Calculations{
                 out=output[0].doubleValue
             }
         }
+        if(out<0){
+            out=0
+        }
+        if(out>100){
+            out=100
+        }
         return out
     }
     
-
+    
     
 }

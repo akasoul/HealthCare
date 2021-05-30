@@ -149,7 +149,7 @@
 			path = DetailView;
 			sourceTree = "<group>";
 		};
-		3116EFE22636CF5400442138 /* NN */ = {
+		3116EFE22636CF5400442138 /* Neural networks */ = {
 			isa = PBXGroup;
 			children = (
 				31FD6FC02657B2E3009D5957 /* healthModel.mlmodel */,
@@ -168,7 +168,7 @@
 				31DE43922643DF97007A2D91 /* modelPeaksDetection5.mlmodel */,
 				3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */,
 			);
-			path = NN;
+			path = "Neural networks";
 			sourceTree = "<group>";
 		};
 		311AB0B426595B8C00966717 /* ChartRecordInfo */ = {
@@ -200,21 +200,18 @@
 		312E5C5E2631FDA0005F9B40 /* HealthCare */ = {
 			isa = PBXGroup;
 			children = (
-				3116EFE22636CF5400442138 /* NN */,
-				31DE4395264530C9007A2D91 /* Localization */,
-				312E5C732632001E005F9B40 /* HealthCare.entitlements */,
-				312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */,
-				3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */,
+				315ED3C92632C52100BE453C /* Colors.swift */,
 				31DBAC46263DEC1100F55CDE /* BackgroundView.swift */,
-				31004C31263BE10B0073F8FB /* MainView */,
-				31722B17263ADEFB007AE1B9 /* NavigationView */,
-				31004C32263BE1290073F8FB /* DetailView */,
-				315ED3CF2632E53100BE453C /* Charts */,
 				31722B13263ADB65007AE1B9 /* Storage.swift */,
 				3161A4EE2633504E00F2D4B1 /* Calculations.swift */,
-				315ED3C62632C21000BE453C /* Math.swift */,
-				315ED3C92632C52100BE453C /* Colors.swift */,
+				312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */,
+				3149274E2660B6A900140408 /* Tabs */,
+				315ED3CF2632E53100BE453C /* Charts */,
+				31DE4395264530C9007A2D91 /* Localization */,
+				3116EFE22636CF5400442138 /* Neural networks */,
+				312E5C732632001E005F9B40 /* HealthCare.entitlements */,
 				312E5C632631FDA0005F9B40 /* Assets.xcassets */,
+				315ED3C62632C21000BE453C /* Math.swift */,
 				312E5C682631FDA0005F9B40 /* Info.plist */,
 				312E5C652631FDA0005F9B40 /* Preview Content */,
 			);
@@ -235,6 +232,16 @@
 				312E5C752632001E005F9B40 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3149274E2660B6A900140408 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				3161A4F22634746C00F2D4B1 /* TabSelectionView.swift */,
+				31004C31263BE10B0073F8FB /* MainView */,
+				31722B17263ADEFB007AE1B9 /* RecordsNavigationView */,
+			);
+			path = Tabs;
 			sourceTree = "<group>";
 		};
 		315ED3CF2632E53100BE453C /* Charts */ = {
@@ -263,14 +270,15 @@
 			path = ChartEcg;
 			sourceTree = "<group>";
 		};
-		31722B17263ADEFB007AE1B9 /* NavigationView */ = {
+		31722B17263ADEFB007AE1B9 /* RecordsNavigationView */ = {
 			isa = PBXGroup;
 			children = (
 				3161A4FA2634796900F2D4B1 /* RecordsNavigationView.swift */,
 				31DBAC42263DB22900F55CDE /* NavigationItemView.swift */,
 				31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */,
+				31004C32263BE1290073F8FB /* DetailView */,
 			);
-			path = NavigationView;
+			path = RecordsNavigationView;
 			sourceTree = "<group>";
 		};
 		31DE4395264530C9007A2D91 /* Localization */ = {
