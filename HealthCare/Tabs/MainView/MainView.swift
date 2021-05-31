@@ -34,26 +34,10 @@ struct MainView: View {
                         
                         self.chartTimeDistribution
                             .frame(width: g.size.width-2*self.offset, height: 200)
-                            .onReceive(self.model.$list, perform: { i in
-                                let dates =  i.compactMap({ $0.date })
-                                            let values = i.compactMap( { $0.calculatedData.health})
-//                                var values = [Double]()
-//                                for _ in 0..<dates.count{
-//                                    values.append(Double.random(in: 0...100))
-//                                }
+                            .onReceive(self.model.$records, perform: { i in
+                                let dates =  self.model.records.compactMap({ $0.date })
+                                let values = i.compactMap({ $0.calculatedData?.health})
                                 self.chartTimeDistribution.setup(dates: dates,values: values)
-                                print("onreceive mv")
-                            })
-                            .onReceive(self.model.$healths, perform: { i in
-                                let dates =  self.model.list.compactMap({ $0.date })
-                                            let values = i
-//                                print(self.model.storage.all.compactMap( { $0.calculatedData.health}))
-//                                var values = [Double]()
-//                                for _ in 0..<dates.count{
-//                                    values.append(Double.random(in: 0...100))
-//                                }
-                                self.chartTimeDistribution.setup(dates: dates,values: values)
-                                print("onreceive mv2")
                             })
                            
                     }.frame(width:g.size.width,alignment:.leading)
