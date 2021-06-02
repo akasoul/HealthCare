@@ -10,14 +10,14 @@ import SwiftUI
 import Combine
 
 
-struct ChartTimeDistribution: View {
+struct ChartDistribution: View {
     
-    @ObservedObject var model = ChartTimeDistributionModel()
+    @ObservedObject var model = ChartDistributionModel()
     @State var pickerIsPresented = false
-    @State var timePicker: String = Localization.getString("IDS_CHART_TIMEDISTRIBUTION_PICKER_DAILY")
+    @State var timePicker: String = Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY")
     let timePickerOptions=[
-        Localization.getString("IDS_CHART_TIMEDISTRIBUTION_PICKER_DAILY"),
-        Localization.getString("IDS_CHART_TIMEDISTRIBUTION_PICKER_WEEKLY")
+        Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY"),
+        Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_WEEKLY")
     ]
     var dates: [Date]?
     var values: [Double]?
@@ -25,10 +25,7 @@ struct ChartTimeDistribution: View {
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    let title: String
     
-    var titleColor=Color.blue
-    var textColor=Color.blue
     
     init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
@@ -36,33 +33,39 @@ struct ChartTimeDistribution: View {
         self.miniature=miniature
         
         if(self.miniature){
-            self.title=""
+            self.model.title=""
             self.offset=0
         }
         else{
-            self.title=Localization.getString("IDS_CHART_TIMEDISTRIBUTION_NAME")
+            self.model.title=Localization.getString("IDS_CHART_DISTRIBUTION_NAME")
         }
         if(self.dates != nil && values != nil){
             self.model.setup(dates: self.dates!, values: self.values!)
         }
     }
     
+    func setTitle(_ title: String){
+        self.model.title=title
+    }
+
+
     func setup(dates: [Date],values: [Double]){
         self.model.setup(dates: dates, values: values)
     }
     
-    mutating func setColors(titleColor: Color,textColor: Color,axisColor: UIColor,gridColor: UIColor?=nil,colors: [UIColor]?=nil){
-        self.titleColor=titleColor
-        self.textColor=textColor
+    func setColors(titleColor: Color,textColor: Color,axisColor: UIColor,gridColor: UIColor?=nil,colors: [UIColor]?=nil,backgroundColor: Color = UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
+        self.model.titleColor=titleColor
+        self.model.textColor=textColor
+        self.model.backgroundColor=backgroundColor
         self.model.setColors(axisColor: axisColor,gridColor: gridColor,colors: colors)
     }
 
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
+                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
                 Text( (self.pickerIsPresented ? "↓ " : "↑ ") + self.timePicker)
-                    .foregroundColor(self.textColor)
+                    .foregroundColor(self.model.textColor)
                     .frame(width:g.size.width-self.offset,alignment: .trailing)
                     .offset(x:0,y:self.offset)
                     .onTapGesture {
@@ -72,7 +75,7 @@ struct ChartTimeDistribution: View {
                 if(self.pickerIsPresented){
                     Picker("", selection: self.$timePicker, content: {
                         ForEach(self.timePickerOptions,id:\.self){ i in
-                            Text(i).foregroundColor(self.textColor)
+                            Text(i).foregroundColor(self.model.textColor)
                         }
                         
                         

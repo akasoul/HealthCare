@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 class ChartUserInfoModel: ObservableObject{
     @Published var descriptions: [String] = [
         Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
@@ -16,6 +16,11 @@ class ChartUserInfoModel: ObservableObject{
     ]
 
     @Published var values: [String]=[]
+    @Published var titleColor=Color.blue
+    @Published var textColor = Color.blue
+    @Published var title: String=""
+    @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
+
     
     func setup(){
         self.values=[]

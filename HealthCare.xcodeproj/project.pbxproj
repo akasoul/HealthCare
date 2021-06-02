@@ -45,8 +45,8 @@
 		31DE439C26453133007A2D91 /* langEN.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31DE439B26453133007A2D91 /* langEN.strings */; };
 		31DE439F264531FC007A2D91 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE439E264531FC007A2D91 /* Localization.swift */; };
 		31DE43A226456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */; };
-		31DE43A92646EEBB007A2D91 /* ChartTimeDistributionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */; };
-		31DE43AA2646EEBB007A2D91 /* ChartTimeDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */; };
+		31DE43A92646EEBB007A2D91 /* ChartDistributionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A72646EC1B007A2D91 /* ChartDistributionModel.swift */; };
+		31DE43AA2646EEBB007A2D91 /* ChartDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43A62646EC1B007A2D91 /* ChartDistribution.swift */; };
 		31DE43AD2647DC4C007A2D91 /* mpd500_0905.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */; };
 		31EA1436265E4AA8000FB45C /* ChartUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA1433265E4076000FB45C /* ChartUserInfo.swift */; };
 		31EA1438265E4AAB000FB45C /* ChartUserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EA1434265E4079000FB45C /* ChartUserInfoModel.swift */; };
@@ -58,6 +58,7 @@
 		31ED56D626413C9800828A5B /* ChartHistogramModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56D526413C9800828A5B /* ChartHistogramModel.swift */; };
 		31ED56D926413CD600828A5B /* ChartScaterogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56D826413CD600828A5B /* ChartScaterogram.swift */; };
 		31ED56DC26413CE200828A5B /* ChartScaterogramModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */; };
+		31F022F52666396300F3C54C /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = 31F022F42666396300F3C54C /* Notes */; };
 		31FD6FC12657B2E3009D5957 /* healthModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31FD6FC02657B2E3009D5957 /* healthModel.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -103,8 +104,8 @@
 		31DE439B26453133007A2D91 /* langEN.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = langEN.strings; sourceTree = "<group>"; };
 		31DE439E264531FC007A2D91 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		31DE43A126456A63007A2D91 /* modelPeaksDetectionScaling.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetectionScaling.mlmodel; sourceTree = "<group>"; };
-		31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimeDistribution.swift; sourceTree = "<group>"; };
-		31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimeDistributionModel.swift; sourceTree = "<group>"; };
+		31DE43A62646EC1B007A2D91 /* ChartDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDistribution.swift; sourceTree = "<group>"; };
+		31DE43A72646EC1B007A2D91 /* ChartDistributionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDistributionModel.swift; sourceTree = "<group>"; };
 		31DE43AC2647DC4C007A2D91 /* mpd500_0905.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mpd500_0905.mlmodel; sourceTree = "<group>"; };
 		31EA1433265E4076000FB45C /* ChartUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUserInfo.swift; sourceTree = "<group>"; };
 		31EA1434265E4079000FB45C /* ChartUserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUserInfoModel.swift; sourceTree = "<group>"; };
@@ -116,6 +117,9 @@
 		31ED56D526413C9800828A5B /* ChartHistogramModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartHistogramModel.swift; sourceTree = "<group>"; };
 		31ED56D826413CD600828A5B /* ChartScaterogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartScaterogram.swift; sourceTree = "<group>"; };
 		31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartScaterogramModel.swift; sourceTree = "<group>"; };
+		31F022F42666396300F3C54C /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		31FC7F38266772B3008922EC /* ChartValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartValues.swift; sourceTree = "<group>"; };
+		31FC7F39266772B6008922EC /* ChartValuesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartValuesModel.swift; sourceTree = "<group>"; };
 		31FD6FC02657B2E3009D5957 /* healthModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = healthModel.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -214,6 +218,7 @@
 				315ED3C62632C21000BE453C /* Math.swift */,
 				312E5C682631FDA0005F9B40 /* Info.plist */,
 				312E5C652631FDA0005F9B40 /* Preview Content */,
+				31F022F42666396300F3C54C /* Notes */,
 			);
 			path = HealthCare;
 			sourceTree = "<group>";
@@ -252,7 +257,8 @@
 				31ED56C3263FE51900828A5B /* ChartBase.swift */,
 				31EA1432265E4057000FB45C /* ChartUserInfo */,
 				311AB0B426595B8C00966717 /* ChartRecordInfo */,
-				31DE43A52646EBA0007A2D91 /* ChartTimeDistribution */,
+				31DE43A52646EBA0007A2D91 /* ChartDistribution */,
+				31FC7F3726677288008922EC /* ChartValues */,
 				315ED3D02632E54000BE453C /* ChartEcg */,
 				31ED56C826402B9500828A5B /* ChartScaterogram */,
 				31ED56C726402B8800828A5B /* ChartHistogram */,
@@ -299,13 +305,13 @@
 			path = Languages;
 			sourceTree = "<group>";
 		};
-		31DE43A52646EBA0007A2D91 /* ChartTimeDistribution */ = {
+		31DE43A52646EBA0007A2D91 /* ChartDistribution */ = {
 			isa = PBXGroup;
 			children = (
-				31DE43A62646EC1B007A2D91 /* ChartTimeDistribution.swift */,
-				31DE43A72646EC1B007A2D91 /* ChartTimeDistributionModel.swift */,
+				31DE43A62646EC1B007A2D91 /* ChartDistribution.swift */,
+				31DE43A72646EC1B007A2D91 /* ChartDistributionModel.swift */,
 			);
-			path = ChartTimeDistribution;
+			path = ChartDistribution;
 			sourceTree = "<group>";
 		};
 		31EA1432265E4057000FB45C /* ChartUserInfo */ = {
@@ -342,6 +348,15 @@
 				31ED56DB26413CE200828A5B /* ChartScaterogramModel.swift */,
 			);
 			path = ChartScaterogram;
+			sourceTree = "<group>";
+		};
+		31FC7F3726677288008922EC /* ChartValues */ = {
+			isa = PBXGroup;
+			children = (
+				31FC7F38266772B3008922EC /* ChartValues.swift */,
+				31FC7F39266772B6008922EC /* ChartValuesModel.swift */,
+			);
+			path = ChartValues;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				312E5C672631FDA0005F9B40 /* Preview Assets.xcassets in Resources */,
+				31F022F52666396300F3C54C /* Notes in Resources */,
 				31DE439826453127007A2D91 /* langRU.strings in Resources */,
 				312E5C642631FDA0005F9B40 /* Assets.xcassets in Resources */,
 				31DE439C26453133007A2D91 /* langEN.strings in Resources */,
@@ -448,7 +464,7 @@
 				315ED3C12632C02500BE453C /* Grid.swift in Sources */,
 				315ED3C42632C03700BE453C /* Offset.swift in Sources */,
 				31ED56D926413CD600828A5B /* ChartScaterogram.swift in Sources */,
-				31DE43AA2646EEBB007A2D91 /* ChartTimeDistribution.swift in Sources */,
+				31DE43AA2646EEBB007A2D91 /* ChartDistribution.swift in Sources */,
 				31EA1436265E4AA8000FB45C /* ChartUserInfo.swift in Sources */,
 				3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */,
 				310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */,
@@ -460,7 +476,7 @@
 				312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */,
 				3161A4F32634746C00F2D4B1 /* TabSelectionView.swift in Sources */,
 				31ED56C4263FE51900828A5B /* ChartBase.swift in Sources */,
-				31DE43A92646EEBB007A2D91 /* ChartTimeDistributionModel.swift in Sources */,
+				31DE43A92646EEBB007A2D91 /* ChartDistributionModel.swift in Sources */,
 				3148600326498B51006AB0D6 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

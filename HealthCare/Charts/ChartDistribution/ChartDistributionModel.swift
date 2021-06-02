@@ -8,21 +8,23 @@
 import Foundation
 import CoreGraphics
 import UIKit
+import SwiftUI
 
-class ChartTimeDistributionModel: ObservableObject{
-    struct Wrapped{
+
+class ChartDistributionModel: ObservableObject{
+    struct ChartImages{
         var img: UIImage?
         var imgAxisX: UIImage?
         var imgAxisY: UIImage?
     }
-    @Published var daily = Wrapped()
-    @Published var weekly = Wrapped()
+    @Published var daily = ChartImages()
+    @Published var weekly = ChartImages()
     
-    @Published var imgDaily: UIImage?
-    @Published var imgWeekly: UIImage?
-    @Published var imgAxisXDaily: UIImage?
-    @Published var imgAxisYDaily: UIImage?
-    
+    @Published var titleColor=Color.blue
+    @Published var textColor = Color.blue
+    @Published var title: String=""
+    @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
+
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 30
     var axisHeight: CGFloat = 20
@@ -36,10 +38,14 @@ class ChartTimeDistributionModel: ObservableObject{
     var colors=[UIColor.red,UIColor.yellow,UIColor.green,UIColor.blue]
     var gridColor = UIColor.gray.withAlphaComponent(0.3)
     let gridSize:CGFloat=0.5
-    let circleRadius: CGFloat=10
+    let circleRadius: CGFloat=5
     
     init() {
         
+    }
+    
+    func setTitle(_ title: String){
+        self.title=title
     }
     
     func setColors(axisColor: UIColor,gridColor: UIColor?=nil,colors: [UIColor]?=nil){
@@ -145,24 +151,24 @@ class ChartTimeDistributionModel: ObservableObject{
             
             let xMarksCount = 12
             let xMarksStrings=[
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_1"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_2"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_3"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_4"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_5"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_6"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_7"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_8"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_9"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_10"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_11"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_HOUR_12"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_1"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_2"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_3"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_4"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_5"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_6"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_7"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_8"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_9"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_10"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_11"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_HOUR_12"),
             ]
             
             let yMarksCount = 5
             let yMarksStartValue:CGFloat=0
             let yMarksEndValue:CGFloat=100
-            let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_TIMEDISTRIBUTION_Y_MARKS_FORMAT"))
+            let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"))
             
             //axis x
             do{
@@ -276,19 +282,19 @@ class ChartTimeDistributionModel: ObservableObject{
             
             let xMarksCount = 7
             let xMarksStrings=[
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_1"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_2"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_3"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_4"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_5"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_6"),
-                Localization.getString("IDS_CHART_TIMEDISTRIBUTION_DAY_7")
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_1"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_2"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_3"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_4"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_5"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_6"),
+                Localization.getString("IDS_CHART_DISTRIBUTION_DAY_7")
             ]
             
             let yMarksCount = 5
             let yMarksStartValue:CGFloat=0
             let yMarksEndValue:CGFloat=100
-            let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_TIMEDISTRIBUTION_Y_MARKS_FORMAT"))
+            let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"))
             
             //axis x
             do{

@@ -18,9 +18,6 @@ struct ChartRecordInfo: View {
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
-    let title: String
-    var titleColor=Color.blue
-    var textColor = Color.blue
     
     
     init(descriptions:[String]?=nil,values:[String]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)){
@@ -29,7 +26,6 @@ struct ChartRecordInfo: View {
         self.values=values
         self.backgroundColor=backgroundColor
         
-        self.title=Localization.getString("IDS_CHART_RECORDINFO_NAME")
         
         
         if(self.values != nil && self.descriptions != nil){
@@ -38,10 +34,16 @@ struct ChartRecordInfo: View {
         
     }
     
-    mutating func setColors(titleColor: Color,textColor: Color){
-        self.titleColor=titleColor
-        self.textColor=textColor
+    func setColors(titleColor: Color,textColor: Color,backgroundColor: Color = UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
+        self.model.titleColor=titleColor
+        self.model.textColor=textColor
+        self.model.backgroundColor=backgroundColor
+  }
+    
+    func setTitle(_ title: String){
+        self.model.title=title
     }
+
 
     func setup(descriptions:[String],values:[String]){
         self.model.setup(descriptions: descriptions,values: values)
@@ -51,14 +53,14 @@ struct ChartRecordInfo: View {
         GeometryReader{ g in
             Group{
                 
-                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
+                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
                 Group{
                     GeometryReader{ g2 in
                         VStack{
                             ForEach(self.model.descriptions,id:\.self){i in
                                 Text(i)
                                     .frame(width:g2.size.width,alignment:.topLeading)
-                                    .foregroundColor(self.textColor)
+                                    .foregroundColor(self.model.textColor)
                             }
                         }
                         .frame(width:g2.size.width,height:g2.size.height,alignment:.leading)
@@ -66,7 +68,7 @@ struct ChartRecordInfo: View {
                             ForEach(self.model.values,id:\.self){i in
                                 Text(i)
                                     .frame(width:g2.size.width,alignment:.topTrailing)
-                                    .foregroundColor(self.textColor)
+                                    .foregroundColor(self.model.textColor)
                             }
                         }
                         .frame(width:g2.size.width,height:g2.size.height,alignment:.trailing)

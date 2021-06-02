@@ -21,8 +21,6 @@ struct ChartEcg: View {
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    let title: String
-    var titleColor = Color.blue
     var lineColor: UIColor
     init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,lineColor: UIColor=UIColor.blue,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
@@ -32,26 +30,30 @@ struct ChartEcg: View {
         self.backgroundColor=backgroundColor
         self.lineColor=lineColor
         if(self.miniature){
-            self.title=""
             self.offset=0
         }
         else{
-            self.title=Localization.getString("IDS_CHART_ECG_NAME")
         }
         
         if(self.data != nil && self.marks != nil){
             self.model.setup(data: self.data!, marks: self.marks!)
         }
         
-        self.model.setColors(lineColor: self.lineColor,axisColor: UIColor.blue)
+        self.model.setColors(lineColor: self.lineColor,axisColor: UIColor.blue,backgroundColor: self.backgroundColor)
         
     }
     
-    mutating func setColors(titleColor: Color,lineColor: UIColor,marksColor: UIColor,axisColor: UIColor){
-        self.titleColor=titleColor
+    func setColors(titleColor: Color,lineColor: UIColor,marksColor: UIColor,axisColor: UIColor,backgroundColor: Color=UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
+        self.model.titleColor=titleColor
+        self.model.backgroundColor=backgroundColor
         self.model.setColors(lineColor:lineColor,marksColor:marksColor,axisColor:axisColor)
     }
     
+    func setTitle(_ title: String){
+        self.model.title=title
+    }
+
+
     func setup(data: [Double],marks: [Double],duration: Double?=nil){
         self.model.setup(data: data, marks: marks,duration: duration)
     }
@@ -59,8 +61,8 @@ struct ChartEcg: View {
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
-                
+                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
+
                 if(!self.miniature){
                 Image(uiImage: self.model.imgAxisX ?? UIImage())
                     .frame(width: g.size.width-5*self.offset,height: self.model.axisHeight,alignment:.leading)

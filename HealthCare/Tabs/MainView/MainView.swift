@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @ObservedObject var model = MainViewModel()
     var chartUserInfo=ChartUserInfo()
-    var chartTimeDistribution=ChartTimeDistribution()
+    var chartTimeDistribution=ChartDistribution()
     let offset:CGFloat=10
     let colors: Colors
     
@@ -26,11 +26,11 @@ struct MainView: View {
                 ScrollView{
                     VStack{
                         
-                        self.chartUserInfo
-                            .frame(width: g.size.width-2*self.offset, height: 160)
-                            .onAppear(perform: {
-                                self.chartUserInfo.setup()
-                            })
+//                        self.chartUserInfo
+//                            .frame(width: g.size.width-2*self.offset, height: 160)
+//                            .onAppear(perform: {
+//                                self.chartUserInfo.setup()
+//                            })
                         
                         self.chartTimeDistribution
                             .frame(width: g.size.width-2*self.offset, height: 200)

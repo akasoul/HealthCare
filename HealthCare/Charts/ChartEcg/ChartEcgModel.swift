@@ -8,17 +8,24 @@
 import Foundation
 import CoreGraphics
 import UIKit
+import SwiftUI
 
 class ChartEcgModel: ObservableObject{
     
-    @Published var img: UIImage?{
-        didSet{
-            try? self.img?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/Ecg.png"))
-        }
-    }
+    @Published var img: UIImage?
+//    {
+//        didSet{
+//            try? self.img?.pngData()?.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Documents/Ecg.png"))
+//        }
+//    }
+    
     @Published var imgAxisX: UIImage?
     @Published var imgAxisY: UIImage?
-    
+    @Published var titleColor=Color.blue
+    @Published var textColor = Color.blue
+    @Published var title: String=""
+    @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
+
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
@@ -51,10 +58,11 @@ class ChartEcgModel: ObservableObject{
         self.update()
     }
     
-    func setColors(lineColor: UIColor,marksColor: UIColor=UIColor.red,axisColor: UIColor){
+    func setColors(lineColor: UIColor,marksColor: UIColor=UIColor.red,axisColor: UIColor,backgroundColor:Color=UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
         self.lineColor=lineColor
         self.marksColor=marksColor
         self.axisColor=axisColor
+        self.backgroundColor=backgroundColor
     }
     func setup(data: [Double],marks:[Double],duration: Double?=nil){
         self.data=data

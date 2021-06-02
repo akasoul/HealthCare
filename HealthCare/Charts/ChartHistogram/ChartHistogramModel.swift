@@ -7,12 +7,17 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 class ChartHistogramModel: ObservableObject{
     @Published var img: UIImage?
     @Published var imgAxisX: UIImage?
     @Published var imgAxisY: UIImage?
-    
+    @Published var titleColor=Color.blue
+    @Published var textColor = Color.blue
+    @Published var title: String=""
+    @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
+
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20

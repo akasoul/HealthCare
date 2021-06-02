@@ -19,8 +19,6 @@ struct ChartHistogram: View {
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    let title: String
-    var titleColor = Color.blue
     
     init(data:[Double]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2),miniature: Bool=false){
         self.data=data
@@ -28,11 +26,7 @@ struct ChartHistogram: View {
         self.backgroundColor=backgroundColor
         
         if(self.miniature){
-            self.title=""
             self.offset=0
-        }
-        else{
-            self.title=Localization.getString("IDS_CHART_HISTOGRAM_NAME")
         }
         
         if(self.data != nil && self.frequency != nil){
@@ -41,8 +35,9 @@ struct ChartHistogram: View {
         self.model.setColors(topColor: UIColor.blue,bottomColor: UIColor.blue.withAlphaComponent(0.3),axisColor: UIColor.blue)
     }
     
-    mutating func setColors(titleColor: Color,topColor: UIColor,bottomColor: UIColor,axisColor: UIColor){
-        self.titleColor=titleColor
+    func setColors(titleColor: Color,topColor: UIColor,bottomColor: UIColor,axisColor: UIColor,backgroundColor: Color = UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
+        self.model.titleColor=titleColor
+        self.model.backgroundColor=backgroundColor
         self.model.setColors(topColor: topColor,bottomColor: bottomColor,axisColor: axisColor)
     }
     
@@ -50,11 +45,16 @@ struct ChartHistogram: View {
         self.model.setup(data: data,frequency: frequency)
     }
     
+    func setTitle(_ title: String){
+        self.model.title=title
+    }
+
+
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.title,textColor: self.titleColor,backgroundColor:self.backgroundColor)
-                
+                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
+
                 Image(uiImage: self.model.img ?? UIImage())
                     .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
                 

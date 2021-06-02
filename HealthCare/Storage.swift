@@ -255,11 +255,9 @@ extension Storage{
         var ecg:[Double]=[]
         var marks:[Double]=[]
         var rrs:[Double]=[]
-        var duration: Double = 0
-        var frequency: Double = 0
-        var date: String=""
         var heartRate: Double = 0
         var health: Double = 0
+        var hrvIndex: Double = 0
         static func ==(lhs:CalculatedData,rhs:CalculatedData)->Bool{
             return lhs.marks == rhs.marks
         }
@@ -306,7 +304,7 @@ extension Storage{
                 String(calendar.component(.day, from: date)) +
                 String(calendar.component(.hour, from: date)) +
                 String(calendar.component(.minute, from: date)) +
-                String(calendar.component(.second, from: date))+"/"
+                String(calendar.component(.second, from: date))
             
                         DispatchQueue.global().async{
                         let calculations=Calculations()
@@ -314,6 +312,11 @@ extension Storage{
                             tmp.ecg=self.ecgData
                             tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
                             tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
+                            
+                            let path="/Users/antonvoloshuk/Desktop/RRs/"+self.path+".txt"
+                            print(try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path)))
+                            print(self.path)
+                            tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
                             tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
                             self.calculatedData=tmp
                         }
