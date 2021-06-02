@@ -34,6 +34,7 @@ struct RecordsNavigationView: View {
                         }
                     }
                 }
+                .frame(width: g.size.width,height: g.size.height)
                 .mask(Rectangle())
                 //.mask(Rectangle().fill(LinearGradient(gradient: Gradient(colors: [.clear,.black,.black,.clear]), startPoint: UnitPoint.top, endPoint: .bottom)).edgesIgnoringSafeArea(.all))
                 .background(BackgroundView())

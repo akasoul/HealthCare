@@ -10,17 +10,30 @@ import CoreML
 import HealthKit
 import Combine
 
-class Storage: RecordStorage{
+protocol RecordStorageListener: class{
+    func receive(record: Storage.Record)
+}
+
+class Storage: RecordStorage,ObservableObject{
     func recordIsReady(record: Record) {
-        self.publisher.send(record)
+        //self.publisher.send(record)
+        //print("send: \(record.date)")
+
     }
     
     static var shared=Storage()
     var publisher=PassthroughSubject<Storage.Record,Never>()
-    
+    var publisherArr=PassthroughSubject<[Storage.Record],Never>()
     private var finished = false
-    var all: [Record]=[]
+    @Published var all: [Record]=[]{
+        didSet{
+            self.all.publisher.sink(receiveValue: { i in
+                self.publisher.send(i)
+            })
+        }
+    }
     var userInfo: UserInfo?
+    var loaded = false
     private let healthStore = HKHealthStore()
     private let ecgType = HKObjectType.electrocardiogramType()
     private let heightType=HKObjectType.quantityType(forIdentifier: .height)
@@ -29,11 +42,11 @@ class Storage: RecordStorage{
     
     
     private func getAll(){
-        if(healthStore.authorizationStatus(for: ecgType) == .sharingDenied){
+            if(self.healthStore.authorizationStatus(for: self.ecgType) == .sharingDenied){
             var queryIsFinished:[Bool]=[]
             var expectedCount=0
             
-            let ecgQuery = HKSampleQuery(sampleType: ecgType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
+                let ecgQuery = HKSampleQuery(sampleType: self.ecgType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
                 if let error = error {
                     fatalError("*** An error occurred \(error.localizedDescription) ***")
                 }
@@ -74,6 +87,10 @@ class Storage: RecordStorage{
                                 self.all.append(record)
                             }
                             queryIsFinished.append(true)
+                            
+                        @unknown default:
+                            print("@")
+
                         }
                     }
                     self.healthStore.execute(query)
@@ -90,7 +107,7 @@ class Storage: RecordStorage{
             while(queryIsFinished.count != expectedCount){
                 usleep(100)
             }
-            
+            self.loaded = true
             let appFolder = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask)[0].appendingPathComponent("test").absoluteString
             
             if !FileManager.default.fileExists(atPath: appFolder){
@@ -106,6 +123,25 @@ class Storage: RecordStorage{
             
         }
         
+    }
+    
+    func requestCalculatedRecords(_ subscriber: RecordSubscriber){
+        self.publisher.subscribe(subscriber)
+            print("requested")
+        while(!self.loaded){
+            sleep(1)
+            print("wait")
+        }
+        for i in 0..<self.all.count{
+            while(self.all[i].calculatedData == nil){
+                print("wait calc")
+                sleep(100)
+            }
+            self.publisher.send(self.all[i])
+            print("send: \(all[i].date)")
+
+        }
+
     }
     
     func getUserInfo(){
@@ -265,7 +301,6 @@ extension Storage{
     }
     
     class Record: Hashable,Equatable{
-        var publisher = PassthroughSubject<Record,Never>()
         weak var storage: RecordStorage?
         static func ==(lhs:Record,rhs:Record)->Bool{
             return lhs.ecgData==rhs.ecgData && lhs.calculatedData?.health==rhs.calculatedData?.health
@@ -285,7 +320,6 @@ extension Storage{
         var calculatedData: CalculatedData?{
             didSet{
                 self.storage?.recordIsReady(record: self)
-                publisher.send(self)
             }
         }
         
@@ -314,11 +348,12 @@ extension Storage{
                             tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
                             
                             let path="/Users/antonvoloshuk/Desktop/RRs/"+self.path+".txt"
-                            print(try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path)))
-                            print(self.path)
+                            //try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path))
+                            
                             tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
                             tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
                             self.calculatedData=tmp
+                            print("calculations are finished")
                         }
             
         }
