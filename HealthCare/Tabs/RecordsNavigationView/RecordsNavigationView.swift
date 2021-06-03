@@ -27,7 +27,7 @@ struct RecordsNavigationView: View {
             NavigationView{
                 ScrollView{
                     VStack{
-                        ForEach(self.model.storage.all, id: \.self){ i in
+                        ForEach(self.model.records, id: \.self){ i in
                             NavigationLink(destination: DetailView(record: i,colors: self.colors)){
                                 NavigationItemView(data: i,ecgLineColor: self.colors.navViewEcgLineColor, titleColor: self.colors.navViewItemTitleColor,textColor: self.colors.navViewItemTextColor).frame(width:g.size.width,height:150)
                             }

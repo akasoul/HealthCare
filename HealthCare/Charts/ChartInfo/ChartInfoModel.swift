@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
 
-class ChartValuesModel: ObservableObject{
+class ChartInfoModel: ObservableObject{
     @Published var descriptions: [String]=[]
     @Published var values: [String]=[]
     @Published var titleColor=Color.blue

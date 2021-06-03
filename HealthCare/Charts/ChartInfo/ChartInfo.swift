@@ -11,27 +11,19 @@ import SwiftUI
 import Combine
 
 
-struct ChartValues: View {
-    @ObservedObject var model = ChartValuesModel()
-    var descriptions: [String]?
-    var values: [String]?
-    let backgroundColor: Color
+struct ChartInfo: View {
+    @ObservedObject var model = ChartInfoModel()
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
-    var titleColor=Color.blue
-    var textColor = Color.blue
     
     
     init(descriptions:[String]?=nil,values:[String]?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)){
         
-        self.descriptions=descriptions
-        self.values=values
-        self.backgroundColor=backgroundColor
         
         
         
-        if(self.values != nil && self.descriptions != nil){
-            self.setup(descriptions:self.descriptions!,values:self.values!)
+        if(values != nil && descriptions != nil){
+            self.setup(descriptions:descriptions!,values:values!)
         }
         
     }
@@ -62,7 +54,7 @@ struct ChartValues: View {
                             ForEach(self.model.descriptions,id:\.self){i in
                                 Text(i)
                                     .frame(width:g2.size.width,alignment:.topLeading)
-                                    .foregroundColor(self.textColor)
+                                    .foregroundColor(self.model.textColor)
                             }
                         }
                         .frame(width:g2.size.width,height:g2.size.height,alignment:.leading)
@@ -70,7 +62,7 @@ struct ChartValues: View {
                             ForEach(self.model.values,id:\.self){i in
                                 Text(i)
                                     .frame(width:g2.size.width,alignment:.topTrailing)
-                                    .foregroundColor(self.textColor)
+                                    .foregroundColor(self.model.textColor)
                             }
                         }
                         .frame(width:g2.size.width,height:g2.size.height,alignment:.trailing)

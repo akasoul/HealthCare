@@ -10,30 +10,19 @@ import CoreML
 import HealthKit
 import Combine
 
-protocol RecordStorageListener: class{
-    func receive(record: Storage.Record)
-}
 
-class Storage: RecordStorage,ObservableObject{
-    func recordIsReady(record: Record) {
-        //self.publisher.send(record)
-        //print("send: \(record.date)")
 
-    }
-    
+class Storage: ObservableObject{
     static var shared=Storage()
-    var publisher=PassthroughSubject<Storage.Record,Never>()
-    var publisherArr=PassthroughSubject<[Storage.Record],Never>()
-    private var finished = false
-    @Published var all: [Record]=[]{
+
+    @Published var all: [Record]=[]
+    @Published var userInfo: UserInfo?{
         didSet{
-            self.all.publisher.sink(receiveValue: { i in
-                self.publisher.send(i)
-            })
+            print("sending user info")
+            self.objectWillChange.send()
         }
     }
-    var userInfo: UserInfo?
-    var loaded = false
+    
     private let healthStore = HKHealthStore()
     private let ecgType = HKObjectType.electrocardiogramType()
     private let heightType=HKObjectType.quantityType(forIdentifier: .height)
@@ -41,12 +30,12 @@ class Storage: RecordStorage,ObservableObject{
     private let genderType=HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)
     
     
-    private func getAll(){
-            if(self.healthStore.authorizationStatus(for: self.ecgType) == .sharingDenied){
+    private func getRecords(){
+        if(self.healthStore.authorizationStatus(for: self.ecgType) == .sharingDenied){
             var queryIsFinished:[Bool]=[]
             var expectedCount=0
             
-                let ecgQuery = HKSampleQuery(sampleType: self.ecgType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
+            let ecgQuery = HKSampleQuery(sampleType: self.ecgType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil){ (query, samples, error) in
                 if let error = error {
                     fatalError("*** An error occurred \(error.localizedDescription) ***")
                 }
@@ -90,7 +79,7 @@ class Storage: RecordStorage,ObservableObject{
                             
                         @unknown default:
                             print("@")
-
+                            
                         }
                     }
                     self.healthStore.execute(query)
@@ -107,42 +96,16 @@ class Storage: RecordStorage,ObservableObject{
             while(queryIsFinished.count != expectedCount){
                 usleep(100)
             }
-            self.loaded = true
             let appFolder = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask)[0].appendingPathComponent("test").absoluteString
             
             if !FileManager.default.fileExists(atPath: appFolder){
                 FileManager.default.createFile(atPath: appFolder, contents: nil, attributes: [:])
             }
             
-            //            guard let tmp = self.all
-            //            else{ return nil }
-            //            for i in 0..<tmp.count{
-            //                let str = tmp[i].ecgData.map({ String($0) }).joined(separator: " ")
-            //                try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/\(i+1).txt"))
-            //            }
-            
         }
         
     }
     
-    func requestCalculatedRecords(_ subscriber: RecordSubscriber){
-        self.publisher.subscribe(subscriber)
-            print("requested")
-        while(!self.loaded){
-            sleep(1)
-            print("wait")
-        }
-        for i in 0..<self.all.count{
-            while(self.all[i].calculatedData == nil){
-                print("wait calc")
-                sleep(100)
-            }
-            self.publisher.send(self.all[i])
-            print("send: \(all[i].date)")
-
-        }
-
-    }
     
     func getUserInfo(){
         
@@ -232,78 +195,31 @@ class Storage: RecordStorage,ObservableObject{
     }
     
     private init() {
-        
-        
         self.healthStore.requestAuthorization(toShare: nil, read: [ecgType,heightType!,weightType!,genderType!]) { (success, error) in
             if success {
                 print("HealthKit Auth successful")
                 DispatchQueue.global().async {
-                    self.getAll()
+                    self.getUserInfo()
+                    self.getRecords()
                 }
             } else {
                 print("HealthKit Auth Error")
             }
         }
-        self.getUserInfo()
     }
     
     
 }
 
-protocol RecordStorage: class{
-    func recordIsReady(record: Storage.Record)
-}
+
 
 
 extension Storage{
-    
-    class RecordSubscriber: Subscriber{
         
-        var receiveClosure: ((Record)->Void)?
-        
-        func setReceiveClosure(closure: @escaping (Record)->Void){
-            self.receiveClosure=closure
-        }
-        
-        func receive(subscription: Subscription) {
-            subscription.request(.unlimited)
-        }
-        
-        func receive(_ input: Storage.Record) -> Subscribers.Demand {
-            self.receiveClosure?(input)
-            return .unlimited
-        }
-        
-        func receive(completion: Subscribers.Completion<Never>) {
-            
-        }
-        
-        typealias Input = Record
-        typealias Failure = Never
-        
-        
-    }
-    
-    class CalculatedData: Equatable,Hashable{
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(self.health)
-        }
-        var ecg:[Double]=[]
-        var marks:[Double]=[]
-        var rrs:[Double]=[]
-        var heartRate: Double = 0
-        var health: Double = 0
-        var hrvIndex: Double = 0
-        static func ==(lhs:CalculatedData,rhs:CalculatedData)->Bool{
-            return lhs.marks == rhs.marks
-        }
-        
-    }
-    
     class Record: Hashable,Equatable{
-        weak var storage: RecordStorage?
+        weak var storage: Storage?
         static func ==(lhs:Record,rhs:Record)->Bool{
-            return lhs.ecgData==rhs.ecgData && lhs.calculatedData?.health==rhs.calculatedData?.health
+            return lhs.ecgData==rhs.ecgData && lhs.calculatedData?.health==rhs.calculatedData?.health && lhs.date == rhs.date
         }
         func hash(into hasher: inout Hasher) {
             hasher.combine(self.calculatedData?.marks)
@@ -319,11 +235,12 @@ extension Storage{
         var comment: String?
         var calculatedData: CalculatedData?{
             didSet{
-                self.storage?.recordIsReady(record: self)
+                print("sending calculated data")
+                self.storage?.objectWillChange.send()
             }
         }
         
-        init(date: Date, ecgData: [Double], heartRate: Double, symptomsStatus: HKElectrocardiogram.SymptomsStatus?, classification: HKElectrocardiogram.Classification?, samplingFrequency: Double?,duration: Double,storage: RecordStorage?=nil){
+        init(date: Date, ecgData: [Double], heartRate: Double, symptomsStatus: HKElectrocardiogram.SymptomsStatus?, classification: HKElectrocardiogram.Classification?, samplingFrequency: Double?,duration: Double,storage: Storage?=nil){
             self.date=date
             self.ecgData=ecgData
             self.heartRate=heartRate
@@ -340,24 +257,42 @@ extension Storage{
                 String(calendar.component(.minute, from: date)) +
                 String(calendar.component(.second, from: date))
             
-                        DispatchQueue.global().async{
-                        let calculations=Calculations()
-                            let tmp = CalculatedData()
-                            tmp.ecg=self.ecgData
-                            tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
-                            tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
-                            
-                            let path="/Users/antonvoloshuk/Desktop/RRs/"+self.path+".txt"
-                            //try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path))
-                            
-                            tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
-                            tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
-                            self.calculatedData=tmp
-                            print("calculations are finished")
-                        }
+            DispatchQueue.global().async{
+                let calculations=Calculations()
+                var tmp = CalculatedData()
+                tmp.ecg=self.ecgData
+                tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
+                tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
+                
+                //let path="/Users/antonvoloshuk/Desktop/RRs/"+self.path+".txt"
+                //try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path))
+                
+                tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
+                tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
+                self.calculatedData=tmp
+            }
             
         }
     }
+    
+    struct CalculatedData: Equatable,Hashable{
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.health)
+        }
+        var ecg:[Double]=[]
+        var marks:[Double]=[]
+        var rrs:[Double]=[]
+        var heartRate: Double = 0
+        var health: Double = 0
+        var hrvIndex: Double = 0
+        static func ==(lhs:CalculatedData,rhs:CalculatedData)->Bool{
+            return lhs.marks == rhs.marks
+        }
+        
+    }
+    
+
+    
     struct UserInfo{
         let dateOfBirth: Date
         let height: Double
@@ -365,3 +300,6 @@ extension Storage{
         let gender: String
     }
 }
+
+
+

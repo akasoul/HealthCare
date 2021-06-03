@@ -33,12 +33,9 @@ struct ChartDistribution: View {
         self.miniature=miniature
         
         if(self.miniature){
-            self.model.title=""
             self.offset=0
         }
-        else{
-            self.model.title=Localization.getString("IDS_CHART_DISTRIBUTION_NAME")
-        }
+
         if(self.dates != nil && values != nil){
             self.model.setup(dates: self.dates!, values: self.values!)
         }
@@ -48,6 +45,9 @@ struct ChartDistribution: View {
         self.model.title=title
     }
 
+    func setYAxisMarks(minValue: Double,maxValue: Double){
+        self.model.setYAxisMarks(minValue: minValue, maxValue: maxValue)
+    }
 
     func setup(dates: [Date],values: [Double]){
         self.model.setup(dates: dates, values: values)

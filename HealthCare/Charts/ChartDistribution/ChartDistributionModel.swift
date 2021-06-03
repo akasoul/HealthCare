@@ -30,6 +30,9 @@ class ChartDistributionModel: ObservableObject{
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
     
+    var axisYMin: CGFloat?
+    var axisYMax: CGFloat?
+    
     var height: CGFloat?
     var width: CGFloat?
     var data: [Storage.Record]?
@@ -54,6 +57,11 @@ class ChartDistributionModel: ObservableObject{
         self.colors = colors ?? self.colors
     }
     
+    func setYAxisMarks(minValue: Double,maxValue: Double){
+        self.axisYMin = CGFloat(minValue)
+        self.axisYMax = CGFloat(maxValue)
+    }
+
     private func getColor(value: Double)->UIColor{
         if(value<25){
             return self.colors[0]
@@ -87,7 +95,9 @@ class ChartDistributionModel: ObservableObject{
               let height=self.height,
               let width=self.width,
               let dates=self.dates,
-              let values=self.values
+              let values=self.values,
+            let ymin=self.axisYMin,
+            let ymax=self.axisYMax
         else{ return }
         
         let calendar=Calendar.current
@@ -166,8 +176,8 @@ class ChartDistributionModel: ObservableObject{
             ]
             
             let yMarksCount = 5
-            let yMarksStartValue:CGFloat=0
-            let yMarksEndValue:CGFloat=100
+            let yMarksStartValue:CGFloat=ymin
+            let yMarksEndValue:CGFloat=ymax
             let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"))
             
             //axis x
@@ -292,8 +302,8 @@ class ChartDistributionModel: ObservableObject{
             ]
             
             let yMarksCount = 5
-            let yMarksStartValue:CGFloat=0
-            let yMarksEndValue:CGFloat=100
+            let yMarksStartValue:CGFloat=ymin
+            let yMarksEndValue:CGFloat=ymax
             let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"))
             
             //axis x

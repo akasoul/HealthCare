@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct DetailView: View {
-    var chartInfo=ChartRecordInfo()
+    var chartInfo=ChartInfo()
     var chartEcg=ChartEcg()
     var chartScat=ChartScaterogram()
     var chartHisto=ChartHistogram()

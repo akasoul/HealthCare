@@ -13,29 +13,40 @@ class MainViewModel: ObservableObject{
     
     
     @Published var storage = Storage.shared
-    var subscribers=[Storage.RecordSubscriber]()
-    var subscriber=Storage.RecordSubscriber()
     @Published var records = [Storage.Record]()
+    @Published var info: Storage.UserInfo?
     private var cancellables = Set<AnyCancellable>()
-   init() {
-//        self.storage.objectWillChange.sink { _ in
+    init() {
+        self.storage.objectWillChange.sink { _ in
+//            DispatchQueue.main.async{
 //            self.objectWillChange.send()
-//            print("change")
-//        }
-//        .store(in: &cancellables)
-//        self.subscriber.setReceiveClosure(closure: self.handler(input:))
-////        self.storage.all.publisher.subscribe(self.subscriber)
-//        self.storage.requestCalculatedRecords(self.subscriber)
-////        var list = Storage.shared.all
+//            }
+
+            for i in 0..<self.storage.all.count{
+                if(self.storage.all[i].calculatedData != nil){
+                    if(!self.records.contains(self.storage.all[i])){
+                        //                            sleep(UInt32.random(in: 1...3))
+                        DispatchQueue.main.async{
+                            self.records.append(self.storage.all[i])
+                        }
+                    }
+                }
+            }
+
+            if(self.storage.userInfo != nil){
+                DispatchQueue.main.async{
+                self.info=self.storage.userInfo
+                }
+            }
+            //            DispatchQueue.main.async{
+//            self.records=self.storage.all
+//            }
+        
+            print("updating view model")
+        }
+        .store(in: &cancellables)
     }
     
-    func handler(input: Storage.Record){
-        
-        DispatchQueue.main.async{
-        self.records.append(input)
-            print("@received: \(input.date)")
-        }
-    }
 }
 
 
