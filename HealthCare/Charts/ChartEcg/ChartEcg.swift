@@ -61,8 +61,10 @@ struct ChartEcg: View {
     var body: some View{
         GeometryReader{ g in
             Group{
+                if(!self.miniature){
                 ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
-
+                }
+                
                 if(!self.miniature){
                 Image(uiImage: self.model.imgAxisX ?? UIImage())
                     .frame(width: g.size.width-5*self.offset,height: self.model.axisHeight,alignment:.leading)

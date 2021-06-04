@@ -23,14 +23,14 @@ class NavigationViewModel: ObservableObject{
 //            }
 
             for i in 0..<self.storage.all.count{
-                if(self.storage.all[i].calculatedData != nil){
+                //if(self.storage.all[i].calculatedData != nil){
                     if(!self.records.contains(self.storage.all[i])){
                         //                            sleep(UInt32.random(in: 1...3))
                         DispatchQueue.main.async{
                             self.records.append(self.storage.all[i])
                         }
                     }
-                }
+                //}
             }
 
             //            DispatchQueue.main.async{

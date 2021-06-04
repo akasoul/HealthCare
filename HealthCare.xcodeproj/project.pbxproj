@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		31004C2F263BDD000073F8FB /* modelPeaksDetection3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31004C2E263BDD000073F8FB /* modelPeaksDetection3.mlmodel */; };
 		310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */; };
+		311A7A0C266A2CFA0058ADFF /* NavigationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311A7A0B266A2CFA0058ADFF /* NavigationItemViewModel.swift */; };
 		3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */; };
 		312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */; };
 		312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C612631FDA0005F9B40 /* DetailView.swift */; };
@@ -63,6 +64,7 @@
 /* Begin PBXFileReference section */
 		31004C2E263BDD000073F8FB /* modelPeaksDetection3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection3.mlmodel; sourceTree = "<group>"; };
 		310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection4.mlmodel; sourceTree = "<group>"; };
+		311A7A0B266A2CFA0058ADFF /* NavigationItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemViewModel.swift; sourceTree = "<group>"; };
 		3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelTest.mlmodel; sourceTree = "<group>"; };
 		312E5C5C2631FDA0005F9B40 /* HealthCare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthCare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCareApp.swift; sourceTree = "<group>"; };
@@ -169,6 +171,15 @@
 			path = "Neural networks";
 			sourceTree = "<group>";
 		};
+		311A7A0A266A2CB00058ADFF /* NavigationItemView */ = {
+			isa = PBXGroup;
+			children = (
+				31DBAC42263DB22900F55CDE /* NavigationItemView.swift */,
+				311A7A0B266A2CFA0058ADFF /* NavigationItemViewModel.swift */,
+			);
+			path = NavigationItemView;
+			sourceTree = "<group>";
+		};
 		312E5C532631FDA0005F9B40 = {
 			isa = PBXGroup;
 			children = (
@@ -263,8 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				3161A4FA2634796900F2D4B1 /* RecordsNavigationView.swift */,
-				31DBAC42263DB22900F55CDE /* NavigationItemView.swift */,
 				31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */,
+				311A7A0A266A2CB00058ADFF /* NavigationItemView */,
 				31004C32263BE1290073F8FB /* DetailView */,
 			);
 			path = RecordsNavigationView;
@@ -428,6 +439,7 @@
 				3161A4EF2633504E00F2D4B1 /* Calculations.swift in Sources */,
 				31ED56DC26413CE200828A5B /* ChartScaterogramModel.swift in Sources */,
 				31DE43932643DF97007A2D91 /* modelPeaksDetection5.mlmodel in Sources */,
+				311A7A0C266A2CFA0058ADFF /* NavigationItemViewModel.swift in Sources */,
 				312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */,
 				31004C2F263BDD000073F8FB /* modelPeaksDetection3.mlmodel in Sources */,
 				31722B14263ADB65007AE1B9 /* Storage.swift in Sources */,
