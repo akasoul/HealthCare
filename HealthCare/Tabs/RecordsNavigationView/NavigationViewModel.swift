@@ -37,7 +37,6 @@ class NavigationViewModel: ObservableObject{
 //            self.records=self.storage.all
 //            }
         
-            print("updating view model")
         }
         .store(in: &cancellables)
     }

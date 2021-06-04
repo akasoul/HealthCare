@@ -20,21 +20,23 @@ struct RecordsNavigationView: View {
         UINavigationBar.appearance().isTranslucent = true
         UINavigationBar.appearance().backIndicatorImage=UIImage()
         UINavigationBar.appearance().tintColor = colors.tintColor
+        
     }
     
     var body: some View {
         GeometryReader{ g in
+            if(self.model.records.count>0){
             NavigationView{
                 ScrollView{
                     VStack{
-                        ForEach(self.model.records, id: \.self){ i in
+                        ForEach(self.model.records, id: \.self.date){ i in
                             NavigationLink(destination: DetailView(record: i,colors: self.colors)){
                                 NavigationItemView(data: i,ecgLineColor: self.colors.navViewEcgLineColor, titleColor: self.colors.navViewItemTitleColor,textColor: self.colors.navViewItemTextColor).frame(width:g.size.width,height:150)
                             }
                         }
                     }
                 }
-                .frame(width: g.size.width,height: g.size.height)
+                //.frame(width: g.size.width,height: g.size.height)
                 .mask(Rectangle())
                 //.mask(Rectangle().fill(LinearGradient(gradient: Gradient(colors: [.clear,.black,.black,.clear]), startPoint: UnitPoint.top, endPoint: .bottom)).edgesIgnoringSafeArea(.all))
                 .background(BackgroundView())
@@ -42,7 +44,10 @@ struct RecordsNavigationView: View {
             }
             .navigationBarHidden(true)
             .statusBar(hidden: true)
-            
+            }
+            else{
+                BackgroundView()
+            }
         }
     }
 }

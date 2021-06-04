@@ -44,7 +44,7 @@ class ChartRhythmogram2Model: ObservableObject{
         self.bottomColor=bottomColor
         self.axisColor=axisColor
     }
-    func setup(data: [Double],frequency: Double){
+    func setData(data: [Double],frequency: Double){
         self.data=data
         self.frequency=frequency
         self.update()

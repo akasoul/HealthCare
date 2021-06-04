@@ -18,7 +18,6 @@ class Storage: ObservableObject{
     @Published var all: [Record]=[]
     @Published var userInfo: UserInfo?{
         didSet{
-            print("sending user info")
             self.objectWillChange.send()
         }
     }
@@ -235,7 +234,6 @@ extension Storage{
         var comment: String?
         var calculatedData: CalculatedData?{
             didSet{
-                print("sending calculated data")
                 self.storage?.objectWillChange.send()
             }
         }

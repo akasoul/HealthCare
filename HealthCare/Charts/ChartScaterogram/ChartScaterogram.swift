@@ -31,7 +31,7 @@ struct ChartScaterogram: View {
         }
         
         if(self.data != nil && self.frequency != nil){
-            self.setup(data: self.data!,frequency: self.frequency!)
+            self.setData(data: self.data!,frequency: self.frequency!)
         }
         self.model.setColors(fillColor: UIColor.blue,axisColor: UIColor.blue)
         
@@ -43,8 +43,8 @@ struct ChartScaterogram: View {
         self.model.setColors(fillColor: fillColor,axisColor: axisColor)
     }
 
-    func setup(data: [Double],frequency: Double){
-        self.model.setup(data: data,frequency: frequency)
+    func setData(data: [Double],frequency: Double){
+        self.model.setData(data: data,frequency: frequency)
     }
     
     func setTitle(_ title: String){

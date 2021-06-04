@@ -19,7 +19,7 @@ struct MainView: View {
         self.chartUserInfo.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, backgroundColor: self.colors.globalItemBackground.color)
         self.chartTimeDistribution.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, axisColor: self.colors.mainViewChartAxisColor)
         
-        self.chartTimeDistribution.setYAxisMarks(minValue: 0, maxValue: 100)
+        self.chartTimeDistribution.setupAxisY(minValue: 50, maxValue: 100)
     }
     var body: some View {
         GeometryReader{ g in
@@ -31,7 +31,7 @@ struct MainView: View {
                         self.chartUserInfo
                             .frame(width: g.size.width-2*self.offset, height: 160)
                             .onAppear(perform: {
-                                self.chartUserInfo.setup(descriptions: [
+                                self.chartUserInfo.setData(descriptions: [
                                     Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
                                     Localization.getString("IDS_CHART_USERINFO_GENDER"),
                                     Localization.getString("IDS_CHART_USERINFO_HEIGHT"),
@@ -54,7 +54,7 @@ struct MainView: View {
                                 values.append(String(userInfo.height))
                                 values.append(String(userInfo.weight))
                                 
-                                self.chartUserInfo.setup(descriptions: [
+                                self.chartUserInfo.setData(descriptions: [
                                     Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
                                     Localization.getString("IDS_CHART_USERINFO_GENDER"),
                                     Localization.getString("IDS_CHART_USERINFO_HEIGHT"),
@@ -67,10 +67,9 @@ struct MainView: View {
                         self.chartTimeDistribution
                             .frame(width: g.size.width-2*self.offset, height: 200)
                             .onReceive(self.model.$records, perform: { i in
-                                print("view received new data")
                                 let dates =  i.compactMap({ $0.date })
                                 let values = i.compactMap({ $0.calculatedData?.health})
-                                self.chartTimeDistribution.setup(dates: dates,values: values)
+                                self.chartTimeDistribution.setData(dates: dates,values: values)
                             })
                            
                     }.frame(width:g.size.width,alignment:.leading)

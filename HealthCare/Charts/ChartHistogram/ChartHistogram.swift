@@ -30,7 +30,7 @@ struct ChartHistogram: View {
         }
         
         if(self.data != nil && self.frequency != nil){
-            self.model.setup(data: self.data!,frequency: self.frequency!)
+            self.model.setData(data: self.data!,frequency: self.frequency!)
         }
         self.model.setColors(topColor: UIColor.blue,bottomColor: UIColor.blue.withAlphaComponent(0.3),axisColor: UIColor.blue)
     }
@@ -41,8 +41,8 @@ struct ChartHistogram: View {
         self.model.setColors(topColor: topColor,bottomColor: bottomColor,axisColor: axisColor)
     }
     
-    func setup(data: [Double],frequency: Double){
-        self.model.setup(data: data,frequency: frequency)
+    func setData(data: [Double],frequency: Double){
+        self.model.setData(data: data,frequency: frequency)
     }
     
     func setTitle(_ title: String){

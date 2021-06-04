@@ -45,11 +45,11 @@ struct ChartDistribution: View {
         self.model.title=title
     }
 
-    func setYAxisMarks(minValue: Double,maxValue: Double){
+    func setupAxisY(minValue: Double,maxValue: Double){
         self.model.setYAxisMarks(minValue: minValue, maxValue: maxValue)
     }
 
-    func setup(dates: [Date],values: [Double]){
+    func setData(dates: [Date],values: [Double]){
         self.model.setup(dates: dates, values: values)
     }
     

@@ -36,7 +36,7 @@ struct ChartEcg: View {
         }
         
         if(self.data != nil && self.marks != nil){
-            self.model.setup(data: self.data!, marks: self.marks!)
+            self.model.setData(data: self.data!, marks: self.marks!)
         }
         
         self.model.setColors(lineColor: self.lineColor,axisColor: UIColor.blue,backgroundColor: self.backgroundColor)
@@ -54,8 +54,8 @@ struct ChartEcg: View {
     }
 
 
-    func setup(data: [Double],marks: [Double],duration: Double?=nil){
-        self.model.setup(data: data, marks: marks,duration: duration)
+    func setData(data: [Double],marks: [Double],duration: Double?=nil){
+        self.model.setData(data: data, marks: marks,duration: duration)
     }
     
     var body: some View{
@@ -115,6 +115,7 @@ struct ChartEcg: View {
                 else{
                     self.model.setSize(height: 0.75*g.size.height,width: g.size.width)
                 }
+                print(self.miniature)
             })
             
             

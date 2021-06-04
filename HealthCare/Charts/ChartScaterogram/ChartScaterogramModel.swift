@@ -44,7 +44,7 @@ class ChartScaterogramModel: ObservableObject{
         self.update()
     }
     
-    func setup(data: [Double],frequency: Double){
+    func setData(data: [Double],frequency: Double){
         self.data=data
         self.frequency=frequency
         self.update()

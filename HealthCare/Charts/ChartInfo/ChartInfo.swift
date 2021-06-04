@@ -23,7 +23,7 @@ struct ChartInfo: View {
         
         
         if(values != nil && descriptions != nil){
-            self.setup(descriptions:descriptions!,values:values!)
+            self.setData(descriptions:descriptions!,values:values!)
         }
         
     }
@@ -34,7 +34,7 @@ struct ChartInfo: View {
         self.model.backgroundColor=backgroundColor
    }
 
-    func setup(descriptions:[String],values:[String]){
+    func setData(descriptions:[String],values:[String]){
         self.model.setup(descriptions: descriptions,values: values)
     }
     

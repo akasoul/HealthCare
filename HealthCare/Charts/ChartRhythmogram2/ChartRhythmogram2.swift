@@ -27,13 +27,13 @@ struct ChartRhythmogram2: View {
         }
 
         if(data != nil && frequency != nil){
-            self.model.setup(data: data!,frequency: frequency!)
+            self.model.setData(data: data!,frequency: frequency!)
         }
         self.model.setColors(topColor: UIColor.blue,bottomColor: UIColor.blue.withAlphaComponent(0.3),axisColor:UIColor.blue)
     }
     
-    func setup(data: [Double],frequency: Double){
-        self.model.setup(data: data,frequency: frequency)
+    func setData(data: [Double],frequency: Double){
+        self.model.setData(data: data,frequency: frequency)
     }
     
     func setTitle(_ title: String){

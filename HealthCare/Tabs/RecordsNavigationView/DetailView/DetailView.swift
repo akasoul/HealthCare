@@ -92,11 +92,11 @@ struct DetailView: View {
             self.model.setRecord(self.record)
         })
         .onReceive(self.model.$recentEcgData2, perform: { i in
-            self.chartEcg.setup(data: i.data,marks: i.marks,duration: i.duration)
-            self.chartScat.setup(data: i.rrs,frequency: i.frequency)
-            self.chartHisto.setup(data: i.rrs,frequency: i.frequency)
-            self.chartRhythmogram.setup(data: i.rrs,frequency: i.frequency)
-            self.chartInfo.setup(descriptions:[
+            self.chartEcg.setData(data: i.data,marks: i.marks,duration: i.duration)
+            self.chartScat.setData(data: i.rrs,frequency: i.frequency)
+            self.chartHisto.setData(data: i.rrs,frequency: i.frequency)
+            self.chartRhythmogram.setData(data: i.rrs,frequency: i.frequency)
+            self.chartInfo.setData(descriptions:[
                 Localization.getString("IDS_CHART_INFO_DATE"),
                 Localization.getString("IDS_CHART_INFO_DURATION"),
                 Localization.getString("IDS_CHART_INFO_HEARTRATE"),
