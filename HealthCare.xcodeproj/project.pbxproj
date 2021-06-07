@@ -11,6 +11,7 @@
 		310D525A263C9205004321D9 /* modelPeaksDetection4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */; };
 		311A7A0C266A2CFA0058ADFF /* NavigationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311A7A0B266A2CFA0058ADFF /* NavigationItemViewModel.swift */; };
 		3125BF8026386F3D00F8D270 /* modelTest.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */; };
+		3129E17F266CC55B007DB92D /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3129E17E266CC55B007DB92D /* SwiftUIView.swift */; };
 		312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */; };
 		312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E5C612631FDA0005F9B40 /* DetailView.swift */; };
 		312E5C642631FDA0005F9B40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 312E5C632631FDA0005F9B40 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		310D5259263C9205004321D9 /* modelPeaksDetection4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelPeaksDetection4.mlmodel; sourceTree = "<group>"; };
 		311A7A0B266A2CFA0058ADFF /* NavigationItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemViewModel.swift; sourceTree = "<group>"; };
 		3125BF7F26386F3D00F8D270 /* modelTest.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = modelTest.mlmodel; sourceTree = "<group>"; };
+		3129E17E266CC55B007DB92D /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		312E5C5C2631FDA0005F9B40 /* HealthCare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthCare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCareApp.swift; sourceTree = "<group>"; };
 		312E5C612631FDA0005F9B40 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				31722B13263ADB65007AE1B9 /* Storage.swift */,
 				3161A4EE2633504E00F2D4B1 /* Calculations.swift */,
 				312E5C5F2631FDA0005F9B40 /* HealthCareApp.swift */,
+				3129E17E266CC55B007DB92D /* SwiftUIView.swift */,
 				3149274E2660B6A900140408 /* Tabs */,
 				315ED3CF2632E53100BE453C /* Charts */,
 				31DE4395264530C9007A2D91 /* Localization */,
@@ -429,6 +432,7 @@
 				31DBAC47263DEC1100F55CDE /* BackgroundView.swift in Sources */,
 				31EA143B265E860D000FB45C /* healthModel2605.mlmodel in Sources */,
 				312E5C702631FDBB005F9B40 /* DetailViewModel.swift in Sources */,
+				3129E17F266CC55B007DB92D /* SwiftUIView.swift in Sources */,
 				31ED56CC264069F600828A5B /* ChartRhythmogram2.swift in Sources */,
 				315ED3CA2632C52100BE453C /* Colors.swift in Sources */,
 				315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */,

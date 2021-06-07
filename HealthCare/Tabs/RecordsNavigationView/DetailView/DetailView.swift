@@ -36,6 +36,12 @@ struct DetailView: View {
         self.chartScat.setColors(titleColor: self.colors.detViewChartTitleColor.color, fillColor: self.colors.detViewChartScatFillColor, axisColor: self.colors.detViewChartAxisColor)
         self.chartRhythmogram.setColors(titleColor: self.colors.detViewChartTitleColor.color, topColor: self.colors.detViewChartRhythmogramTopColor, bottomColor: self.colors.detViewChartRhythmogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
         self.chartHisto.setColors(titleColor:self.colors.detViewChartTitleColor.color,topColor: self.colors.detViewChartHistogramTopColor, bottomColor: self.colors.detViewChartHistogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
+        
+        self.chartInfo.setTitle(Localization.getString("IDS_CHART_RECORDINFO_TITLE"))
+        self.chartEcg.setTitle(Localization.getString("IDS_CHART_ECG_TITLE"))
+        self.chartScat.setTitle(Localization.getString("IDS_CHART_SCATEROGRAM_TITLE"))
+        self.chartRhythmogram.setTitle(Localization.getString("IDS_CHART_RHYTHMOGRAM_TITLE"))
+        self.chartHisto.setTitle(Localization.getString("IDS_CHART_HISTOGRAM_TITLE"))
     }
     
     var magnification: some Gesture {
@@ -100,13 +106,13 @@ struct DetailView: View {
                 Localization.getString("IDS_CHART_INFO_DATE"),
                 Localization.getString("IDS_CHART_INFO_DURATION"),
                 Localization.getString("IDS_CHART_INFO_HEARTRATE"),
-                Localization.getString("IDS_CHART_INFO_HEALTH")
+                Localization.getString("IDS_PARAMETER_HRVINDEX_NAME")
             ],
             values: [
                 i.date,
                 String(i.duration),
                 String(i.heartRate),
-                String(i.health)
+                String(i.hrvIndex)
             ])
             if(i.marks.count>0){
             self.loaded=true

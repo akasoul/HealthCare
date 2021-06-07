@@ -11,7 +11,11 @@ import SwiftUI
 import Combine
 
 
-struct ChartInfo: View {
+struct ChartInfo: View{//}, Equatable {
+//    static func == (lhs: ChartInfo, rhs: ChartInfo) -> Bool {
+//        return lhs.model.values==rhs.model.values && lhs.model.descriptions==rhs.model.descriptions
+//    }
+    
     @ObservedObject var model = ChartInfoModel()
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20

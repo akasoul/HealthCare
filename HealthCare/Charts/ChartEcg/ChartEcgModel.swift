@@ -13,11 +13,7 @@ import SwiftUI
 class ChartEcgModel: ObservableObject{
     
     @Published var img: UIImage?
-    {
-        didSet{
-            print(self.img?.size)
-        }
-    }
+    
     
     @Published var imgAxisX: UIImage?
     @Published var imgAxisY: UIImage?
@@ -68,12 +64,10 @@ class ChartEcgModel: ObservableObject{
         self.data=data
         self.marks=marks
         self.duration=duration
-        print("EC:received \(data.count) values")
         self.update()
     }
     
     func update(){
-            print("EC:setup1")
             guard let data=self.data,
                   let marks=self.marks,
                   let lineColor=self.lineColor,
@@ -82,9 +76,8 @@ class ChartEcgModel: ObservableObject{
             guard var min = data.min(),
                   var max = data.max()
             else{ return }
-        print("EC:setup2")
 
-            
+            print("@")
             let dist = 0.1*(max-min)
             min -= dist
             max += dist

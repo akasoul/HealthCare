@@ -10,7 +10,11 @@ import SwiftUI
 import Combine
 import UIKit
 
-struct ChartEcg: View {
+struct ChartEcg: View,Equatable {
+    static func == (lhs: ChartEcg, rhs: ChartEcg) -> Bool {
+        return false//lhs.model.data == rhs.model.data
+    }
+    
     
     @State var delta: chartOffset = chartOffset(dy: 0, dx: 0)
     @ObservedObject var model = ChartEcgModel()
@@ -22,7 +26,7 @@ struct ChartEcg: View {
     var offset: CGFloat=20
     let miniature: Bool
     var lineColor: UIColor
-    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,lineColor: UIColor=UIColor.blue,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
+    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,titleColor: Color?=nil,marksColor:UIColor?=nil,lineColor: UIColor=UIColor.blue,axisColor:UIColor?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
         self.marks=marks
         self.duration=duration
@@ -35,11 +39,15 @@ struct ChartEcg: View {
         else{
         }
         
+        if(titleColor != nil && marksColor != nil && axisColor != nil){
+            self.model.titleColor = titleColor!
+            self.model.backgroundColor=backgroundColor
+            self.model.setColors(lineColor:lineColor,marksColor:marksColor!,axisColor:axisColor!)
+        }
         if(self.data != nil && self.marks != nil){
             self.model.setData(data: self.data!, marks: self.marks!)
         }
         
-        self.model.setColors(lineColor: self.lineColor,axisColor: UIColor.blue,backgroundColor: self.backgroundColor)
         
     }
     
@@ -117,7 +125,6 @@ struct ChartEcg: View {
                 else{
                     self.model.setSize(height: 0.75*g.size.height,width: g.size.width)
                 }
-                print(self.miniature)
             })
             
             

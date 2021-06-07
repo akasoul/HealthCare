@@ -95,13 +95,14 @@ class ChartDistributionModel: ObservableObject{
               let height=self.height,
               let width=self.width,
               let dates=self.dates,
-              let values=self.values,
+            var values=self.values,
             let ymin=self.axisYMin,
             let ymax=self.axisYMax
         else{ return }
         
         let calendar=Calendar.current
         
+        values = values.map({ $0 - Double(ymin) })
         
         //daily img
         do{

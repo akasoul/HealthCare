@@ -174,7 +174,7 @@ class Calculations{
     
     func getHrvIndex(_ rrs: [Double])->Double{
         var out:Double = 0
-        let divider: Double = 40
+        let divider: Double = 5
         var dict: [Int:Int] = [:]
         
         for i in 0..<rrs.count{

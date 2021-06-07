@@ -19,6 +19,7 @@ class DetailViewModel: ObservableObject{
                     self.marks=self.calculations.getEcgMarks(data: self.data)
                     self.rrs=self.calculations.getRRs(ecgMarks: self.marks)
                     self.health = self.calculations.getHealthValue(rrs: self.rrs)
+                    self.hrvIndex = self.calculations.getHrvIndex(self.rrs)
                 }
             }
         }
@@ -29,6 +30,7 @@ class DetailViewModel: ObservableObject{
         var date: String=""
         var heartRate: Double = 0
         var health: Double = 0
+        var hrvIndex: Double = 0
     }
     let dateFormatter=DateFormatter()
     let storage = Storage.shared

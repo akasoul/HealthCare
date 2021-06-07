@@ -10,5 +10,6 @@ import SwiftUI
 import UIKit
 
 class NavigationItemViewModel: ObservableObject{
+    @Published var data: Storage.Record?
     
 }
