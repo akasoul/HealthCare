@@ -77,8 +77,13 @@
 
 "IDS_CHART_COMMENT_TITLE"="Your comment:";
 
-"IDS_CHART_COMPARE_TITLE"="Survey compare";
 
 "IDS_PARAMETER_HRVINDEX_NAME"="Heart rate variablity";
 
 
+
+
+"IDS_CHART_COMPARE_TITLE"="Survey compare";
+"IDS_CHART_COMPARE_DATE"="Date";
+"IDS_CHART_COMPARE_HEARTRATE"="Heartrate";
+"IDS_CHART_COMPARE_HRVINDEX"="HRV Index";

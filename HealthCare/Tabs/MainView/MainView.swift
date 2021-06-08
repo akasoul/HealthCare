@@ -11,6 +11,7 @@ struct MainView: View {
     @ObservedObject var model = MainViewModel()
     var chartUserInfo=ChartInfo()
     var chartDistribution=ChartDistribution()
+    var chartCompare=ChartCompare()
     let offset:CGFloat=10
     let colors: Colors
     
@@ -18,11 +19,13 @@ struct MainView: View {
         self.colors=colors
         self.chartUserInfo.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, backgroundColor: self.colors.globalItemBackground.color)
         self.chartDistribution.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, axisColor: self.colors.mainViewChartAxisColor)
+        self.chartCompare.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color)
         
         self.chartDistribution.setupAxisY(minValue: 0, maxValue: 10)
         
         self.chartUserInfo.setTitle(Localization.getString("IDS_CHART_USERINFO_TITLE"))
         self.chartDistribution.setTitle(Localization.getString("IDS_CHART_DISTRIBUTION_TITLE"))
+        self.chartCompare.setTitle(Localization.getString("IDS_CHART_COMPARE_TITLE"))
     }
     var body: some View {
         GeometryReader{ g in
@@ -76,6 +79,9 @@ struct MainView: View {
                                 self.chartDistribution.setData(dates: dates,values: values)
                             })
                         
+                        self.chartCompare
+                            .frame(width: g.size.width-2*self.offset, height: 200)
+
                     }.frame(width:g.size.width,alignment:.leading)
                     .offset(x:self.offset)
                 }

@@ -39,7 +39,7 @@ struct ChartInfo: View{//}, Equatable {
    }
 
     func setData(descriptions:[String],values:[String]){
-        self.model.setup(descriptions: descriptions,values: values)
+        self.model.setData(descriptions: descriptions,values: values)
     }
     
     func setTitle(_ title: String){
