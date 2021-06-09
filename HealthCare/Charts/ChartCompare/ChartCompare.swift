@@ -19,6 +19,8 @@ struct ChartCompare: View {
     var offset: CGFloat=20
     let miniature: Bool
     
+    @State var clrLeft=Color.clear
+    @State var clrRight=Color.clear
     
     init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
@@ -64,28 +66,38 @@ struct ChartCompare: View {
                         }
                     }
                 }
-                    .border(Color.red)
                     .foregroundColor(self.model.textColor)
                     .frame(width:self.model.descriptionWidth, height: g.size.height-3*self.offset,alignment:.leading)
                     .offset(x: self.offset, y: 2*self.offset)
 
                 
                 Group{
-                    Color.clear.contentShape(Rectangle())
-                    HStack{
+                    Color.clear.contentShape(Rectangle()).frame(width:CGFloat(self.model.values.count)*self.model.recordWidth)
+                    HStack(spacing:0){
                         ForEach(self.model.values,id:\.self){ i in
                             VStack{
                                 Text(i[0])
                                 Text(i[1])
                                 Text(i[2])
                             }
+                            .background(
+                                RoundedRectangle(cornerRadius: self.cornerRadius)
+                                    .foregroundColor(
+                                        i == self.model.valLeft ? self.clrLeft : i == self.model.valRight ? self.clrRight : Color.clear
+                                    )
+                                    .frame(width:self.model.recordWidth-10,alignment:.center)
+                                    
+                            )
                             .foregroundColor(self.model.textColor)
                             .frame(width:self.model.recordWidth)
+                            .onAppear(perform:{
+                                print(i==self.model.valLeft)
+
+                            })
                         }
                         
                     }
                 }
-                .border(Color.red)
                 .frame(width: 2*self.model.recordWidth, height: g.size.height-3*self.offset,alignment:.leading)
                 .offset(x: self.delta.dx, y: self.delta.dy)
                 .clipped()
@@ -103,8 +115,15 @@ struct ChartCompare: View {
                             }
                         })
                         .onEnded({ value in
+                            let pos = Int((self.delta.dx-0.5*self.model.recordWidth)/(self.model.recordWidth))
+                            print(-pos)
                             withAnimation(.linear(duration:1)){
-                                self.delta.dx = CGFloat(Int(self.delta.dx/(self.model.recordWidth)))*self.model.recordWidth
+                                self.delta.dx = CGFloat(pos)*self.model.recordWidth
+                            }
+                            self.model.setPosition(-pos)
+ withAnimation(.linear(duration:1)){
+                                self.clrLeft=self.model.clrLeft
+                                self.clrRight=self.model.clrRight
                             }
                             self.delta.x=self.delta.dx
                             self.delta.y=self.delta.dy
@@ -122,9 +141,12 @@ struct ChartCompare: View {
                         arr.append([String(i),String(Int.random(in: 0..<20)),String(Int.random(in: 0..<20))])
                     }
                     self.model.values=arr
+                    self.model.setPosition(0)
+                    withAnimation(.linear(duration:1)){
+                        self.clrLeft=self.model.clrLeft
+                        self.clrRight=self.model.clrRight
+                    }
                 })
-                
-                
             }
             
         }
