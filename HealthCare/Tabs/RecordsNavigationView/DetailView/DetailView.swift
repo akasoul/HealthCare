@@ -106,16 +106,18 @@ struct DetailView: View {
                 Localization.getString("IDS_CHART_INFO_DATE"),
                 Localization.getString("IDS_CHART_INFO_DURATION"),
                 Localization.getString("IDS_CHART_INFO_HEARTRATE"),
-                Localization.getString("IDS_PARAMETER_HRVINDEX_NAME")
+                Localization.getString("IDS_PARAMETER_HRVINDEX_NAME"),
+                Localization.getString("IDS_CHART_INFO_RELIABILITY")
             ],
             values: [
                 i.date,
-                String(i.duration),
-                String(i.heartRate),
-                String(i.hrvIndex)
+                String(format:"%.1f",i.duration),
+                String(format:"%.1f",i.heartRate),
+                String(format:"%.3f",i.hrvIndex),
+                String(String(format:"%.0f",i.reliability)+"%")
             ])
             if(i.marks.count>0){
-            self.loaded=true
+                self.loaded=true
             }
         })
         

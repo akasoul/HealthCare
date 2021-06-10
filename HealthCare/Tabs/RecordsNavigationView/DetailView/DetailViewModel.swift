@@ -20,6 +20,8 @@ class DetailViewModel: ObservableObject{
                     self.rrs=self.calculations.getRRs(ecgMarks: self.marks)
                     self.health = self.calculations.getHealthValue(rrs: self.rrs)
                     self.hrvIndex = self.calculations.getHrvIndex(self.rrs)
+                    
+                    
                 }
             }
         }
@@ -28,9 +30,21 @@ class DetailViewModel: ObservableObject{
         var duration: Double = 0
         var frequency: Double = 0
         var date: String=""
-        var heartRate: Double = 0
+        var heartRate: Double = 0{
+            didSet{
+                let peaksMin=min(self.heartRate * self.duration/60, Double(self.rrs.count))
+                let peaksMax=max(self.heartRate * self.duration/60, Double(self.rrs.count))
+                self.reliability = 100*peaksMin/peaksMax
+                print(self.heartRate)
+                print(self.rrs.count)
+                print(self.heartRate * self.duration/60)
+
+
+            }
+        }
         var health: Double = 0
         var hrvIndex: Double = 0
+        var reliability: Double = 0
     }
     let dateFormatter=DateFormatter()
     let storage = Storage.shared
@@ -42,6 +56,9 @@ class DetailViewModel: ObservableObject{
                     for _ in 0..<100{
                         rrValues.append(Double.random(in: 400...450))
                     }
+                    
+                    
+                    
                     DispatchQueue.main.async{
                         self.recentEcgData2.data=self.record!.ecgData
                         self.recentEcgData2.duration=self.record!.duration

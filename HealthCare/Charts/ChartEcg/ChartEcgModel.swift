@@ -77,7 +77,6 @@ class ChartEcgModel: ObservableObject{
                   var max = data.max()
             else{ return }
 
-            print("@")
             let dist = 0.1*(max-min)
             min -= dist
             max += dist

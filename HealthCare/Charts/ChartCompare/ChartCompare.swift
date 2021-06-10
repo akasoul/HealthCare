@@ -41,8 +41,10 @@ struct ChartCompare: View {
     }
     
     
-    func setData(dates: [Date],values: [Double]){
+    func setData(data: [[String]]){
+//        self.model.values=data
         //self.model.setup(dates: dates, values: values)
+        self.model.setData(values: data)
     }
     
     func setColors(titleColor: Color,textColor: Color,backgroundColor: Color = UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
@@ -62,12 +64,12 @@ struct ChartCompare: View {
                     Color.clear.contentShape(Rectangle())
                     VStack{
                         ForEach(self.model.descriptions, id:\.self){ i in
-                            Text(i)
+                            Text(i).frame(width:self.model.descriptionWidth-10,height: self.model.stringHeight,alignment:.trailing)
                         }
                     }
                 }
                     .foregroundColor(self.model.textColor)
-                    .frame(width:self.model.descriptionWidth, height: g.size.height-3*self.offset,alignment:.leading)
+                    .frame(width:self.model.descriptionWidth, height: g.size.height-3*self.offset,alignment:.trailing)
                     .offset(x: self.offset, y: 2*self.offset)
 
                 
@@ -77,8 +79,17 @@ struct ChartCompare: View {
                         ForEach(self.model.values,id:\.self){ i in
                             VStack{
                                 Text(i[0])
+                                    .font(.system(size: 14))
+//                                    .fontWeight(.bold)
+                                    .frame(height: self.model.stringHeight)
                                 Text(i[1])
+                                    .font(.system(size: 14))
+//                                    .fontWeight(.bold)
+                                    .frame(height: self.model.stringHeight)
                                 Text(i[2])
+                                    .font(.system(size: 14))
+//                                    .fontWeight(.bold)
+                                    .frame(height: self.model.stringHeight)
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: self.cornerRadius)
@@ -130,21 +141,30 @@ struct ChartCompare: View {
                         })
                 )
                 .onAppear(perform:{
-                    self.model.setSize(width: g.size.width-2*self.offset)
+                    self.model.setSize(width: g.size.width-2*self.offset,height:g.size.height-3*self.offset)
                     self.model.setDescriptions(descriptions: [
                         Localization.getString("IDS_CHART_COMPARE_DATE"),
                         Localization.getString("IDS_CHART_COMPARE_HEARTRATE"),
                         Localization.getString("IDS_CHART_COMPARE_HRVINDEX")
                     ])
-                    var arr = [[String]]()
-                    for i in 0..<self.model.count{
-                        arr.append([String(i),String(Int.random(in: 0..<20)),String(Int.random(in: 0..<20))])
-                    }
-                    self.model.values=arr
-                    self.model.setPosition(0)
+//                    var arr = [[String]]()
+//                    for i in 0..<self.model.count{
+//                        arr.append([String(i),String(Int.random(in: 0..<20)),String(Int.random(in: 0..<20))])
+//                    }
+//                    self.model.values=arr
+                    //self.model.setPosition(0)
                     withAnimation(.linear(duration:1)){
                         self.clrLeft=self.model.clrLeft
                         self.clrRight=self.model.clrRight
+                    }
+                })
+                .onReceive(self.model.$values, perform: {i in
+                    if(i.count>0){
+                    //self.model.setPosition(0)
+                    withAnimation(.linear(duration:1)){
+                        self.clrLeft=self.model.clrLeft
+                        self.clrRight=self.model.clrRight
+                    }
                     }
                 })
             }

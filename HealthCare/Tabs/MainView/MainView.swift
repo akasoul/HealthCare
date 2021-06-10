@@ -52,14 +52,14 @@ struct MainView: View {
                                 if let userInfo = i{
                                     var values=[String]()
                                     let formatter = DateFormatter()
-                                    formatter.dateStyle = .short
+                                    formatter.dateStyle = .long
                                     formatter.timeStyle = .none
                                     let str = formatter.string(from: userInfo.dateOfBirth)
                                     values.append(str)
                                     
                                     values.append(userInfo.gender)
-                                    values.append(String(userInfo.height))
-                                    values.append(String(userInfo.weight))
+                                    values.append(String(format:"%.1f",userInfo.height))
+                                    values.append(String(format:"%.1f",userInfo.weight))
                                     
                                     self.chartUserInfo.setData(descriptions: [
                                         Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
@@ -81,7 +81,19 @@ struct MainView: View {
                         
                         self.chartCompare
                             .frame(width: g.size.width-2*self.offset, height: 200)
+                            .onReceive(self.model.$records, perform: { i in
+                                var arr = [[String]]()
+                                let formatter = DateFormatter()
+                                formatter.dateStyle = .short
+                                formatter.timeStyle = .short
+                                
+                                for j in 0..<i.count{
+                                    let str = formatter.string(from: i[j].date)
 
+                                    arr.append([str,String(i[j].heartRate),String(format:"%.3f",i[j].calculatedData?.hrvIndex ?? 0)])
+                                }
+                                self.chartCompare.setData(data: arr)
+                            })
                     }.frame(width:g.size.width,alignment:.leading)
                     .offset(x:self.offset)
                 }

@@ -28,7 +28,6 @@ class NavigationViewModel: ObservableObject{
                         //                            sleep(UInt32.random(in: 1...3))
                         DispatchQueue.main.async{
                             self.records.append(self.storage.all[i])
-                            print("update")
                         }
                     }
                 //}
