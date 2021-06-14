@@ -14,8 +14,11 @@ struct MainView: View {
     var chartCompare=ChartCompare()
     let offset:CGFloat=10
     let colors: Colors
-    
+    let barHeight: CGFloat
     init(colors: Colors) {
+        let bar = UINavigationBar()
+        self.barHeight=bar.frame.height
+        print(self.barHeight)
         self.colors=colors
         self.chartUserInfo.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, backgroundColor: self.colors.globalItemBackground.color)
         self.chartDistribution.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, axisColor: self.colors.mainViewChartAxisColor)
@@ -26,6 +29,8 @@ struct MainView: View {
         self.chartUserInfo.setTitle(Localization.getString("IDS_CHART_USERINFO_TITLE"))
         self.chartDistribution.setTitle(Localization.getString("IDS_CHART_DISTRIBUTION_TITLE"))
         self.chartCompare.setTitle(Localization.getString("IDS_CHART_COMPARE_TITLE"))
+        
+        self.chartCompare.setDetailViewColors(self.colors)
     }
     var body: some View {
         GeometryReader{ g in
@@ -36,7 +41,7 @@ struct MainView: View {
                         
                         self.chartUserInfo
                             //                            .equatable()
-                            .frame(width: g.size.width-2*self.offset, height: 160)
+                            .frame(width: g.size.width-2*self.offset, height: 120)
                             .onAppear(perform: {
                                 self.chartUserInfo.setData(descriptions: [
                                     Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
@@ -97,13 +102,15 @@ struct MainView: View {
                     }.frame(width:g.size.width,alignment:.leading)
                     .offset(x:self.offset)
                 }
+                .mask(Rectangle())
+                //.frame(width:g.size.width,height:g.size.height-g.safeAreaInsets.bottom,alignment: .top)
                 .navigationBarTitleDisplayMode(.inline)
                 .background(BackgroundView())
             }
             .navigationBarHidden(true)
             .statusBar(hidden: true)
             
-        }
+        }.frame(alignment:.top)
         
         
         

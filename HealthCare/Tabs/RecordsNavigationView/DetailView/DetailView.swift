@@ -15,7 +15,7 @@ struct DetailView: View {
     var chartScat=ChartScaterogram()
     var chartHisto=ChartHistogram()
     var chartRhythmogram=ChartRhythmogram2()
-    
+    var chartAttention=ChartInfo()
     let colors: Colors
     
     @ObservedObject var model =  DetailViewModel()
@@ -24,24 +24,32 @@ struct DetailView: View {
     @State var counter = 0
     let record: Storage.Record
     let offset:CGFloat=10
+    var offsetY:CGFloat=0
     var rrValues: [Double]=[]
     @State var loaded=false
     
-    init(record: Storage.Record,colors: Colors) {
+    init(record: Storage.Record,colors: Colors, useSpacer: Bool=false) {
         self.record=record
         self.colors=colors
-        
+        if(useSpacer){
+            self.offsetY=self.offset
+        }
         self.chartInfo.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color)
-        self.chartEcg.setColors(titleColor: self.colors.detViewChartTitleColor.color, lineColor: self.colors.detViewChartEcgLineColor,marksColor: self.colors.detViewChartEcgMarksColor, axisColor: self.colors.detViewChartAxisColor)
-        self.chartScat.setColors(titleColor: self.colors.detViewChartTitleColor.color, fillColor: self.colors.detViewChartScatFillColor, axisColor: self.colors.detViewChartAxisColor)
-        self.chartRhythmogram.setColors(titleColor: self.colors.detViewChartTitleColor.color, topColor: self.colors.detViewChartRhythmogramTopColor, bottomColor: self.colors.detViewChartRhythmogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
-        self.chartHisto.setColors(titleColor:self.colors.detViewChartTitleColor.color,topColor: self.colors.detViewChartHistogramTopColor, bottomColor: self.colors.detViewChartHistogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
+        self.chartAttention.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color)
+        self.chartEcg.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color, lineColor: self.colors.detViewChartEcgLineColor,marksColor: self.colors.detViewChartEcgMarksColor, axisColor: self.colors.detViewChartAxisColor)
+        self.chartScat.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color, fillColor: self.colors.detViewChartScatFillColor, axisColor: self.colors.detViewChartAxisColor)
+        self.chartRhythmogram.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color, topColor: self.colors.detViewChartRhythmogramTopColor, bottomColor: self.colors.detViewChartRhythmogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
+        self.chartHisto.setColors(titleColor:self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color,topColor: self.colors.detViewChartHistogramTopColor, bottomColor: self.colors.detViewChartHistogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
         
-        self.chartInfo.setTitle(Localization.getString("IDS_CHART_RECORDINFO_TITLE"))
+        self.chartInfo.setTitle(Localization.getString("IDS_CHART_INFO_TITLE"))
+        self.chartAttention.setTitle(Localization.getString("IDS_CHART_ATTENTION_TITLE"))
         self.chartEcg.setTitle(Localization.getString("IDS_CHART_ECG_TITLE"))
         self.chartScat.setTitle(Localization.getString("IDS_CHART_SCATEROGRAM_TITLE"))
         self.chartRhythmogram.setTitle(Localization.getString("IDS_CHART_RHYTHMOGRAM_TITLE"))
         self.chartHisto.setTitle(Localization.getString("IDS_CHART_HISTOGRAM_TITLE"))
+        
+        self.chartAttention.setAttention(Localization.getString("IDS_CHART_ATTENTION_TEXT"))
+
     }
     
     var magnification: some Gesture {
@@ -56,8 +64,14 @@ struct DetailView: View {
             if(self.loaded){
                 ScrollView{
                     VStack{
+                        Spacer().frame(height:self.offsetY)
                         self.chartInfo
-                            .frame(width: g.size.width-2*self.offset, height: 200)
+                            .frame(width: g.size.width-2*self.offset, height: 150)
+                        
+                        if(self.model.recentEcgData2.reliability<50){
+                        self.chartAttention
+                            .frame(width: g.size.width-2*self.offset, height: 150)
+                        }
                         
                         self.chartEcg
                             .frame(width: g.size.width-2*self.offset, height: 200)
@@ -106,7 +120,7 @@ struct DetailView: View {
                 Localization.getString("IDS_CHART_INFO_DATE"),
                 Localization.getString("IDS_CHART_INFO_DURATION"),
                 Localization.getString("IDS_CHART_INFO_HEARTRATE"),
-                Localization.getString("IDS_PARAMETER_HRVINDEX_NAME"),
+                Localization.getString("IDS_CHART_INFO_HRVINDEX"),
                 Localization.getString("IDS_CHART_INFO_RELIABILITY")
             ],
             values: [

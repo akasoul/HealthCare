@@ -15,9 +15,12 @@ class ChartInfoModel: ObservableObject{
     @Published var textColor = Color.blue
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
-
+    @Published var attention: String=""
     func setData(descriptions: [String],values: [String]){
         self.descriptions=descriptions
         self.values=values
+    }
+    func setAttention(_ text: String){
+        self.attention=text
     }
 }

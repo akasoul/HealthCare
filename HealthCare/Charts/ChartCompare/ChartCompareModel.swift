@@ -16,6 +16,7 @@ class ChartCompareModel: ObservableObject {
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     @Published var width: CGFloat=0
+    var colors: Colors?
     var chartWidth: CGFloat=0
     var chartHeight: CGFloat=0
     @Published var descriptions = [String]()
@@ -27,6 +28,7 @@ class ChartCompareModel: ObservableObject {
     @Published var clrLeft: Color = .clear
     @Published var clrRight: Color = .clear
     @Published var stringHeight: CGFloat=0
+    @Published var selectedRecord: Storage.Record?
     var clrBad=Color.red.opacity(0.3)
     var clrGood=Color.green.opacity(0.3)
     var clrDefault=Color.yellow.opacity(0.3)
@@ -40,6 +42,9 @@ class ChartCompareModel: ObservableObject {
         self.setPosition(0)
     }
     
+    func setColors(_ colors: Colors){
+        self.colors=colors
+    }
     func setDescriptions(descriptions: [String]){
         self.descriptions=descriptions
         self.updateSize()
@@ -49,6 +54,21 @@ class ChartCompareModel: ObservableObject {
         self.chartWidth=width
         self.chartHeight=height
         self.updateSize()
+    }
+    
+    func findRecordByDate(_ date: String)->Storage.Record?{
+        let storage=Storage.shared
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        
+        for i in 0..<storage.all.count{
+            let str = formatter.string(from: storage.all[i].date)
+            if(str==date){
+                return storage.all[i]
+            }
+        }
+        return nil
     }
     
     func updateSize(){

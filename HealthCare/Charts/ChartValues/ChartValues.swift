@@ -10,23 +10,22 @@ import SwiftUI
 import Combine
 
 
-struct ChartDistribution: View {
+struct ChartValues: View {
     
-    @ObservedObject var model = ChartDistributionModel()
+    @ObservedObject var model = ChartValuesModel()
     @State var pickerIsPresented = false
     @State var timePicker: String = Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY")
     let timePickerOptions=[
         Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY"),
         Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_WEEKLY")
     ]
-    let textHelp=Localization.getString("IDS_CHART_DISTRIBUTION_HELP")
     var dates: [Date]?
     var values: [Double]?
     var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    @State var showHelp: Bool=false
+    
     
     init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
@@ -61,19 +60,13 @@ struct ChartDistribution: View {
         self.model.setColors(axisColor: axisColor,gridColor: gridColor,colors: colors)
     }
 
-    func help(){
-        self.showHelp = self.showHelp == true ? false : true
-    }
-
     var body: some View{
         GeometryReader{ g in
             Group{
-                ChartBase(text: self.model.title,textColor: self.model.titleColor,showHelpButton: true,showHelpButtonColor: self.model.textColor,showHelpButtonAction: self.help, backgroundColor:self.model.backgroundColor)
-                if(!self.showHelp){
+                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
                 Text( (self.pickerIsPresented ? "↓ " : "↑ ") + self.timePicker)
-                    .font(.system(size: 12))
                     .foregroundColor(self.model.textColor)
-                    .frame(width:g.size.width-2*self.offset,alignment: .trailing)
+                    .frame(width:g.size.width-self.offset,alignment: .trailing)
                     .offset(x:0,y:self.offset)
                     .onTapGesture {
                         self.pickerIsPresented = self.pickerIsPresented ? false : true
@@ -82,9 +75,7 @@ struct ChartDistribution: View {
                 if(self.pickerIsPresented){
                     Picker("", selection: self.$timePicker, content: {
                         ForEach(self.timePickerOptions,id:\.self){ i in
-                            Text(i)
-                                .font(.system(size: 12))
-                                .foregroundColor(self.model.textColor)
+                            Text(i).foregroundColor(self.model.textColor)
                         }
                         
                         
@@ -118,14 +109,6 @@ struct ChartDistribution: View {
                         Image(uiImage: self.model.weekly.imgAxisY ?? UIImage())
                             .offset(x: self.offset, y: 3*self.offset)
                     }
-                }
-            }
-                else{
-                    Text(self.textHelp)
-                        .font(.system(size: 12))
-                        .frame(width:g.size.width-2*self.offset,alignment: .leading)
-                        .offset(x:self.offset,y:2.5*self.offset)
-                        .foregroundColor(self.model.textColor)
                 }
             }.onAppear(perform: {
                 self.model.setSize(height: 0.65*g.size.height, width: g.size.width-2*self.offset)

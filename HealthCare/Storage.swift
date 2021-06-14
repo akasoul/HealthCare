@@ -134,7 +134,9 @@ class Storage: ObservableObject{
                     fetched = true
                     return
                 }
+                if(allSamples.count>0){
                 height = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .centimeter))
+                }
                 fetched=true
             }
             self.healthStore.execute(heightQuery)
@@ -162,8 +164,10 @@ class Storage: ObservableObject{
                     fetched=true
                     return
                 }
+                if(allSamples.count>0){
                 weight = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .kilogram))
-                fetched=true
+                }
+                    fetched=true
             }
             self.healthStore.execute(heighQuery)
             while(!fetched){

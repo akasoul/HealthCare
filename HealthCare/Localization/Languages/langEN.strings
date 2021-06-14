@@ -8,38 +8,40 @@
 
 
 "IDS_CHART_ECG_TITLE"="Electrocardiogram";
-"IDS_CHART_SCATEROGRAM_TITLE"="Scaterogram";
-"IDS_CHART_RHYTHMOGRAM_TITLE"="Rhythmogram";
-"IDS_CHART_HISTOGRAM_TITLE"="Histogram";
-"IDS_CHART_DISTRIBUTION_TITLE"="Records distribution";
-"IDS_CHART_RECORDINFO_TITLE"="Information";
-
-"IDS_CHART_DISTRIBUTION_PICKER_DAILY"="Daily";
-"IDS_CHART_DISTRIBUTION_PICKER_WEEKLY"="Weekly";
-
-
 "IDS_CHART_ECG_X_MARKS_FORMAT" = "%.0fs";
 "IDS_CHART_ECG_Y_MARKS_FORMAT" = "%.1fmV";
+"IDS_CHART_ECG_HELP"="Neural network-processed electrocardiogram. Red indicators show the location of the R-peaks.";
 
-
+"IDS_CHART_SCATEROGRAM_TITLE"="Scaterogram";
 "IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT" = "%.1fs";
 "IDS_CHART_SCATEROGRAM_Y_MARKS_FORMAT" = "%.1fs";
+"IDS_CHART_SCATEROGRAM_HELP"="A scattergram is a two-dimensional display of a rhythmogram. An even distribution indicates good health.";
 
 
+"IDS_CHART_RHYTHMOGRAM_TITLE"="Rhythmogram";
 "IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT" = "%.0f";
 "IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT" = "%.2fs";
+"IDS_CHART_RHYTHMOGRAM_HELP"="The rhythmogram shows the duration of the R-R intervals.";
 
 
+"IDS_CHART_HISTOGRAM_TITLE"="Histogram";
 "IDS_CHART_HISTOGRAM_X_MARKS_FORMAT" = "%.2fs";
 "IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT" = "%.0f";
+"IDS_CHART_HISTOGRAM_HELP"="The histogram shows the distribution of R-R intervals by duration.";
 
 
+"IDS_CHART_INFO_TITLE"="Information";
 "IDS_CHART_INFO_DATE"="Record date:";
 "IDS_CHART_INFO_DURATION"="Record duration:";
 "IDS_CHART_INFO_HEARTRATE"="Heart rate:";
 "IDS_CHART_INFO_HEALTH"="Health:";
 "IDS_CHART_INFO_RELIABILITY"="Survey reliability:";
+"IDS_CHART_INFO_HRVINDEX"="Heart rate variablity";
 
+
+"IDS_CHART_DISTRIBUTION_TITLE"="Records distribution";
+"IDS_CHART_DISTRIBUTION_PICKER_DAILY"="Daily";
+"IDS_CHART_DISTRIBUTION_PICKER_WEEKLY"="Weekly";
 "IDS_CHART_DISTRIBUTION_DAY_1"="Mo";
 "IDS_CHART_DISTRIBUTION_DAY_2"="Tu";
 "IDS_CHART_DISTRIBUTION_DAY_3"="We";
@@ -47,7 +49,6 @@
 "IDS_CHART_DISTRIBUTION_DAY_5"="Fr";
 "IDS_CHART_DISTRIBUTION_DAY_6"="Sa";
 "IDS_CHART_DISTRIBUTION_DAY_7"="Su";
-
 "IDS_CHART_DISTRIBUTION_HOUR_1"="0";
 "IDS_CHART_DISTRIBUTION_HOUR_2"="2";
 "IDS_CHART_DISTRIBUTION_HOUR_3"="4";
@@ -60,9 +61,8 @@
 "IDS_CHART_DISTRIBUTION_HOUR_10"="18";
 "IDS_CHART_DISTRIBUTION_HOUR_11"="20";
 "IDS_CHART_DISTRIBUTION_HOUR_12"="22";
-
 "IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"="%.0f";
-
+"IDS_CHART_DISTRIBUTION_HELP"="Depending on the mode, the graph shows the intraday or intraweekly distribution of heart rate variability obtained from the captured electrocardiogram. The choice of the mode is carried out by pressing the button in the upper right part of the graph.";
 
 "IDS_CHART_USERINFO_TITLE"="User info";
 "IDS_CHART_USERINFO_HEIGHT"="Height:";
@@ -75,15 +75,12 @@
 "IDS_CHART_USERINFO_GENDER_OTHER"="Other";
 "IDS_CHART_USERINFO_GENDER_NONSET"="Not selected";
 
-"IDS_CHART_COMMENT_TITLE"="Your comment:";
-
-
-"IDS_PARAMETER_HRVINDEX_NAME"="Heart rate variablity";
-
-
-
 
 "IDS_CHART_COMPARE_TITLE"="Survey compare";
 "IDS_CHART_COMPARE_DATE"="Date";
 "IDS_CHART_COMPARE_HEARTRATE"="Heartrate";
 "IDS_CHART_COMPARE_HRVINDEX"="HRV Index";
+"IDS_CHART_COMPARE_HELP"="Compare the main indicators of the surveys. Swipe left or right to scroll.";
+
+"IDS_CHART_ATTENTION_TITLE"="Attention";
+"IDS_CHART_ATTENTION_TEXT"="The reliability is low. Results cannot be taken into account.";

@@ -42,6 +42,10 @@ struct ChartInfo: View{//}, Equatable {
         self.model.setData(descriptions: descriptions,values: values)
     }
     
+    func setAttention(_ text: String){
+        self.model.setAttention(text)
+    }
+    
     func setTitle(_ title: String){
         self.model.title=title
     }
@@ -53,10 +57,12 @@ struct ChartInfo: View{//}, Equatable {
                 
                 ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
                 Group{
+                    if(self.model.attention == ""){
                     GeometryReader{ g2 in
                         VStack{
                             ForEach(self.model.descriptions,id:\.self){i in
                                 Text(i)
+                                    .font(.system(size: 12))
                                     .frame(width:g2.size.width,alignment:.topLeading)
                                     .foregroundColor(self.model.textColor)
                             }
@@ -65,14 +71,21 @@ struct ChartInfo: View{//}, Equatable {
                         VStack{
                             ForEach(self.model.values,id:\.self){i in
                                 Text(i)
+                                    .font(.system(size: 12))
                                     .frame(width:g2.size.width,alignment:.topTrailing)
                                     .foregroundColor(self.model.textColor)
                             }
                         }
                         .frame(width:g2.size.width,height:g2.size.height,alignment:.trailing)
                     }
+                    }
+                    else{
+                        Text(self.model.attention)
+                            .font(.system(size: 12))
+                            .foregroundColor(self.model.textColor)
+                    }
                 }
-                .offset(x: self.offset, y: 2*self.offset)
+                .offset(x: self.offset, y: 2.5*self.offset)
                 .frame(width:g.size.width-2*self.offset,height:g.size.height-3*self.offset)
             }
             

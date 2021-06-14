@@ -26,6 +26,8 @@ struct ChartEcg: View,Equatable {
     var offset: CGFloat=20
     let miniature: Bool
     var lineColor: UIColor
+    let textHelp=Localization.getString("IDS_CHART_ECG_HELP")
+    @State var showHelp:Bool=false
     init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,titleColor: Color?=nil,marksColor:UIColor?=nil,lineColor: UIColor=UIColor.blue,axisColor:UIColor?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
         self.marks=marks
@@ -51,8 +53,9 @@ struct ChartEcg: View,Equatable {
         
     }
     
-    func setColors(titleColor: Color,lineColor: UIColor,marksColor: UIColor,axisColor: UIColor,backgroundColor: Color=UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
+    func setColors(titleColor: Color,textColor: Color,lineColor: UIColor,marksColor: UIColor,axisColor: UIColor,backgroundColor: Color=UIColor(red: 1, green: 1, blue: 1,alpha: 0.3).color){
         self.model.titleColor=titleColor
+        self.model.textColor=textColor
         self.model.backgroundColor=backgroundColor
         self.model.setColors(lineColor:lineColor,marksColor:marksColor,axisColor:axisColor)
     }
@@ -66,26 +69,30 @@ struct ChartEcg: View,Equatable {
         self.model.setData(data: data, marks: marks,duration: duration)
     }
     
+    func help(){
+        self.showHelp = self.showHelp == true ? false : true
+    }
+
     var body: some View{
         GeometryReader{ g in
             Group{
                 if(!self.miniature){
-                ChartBase(text: self.model.title,textColor: self.model.titleColor,backgroundColor:self.model.backgroundColor)
+                    ChartBase(text: self.model.title,textColor: self.model.titleColor,showHelpButton: true,showHelpButtonColor: self.model.textColor,showHelpButtonAction: self.help, backgroundColor:self.model.backgroundColor)
                 }
-                
+                if(!self.showHelp){
                 if(!self.miniature){
                 Image(uiImage: self.model.imgAxisX ?? UIImage())
                     .frame(width: g.size.width-5*self.offset,height: self.model.axisHeight,alignment:.leading)
                     .offset(x: self.delta.dx)
                     .clipped()
-                    .offset(x: self.offset, y: 2*self.offset)
+                    .offset(x: self.offset, y: 2.5*self.offset)
                     .offset(x: self.model.axisWidth, y: self.model.height ?? 0)
 
                 Image(uiImage: self.model.imgAxisY ?? UIImage())
                     .frame(width: self.model.axisWidth,height: g.size.height-3*self.offset,alignment:.leading)
                     .offset(y: self.delta.dy)
                     .clipped()
-                    .offset(x: self.offset, y: 2*self.offset)
+                    .offset(x: self.offset, y: 2.5*self.offset)
                     
                 }
                 
@@ -93,7 +100,7 @@ struct ChartEcg: View,Equatable {
                     .frame(width: g.size.width-2*self.offset-self.model.axisWidth, height: g.size.height-2*self.offset-self.model.axisHeight,alignment:.leading)
                     .offset(x: self.delta.dx, y: self.delta.dy)
                     .clipped()
-                    .offset(x: self.offset+self.model.axisWidth, y: 2*self.offset)
+                    .offset(x: self.offset+self.model.axisWidth, y: 2.5*self.offset)
                     .gesture(
                         DragGesture()
                             .onChanged({ (value) in
@@ -117,13 +124,23 @@ struct ChartEcg: View,Equatable {
                                 self.delta.y=self.delta.dy
                             })
                     )
+                }
+                else{
+                    Text(self.textHelp)
+                        .font(.system(size: 12))
+                        .frame(width:g.size.width-2*self.offset,alignment: .leading)
+                        .offset(x:self.offset,y:2.5*self.offset)
+                        .foregroundColor(self.model.textColor)
+
+                }
+
             }
             .onAppear(perform: {
                 if(!miniature){
-                    self.model.setSize(height: 0.75*g.size.height)
+                    self.model.setSize(height: 0.7*g.size.height)
                 }
                 else{
-                    self.model.setSize(height: 0.75*g.size.height,width: g.size.width)
+                    self.model.setSize(height: 0.7*g.size.height,width: g.size.width)
                 }
             })
             

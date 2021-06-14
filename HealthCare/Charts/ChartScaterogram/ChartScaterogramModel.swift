@@ -21,7 +21,7 @@ class ChartScaterogramModel: ObservableObject{
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
-    let axisFontSize:CGFloat=12
+    let axisFontSize:CGFloat=11
 
     var height: CGFloat?
     var width: CGFloat?
