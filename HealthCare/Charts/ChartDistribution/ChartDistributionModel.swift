@@ -100,7 +100,7 @@ class ChartDistributionModel: ObservableObject{
             let ymax=self.axisYMax
         else{ return }
         
-        let calendar=Calendar.current
+        let calendar=Calendar.init(identifier: .gregorian)
         
         values = values.map({ $0 - Double(ymin) })
         
@@ -139,11 +139,12 @@ class ChartDistributionModel: ObservableObject{
                 
                 let hour = calendar.component(.hour, from: dates[i])
                 let subPath=UIBezierPath()
-                subPath.addArc(withCenter: .init(x: (CGFloat(hour)-0.5)*step, y: height*(1-(CGFloat(values[i]/100)))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+                print(hour)
+                subPath.addArc(withCenter: .init(x: (CGFloat(hour)-0.5)*step, y: height*(1-(CGFloat(values[i]/Double(ymax))))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
                 
                 let maskLayer=CAGradientLayer()
-                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(hour)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/100)))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
+                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(hour)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/Double(ymax))))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
                 maskLayer.type = CAGradientLayerType.radial
                 maskLayer.startPoint = .init(x: 0.5, y: 0.5)
                 maskLayer.endPoint = .init(x: 1, y: 1)
@@ -269,11 +270,11 @@ class ChartDistributionModel: ObservableObject{
                 
                 let day = calendar.component(.weekday, from: dates[i])
                 let subPath=UIBezierPath()
-                subPath.addArc(withCenter: .init(x: (CGFloat(day)-0.5)*step, y: height*(1-(CGFloat(values[i]/100)))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
+                subPath.addArc(withCenter: .init(x: (CGFloat(day)-0.5)*step, y: height*(1-(CGFloat(values[i]/Double(ymax))))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
                 
                 let maskLayer=CAGradientLayer()
-                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(day)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/100)))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
+                maskLayer.frame=CGRect(origin: .init(x: (CGFloat(day)-0.5)*step-self.circleRadius, y: height*(1-(CGFloat(values[i]/Double(ymax))))-self.circleRadius), size: CGSize(width: 2*self.circleRadius, height: 2*self.circleRadius))
                 maskLayer.type = CAGradientLayerType.radial
                 maskLayer.startPoint = .init(x: 0.5, y: 0.5)
                 maskLayer.endPoint = .init(x: 1, y: 1)

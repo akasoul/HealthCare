@@ -83,6 +83,7 @@ struct ChartInfo: View{//}, Equatable {
                         Text(self.model.attention)
                             .font(.system(size: 12))
                             .foregroundColor(self.model.textColor)
+                            .frame(width: g.size.width-2*self.offset,height:g.size.height-3*self.offset,alignment:.leading)
                     }
                 }
                 .offset(x: self.offset, y: 2.5*self.offset)

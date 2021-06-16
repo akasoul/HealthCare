@@ -79,8 +79,8 @@
 "IDS_CHART_COMPARE_TITLE"="Survey compare";
 "IDS_CHART_COMPARE_DATE"="Date";
 "IDS_CHART_COMPARE_HEARTRATE"="Heartrate";
-"IDS_CHART_COMPARE_HRVINDEX"="HRV Index";
-"IDS_CHART_COMPARE_HELP"="Compare the main indicators of the surveys. Swipe left or right to scroll.";
+"IDS_CHART_COMPARE_HRVINDEX"="HRV";
+"IDS_CHART_COMPARE_HELP"="Compare the main indicators of the surveys. Low HRV indicates poorer health condition. Swipe left or right to scroll.";
 
 "IDS_CHART_ATTENTION_TITLE"="Attention";
 "IDS_CHART_ATTENTION_TEXT"="The reliability is low. Results cannot be taken into account.";

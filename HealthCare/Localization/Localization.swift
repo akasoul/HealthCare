@@ -9,7 +9,8 @@ import Foundation
 
 class Localization{
     static let langFiles:[String:String]=[
-        "en":"langEN"
+        "en":"langEN",
+        "ru":"langRU"
     ]
     static func getString(_ id: String)->String{
         let currentLanguage = Locale.current.languageCode ?? "en"

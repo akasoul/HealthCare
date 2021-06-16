@@ -33,9 +33,6 @@ struct ChartCompare: View {
             self.offset=0
         }
         
-        if(self.dates != nil && values != nil){
-            // self.model.setup(dates: self.dates!, values: self.values!)
-        }
     }
     
     func setTitle(_ title: String){
@@ -44,8 +41,6 @@ struct ChartCompare: View {
     
     
     func setData(data: [[String]]){
-        //        self.model.values=data
-        //self.model.setup(dates: dates, values: values)
         self.model.setData(values: data)
     }
     
@@ -53,7 +48,6 @@ struct ChartCompare: View {
         self.model.titleColor=titleColor
         self.model.textColor=textColor
         self.model.backgroundColor=backgroundColor
-        //self.model.setColors(axisColor: axisColor,gridColor: gridColor,colors: colors)
     }
     
     func setDetailViewColors(_ colors: Colors){
@@ -76,12 +70,12 @@ struct ChartCompare: View {
                             ForEach(self.model.descriptions, id:\.self){ i in
                                 Text(i)
                                     .font(.system(size: 12))
-                                    .frame(width:self.model.descriptionWidth-10,height: self.model.stringHeight,alignment:.trailing)
+                                    .frame(width:self.model.descriptionWidth-30,height: self.model.stringHeight,alignment:.trailing)
                             }
                         }
                     }
                     .foregroundColor(self.model.textColor)
-                    .frame(width:self.model.descriptionWidth, height: g.size.height-3*self.offset,alignment:.trailing)
+                    .frame(width:self.model.descriptionWidth, height: g.size.height-3*self.offset,alignment:.leading)
                     .offset(x: self.offset, y: 2*self.offset)
                     
                     
@@ -93,34 +87,38 @@ struct ChartCompare: View {
                                 VStack{
                                     Text(i[0])
                                         .font(.system(size: 12))
-                                        //                                    .fontWeight(.bold)
-                                        .frame(height: self.model.stringHeight)
+                                        .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.center)
                                     Text(i[1])
                                         .font(.system(size: 12))
-                                        //                                    .fontWeight(.bold)
-                                        .frame(height: self.model.stringHeight)
+                                        .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.center)
                                     Text(i[2])
                                         .font(.system(size: 12))
-                                        //                                    .fontWeight(.bold)
-                                        .frame(height: self.model.stringHeight)
+                                        .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.center)
                                 }
                                 .background(
                                     RoundedRectangle(cornerRadius: self.cornerRadius)
                                         .foregroundColor(
                                             i == self.model.valLeft ? self.clrLeft : i == self.model.valRight ? self.clrRight : Color.clear
                                         )
-                                        .frame(width:self.model.recordWidth-10,alignment:.center)
+                                        .frame(width:self.model.recordWidth-5,alignment:.center)
                                     
                                 )
                                 .foregroundColor(self.model.textColor)
                                 .frame(width:self.model.recordWidth)
+//                                .modifier(HoverAndPopover(action: {
+//                                    guard let record=self.model.findRecordByDate(i[0])
+//                                    else{ return }
+//                                    self.model.selectedRecord=record
+//                                    self.detailViesIsPresented=true
+//
+//                                }))
                                 .onLongPressGesture(perform: {
-                                    guard let record=self.model.findRecordByDate(i[0])
+                                    let date = i[0].replacingOccurrences(of: "\n", with: ",")
+                                    guard let record=self.model.findRecordByDate(date)
                                     else{ return }
                                     self.model.selectedRecord=record
                                     self.detailViesIsPresented=true
                                 })
-                                //                        }
                             }
                             
                         }
@@ -143,7 +141,6 @@ struct ChartCompare: View {
                             })
                             .onEnded({ value in
                                 let pos = Int((self.delta.dx-0.5*self.model.recordWidth)/(self.model.recordWidth))
-                                print(-pos)
                                 withAnimation(.linear(duration:1)){
                                     self.delta.dx = CGFloat(pos)*self.model.recordWidth
                                 }
@@ -199,8 +196,41 @@ struct ChartCompare: View {
     }
     
     
+
+   
     
     
-    
-    
+}
+
+struct HoverAndPopover: ViewModifier{
+    @State var pressed = false
+    var action: ()->Void
+    func resetPressing(){
+        withAnimation(.linear(duration: 2)){
+            self.pressed=false
+        }
+    }
+    func body(content: Content) -> some View {
+        content
+            .colorMultiply(self.pressed ? .white.opacity(0.2) : .white)
+            .onHover { hovering in
+                self.pressed=hovering
+            }
+            .gesture(
+                LongPressGesture()
+                    .onChanged({ i in
+                        self.pressed=true
+                        self.resetPressing()
+                    })
+                    .onEnded({ i in
+                        self.pressed=false
+                        self.action()
+                    })
+//                TapGesture()
+//                    .onEnded({
+//                        self.pressed=false
+//                        self.action()
+//                    })
+            )
+    }
 }

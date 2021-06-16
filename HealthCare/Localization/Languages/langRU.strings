@@ -5,3 +5,82 @@
   Created by Anton Voloshuk on 07.05.2021.
   
 */
+
+
+"IDS_CHART_ECG_TITLE"="Электрокардиограмма";
+"IDS_CHART_ECG_X_MARKS_FORMAT" = "%.0fс";
+"IDS_CHART_ECG_Y_MARKS_FORMAT" = "%.1fмВ";
+"IDS_CHART_ECG_HELP"="Электрокардиограмма, обработанная нейронной сетью. Красные маркеры указывают положение R пиков.";
+
+"IDS_CHART_SCATEROGRAM_TITLE"="Диаграмма рассеивания";
+"IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT" = "%.1fс";
+"IDS_CHART_SCATEROGRAM_Y_MARKS_FORMAT" = "%.1fс";
+"IDS_CHART_SCATEROGRAM_HELP"="Диаграмма рассеивания - это двумерное отображение ритмограммы. Равномерное распределение свидетельствует о хорошем здоровье.";
+
+
+"IDS_CHART_RHYTHMOGRAM_TITLE"="Ритмограмма";
+"IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT" = "%.0f";
+"IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT" = "%.2fс";
+"IDS_CHART_RHYTHMOGRAM_HELP"="Ритмограмма показывает длительность R-R интервалов.";
+
+
+"IDS_CHART_HISTOGRAM_TITLE"="Гистограмма";
+"IDS_CHART_HISTOGRAM_X_MARKS_FORMAT" = "%.2fс";
+"IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT" = "%.0f";
+"IDS_CHART_HISTOGRAM_HELP"="Гистограмма показывает распределение R-R интервалов по длительности.";
+
+
+"IDS_CHART_INFO_TITLE"="Информация";
+"IDS_CHART_INFO_DATE"="Дата:";
+"IDS_CHART_INFO_DURATION"="Длительность:";
+"IDS_CHART_INFO_HEARTRATE"="Пульс:";
+"IDS_CHART_INFO_HEALTH"="Здоровье:";
+"IDS_CHART_INFO_RELIABILITY"="Достоверность вычислений:";
+"IDS_CHART_INFO_HRVINDEX"="Вариабельность сердечного ритма";
+
+
+"IDS_CHART_DISTRIBUTION_TITLE"="Распределение";
+"IDS_CHART_DISTRIBUTION_PICKER_DAILY"="Дневное";
+"IDS_CHART_DISTRIBUTION_PICKER_WEEKLY"="Недельное";
+"IDS_CHART_DISTRIBUTION_DAY_1"="Пн";
+"IDS_CHART_DISTRIBUTION_DAY_2"="Вт";
+"IDS_CHART_DISTRIBUTION_DAY_3"="Ср";
+"IDS_CHART_DISTRIBUTION_DAY_4"="Чт";
+"IDS_CHART_DISTRIBUTION_DAY_5"="Пт";
+"IDS_CHART_DISTRIBUTION_DAY_6"="Сб";
+"IDS_CHART_DISTRIBUTION_DAY_7"="Вс";
+"IDS_CHART_DISTRIBUTION_HOUR_1"="0";
+"IDS_CHART_DISTRIBUTION_HOUR_2"="2";
+"IDS_CHART_DISTRIBUTION_HOUR_3"="4";
+"IDS_CHART_DISTRIBUTION_HOUR_4"="6";
+"IDS_CHART_DISTRIBUTION_HOUR_5"="8";
+"IDS_CHART_DISTRIBUTION_HOUR_6"="10";
+"IDS_CHART_DISTRIBUTION_HOUR_7"="12";
+"IDS_CHART_DISTRIBUTION_HOUR_8"="14";
+"IDS_CHART_DISTRIBUTION_HOUR_9"="16";
+"IDS_CHART_DISTRIBUTION_HOUR_10"="18";
+"IDS_CHART_DISTRIBUTION_HOUR_11"="20";
+"IDS_CHART_DISTRIBUTION_HOUR_12"="22";
+"IDS_CHART_DISTRIBUTION_Y_MARKS_FORMAT"="%.0f";
+"IDS_CHART_DISTRIBUTION_HELP"="В зависимости от режима на графике показано дневное или недельное распределение вариабельности сердечного ритма. Выбор режима осуществляется нажатием кнопки в правой верхней части графика.";
+
+"IDS_CHART_USERINFO_TITLE"="О пользователе";
+"IDS_CHART_USERINFO_HEIGHT"="Рост:";
+"IDS_CHART_USERINFO_WEIGHT"="Вес:";
+"IDS_CHART_USERINFO_GENDER"="Пол:";
+"IDS_CHART_USERINFO_DATEOFBIRTH"="Дата рождения:";
+"IDS_CHART_USERINFO_COUNTOFRECORDS"="Количество ЭКГ:";
+"IDS_CHART_USERINFO_GENDER_FEMALE"="Женщина";
+"IDS_CHART_USERINFO_GENDER_MALE"="Мужчина";
+"IDS_CHART_USERINFO_GENDER_OTHER"="?";
+"IDS_CHART_USERINFO_GENDER_NONSET"="Не указан";
+
+
+"IDS_CHART_COMPARE_TITLE"="Сравнение обследований";
+"IDS_CHART_COMPARE_DATE"="Дата";
+"IDS_CHART_COMPARE_HEARTRATE"="Пульс";
+"IDS_CHART_COMPARE_HRVINDEX"="ВСР";
+"IDS_CHART_COMPARE_HELP"="Сравните основные показатели обследований. ВСР - вариабельность сердечного ритма. Низкий ВСР свидетельствует о худшем состоянии здоровья. Смахните влево или вправо для прокрутки.";
+
+"IDS_CHART_ATTENTION_TITLE"="Внимание";
+"IDS_CHART_ATTENTION_TEXT"="Низкая достоверность вычислений. Не принимайте результаты во внимание.";

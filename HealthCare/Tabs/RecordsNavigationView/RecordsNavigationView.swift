@@ -43,7 +43,7 @@ struct RecordsNavigationView: View {
                                 NavigationLink(destination: DetailView(record: i,colors: self.colors)){
                                     NavigationItemView(data: i,colors: self.colors)
                                         .equatable()
-                                        .frame(width:g.size.width,height:150)
+                                        .frame(width:g.size.width,height:120)
                                 }
                             }
 

@@ -21,8 +21,8 @@ class ChartCompareModel: ObservableObject {
     var chartHeight: CGFloat=0
     @Published var descriptions = [String]()
     @Published var values = [[String]]()
-    @Published var descriptionWidth:CGFloat=0.2
-    @Published var recordWidth: CGFloat = 0.4
+    @Published var descriptionWidth:CGFloat=0.1
+    @Published var recordWidth: CGFloat = 0.45
     @Published var count=7
     @Published var position: Int=0
     @Published var clrLeft: Color = .clear
@@ -35,6 +35,7 @@ class ChartCompareModel: ObservableObject {
     
     var valLeft=[String]()
     var valRight=[String]()
+    
     func setData(descriptions: [String]?=nil, values: [[String]]){
         self.descriptions = descriptions ?? self.descriptions
         self.values=values

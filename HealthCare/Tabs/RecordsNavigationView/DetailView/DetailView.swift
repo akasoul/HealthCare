@@ -70,7 +70,7 @@ struct DetailView: View {
                         
                         if(self.model.recentEcgData2.reliability<50){
                         self.chartAttention
-                            .frame(width: g.size.width-2*self.offset, height: 150)
+                            .frame(width: g.size.width-2*self.offset, height: 100)
                         }
                         
                         self.chartEcg

@@ -18,13 +18,12 @@ struct MainView: View {
     init(colors: Colors) {
         let bar = UINavigationBar()
         self.barHeight=bar.frame.height
-        print(self.barHeight)
         self.colors=colors
         self.chartUserInfo.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, backgroundColor: self.colors.globalItemBackground.color)
         self.chartDistribution.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color, axisColor: self.colors.mainViewChartAxisColor)
         self.chartCompare.setColors(titleColor: self.colors.mainViewChartTitleColor.color, textColor: self.colors.mainViewChartTextColor.color)
         
-        self.chartDistribution.setupAxisY(minValue: 0, maxValue: 10)
+        self.chartDistribution.setupAxisY(minValue: 0, maxValue: 5)
         
         self.chartUserInfo.setTitle(Localization.getString("IDS_CHART_USERINFO_TITLE"))
         self.chartDistribution.setTitle(Localization.getString("IDS_CHART_DISTRIBUTION_TITLE"))
@@ -85,7 +84,7 @@ struct MainView: View {
                             })
                         
                         self.chartCompare
-                            .frame(width: g.size.width-2*self.offset, height: 200)
+                            .frame(width: g.size.width-2*self.offset, height: 150)
                             .onReceive(self.model.$records, perform: { i in
                                 var arr = [[String]]()
                                 let formatter = DateFormatter()
@@ -93,12 +92,14 @@ struct MainView: View {
                                 formatter.timeStyle = .short
                                 
                                 for j in 0..<i.count{
-                                    let str = formatter.string(from: i[j].date)
-
+                                    var str = formatter.string(from: i[j].date)
+                                    str=str.replacingOccurrences(of: ",", with: "\n")
                                     arr.append([str,String(i[j].heartRate),String(format:"%.3f",i[j].calculatedData?.hrvIndex ?? 0)])
                                 }
                                 self.chartCompare.setData(data: arr)
                             })
+                        
+
                     }.frame(width:g.size.width,alignment:.leading)
                     .offset(x:self.offset)
                 }

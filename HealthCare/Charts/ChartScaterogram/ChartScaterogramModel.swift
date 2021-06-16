@@ -126,6 +126,9 @@ class ChartScaterogramModel: ObservableObject{
 
             let count = xMarksCount
             let step = width/CGFloat(count)
+            if(count<=0){
+                return
+            }
             for i in 0..<count{
                 let textLayer=CATextLayer()
                 textLayer.frame=CGRect(x: step*CGFloat(i), y: 5, width: step, height: axisHeight-5)

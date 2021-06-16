@@ -35,10 +35,6 @@ class DetailViewModel: ObservableObject{
                 let peaksMin=min(self.heartRate * self.duration/60, Double(self.rrs.count))
                 let peaksMax=max(self.heartRate * self.duration/60, Double(self.rrs.count))
                 self.reliability = 100*peaksMin/peaksMax
-                print(self.heartRate)
-                print(self.rrs.count)
-                print(self.heartRate * self.duration/60)
-
 
             }
         }
