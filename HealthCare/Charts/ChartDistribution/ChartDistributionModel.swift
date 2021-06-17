@@ -139,7 +139,6 @@ class ChartDistributionModel: ObservableObject{
                 
                 let hour = calendar.component(.hour, from: dates[i])
                 let subPath=UIBezierPath()
-                print(hour)
                 subPath.addArc(withCenter: .init(x: (CGFloat(hour)-0.5)*step, y: height*(1-(CGFloat(values[i]/Double(ymax))))), radius: self.circleRadius, startAngle: 0, endAngle: 2*CGFloat.pi, clockwise: true)
                 recordLayer.path=subPath.cgPath
                 

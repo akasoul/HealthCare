@@ -14,7 +14,7 @@ import Combine
 
 class Storage: ObservableObject{
     static var shared=Storage()
-
+    var appFolder: String
     @Published var all: [Record]=[]
     @Published var userInfo: UserInfo?{
         didSet{
@@ -95,11 +95,7 @@ class Storage: ObservableObject{
             while(queryIsFinished.count != expectedCount){
                 usleep(100)
             }
-            let appFolder = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask)[0].appendingPathComponent("test").absoluteString
             
-            if !FileManager.default.fileExists(atPath: appFolder){
-                FileManager.default.createFile(atPath: appFolder, contents: nil, attributes: [:])
-            }
             
         }
         
@@ -135,7 +131,7 @@ class Storage: ObservableObject{
                     return
                 }
                 if(allSamples.count>0){
-                height = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .centimeter))
+                    height = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .centimeter))
                 }
                 fetched=true
             }
@@ -165,9 +161,9 @@ class Storage: ObservableObject{
                     return
                 }
                 if(allSamples.count>0){
-                weight = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .kilogram))
+                    weight = allSamples[0].quantity.doubleValue(for: HKUnit.init(from: .kilogram))
                 }
-                    fetched=true
+                fetched=true
             }
             self.healthStore.execute(heighQuery)
             while(!fetched){
@@ -198,6 +194,24 @@ class Storage: ObservableObject{
     }
     
     private init() {
+        if let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first{
+        self.appFolder = url.path + "/EcgAnalyzer/"
+            var isDir: ObjCBool=false
+            if !FileManager.default.fileExists(atPath: self.appFolder,isDirectory: &isDir){
+                do {
+                    try FileManager.default.createDirectory(atPath: self.appFolder, withIntermediateDirectories: true, attributes: [:])
+                }
+                catch{
+                    print(error)
+                }
+            }
+            
+        }
+        else{
+            self.appFolder=""
+        }
+        
+        
         self.healthStore.requestAuthorization(toShare: nil, read: [ecgType,heightType!,weightType!,genderType!]) { (success, error) in
             if success {
                 print("HealthKit Auth successful")
@@ -218,7 +232,7 @@ class Storage: ObservableObject{
 
 
 extension Storage{
-        
+    
     class Record: Hashable,Equatable{
         weak var storage: Storage?
         static func ==(lhs:Record,rhs:Record)->Bool{
@@ -252,7 +266,8 @@ extension Storage{
             self.duration=duration
             self.storage=storage
             let calendar=Calendar.current
-            self.path=String(calendar.component(.year, from: date)) +
+            
+            self.path=Storage.shared.appFolder + "/" + String(calendar.component(.year, from: date)) +
                 String(calendar.component(.month, from: date)) +
                 String(calendar.component(.day, from: date)) +
                 String(calendar.component(.hour, from: date)) +
@@ -262,12 +277,65 @@ extension Storage{
             DispatchQueue.global().async{
                 let calculations=Calculations()
                 var tmp = CalculatedData()
-                tmp.ecg=self.ecgData
-                tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
-                tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
+                var isDir: ObjCBool=false
                 
-                //let path="/Users/antonvoloshuk/Desktop/RRs/"+self.path+".txt"
-                //try? tmp.rrs.map( { String($0) }).joined(separator: " ").data(using: .utf8)?.write(to: URL(fileURLWithPath: path))
+                tmp.ecg=self.ecgData
+
+                if(!FileManager.default.fileExists(atPath: self.path, isDirectory: &isDir)){
+                    do{
+                        try FileManager.default.createDirectory(at: URL(fileURLWithPath: self.path), withIntermediateDirectories: true, attributes: [:])
+                    }
+                    catch{
+                        print(error)
+                    }
+                }
+                let marksPath=self.path+"/marks.txt"
+                let rrsPath=self.path+"/rrs.txt"
+                
+                if(FileManager.default.fileExists(atPath: marksPath, isDirectory: &isDir)){
+                    do{
+                        let strArr = try String(contentsOfFile: marksPath).split(separator: ",")
+                        tmp.marks = strArr.compactMap({ Double($0) })
+                    }
+                    catch{
+                        tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
+                        let str=tmp.marks.map({ String($0) }).joined(separator: ",")
+                        if let data=str.data(using: .utf8){
+                            try? data.write(to: URL(fileURLWithPath: marksPath))
+                        }
+                        
+                    }
+                }
+                else{
+                    tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
+                    let str=tmp.marks.map({ String($0) }).joined(separator: ",")
+                    if let data=str.data(using: .utf8){
+                        try? data.write(to: URL(fileURLWithPath: marksPath))
+                    }
+                }
+                
+                if(FileManager.default.fileExists(atPath: rrsPath, isDirectory: &isDir)){
+                    do{
+                        let strArr = try String(contentsOfFile: rrsPath).split(separator: ",")
+                        tmp.rrs = strArr.compactMap({ Double($0) })
+                    }
+                    catch{
+                        tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
+                        let str=tmp.rrs.map({ String($0) }).joined(separator: ",")
+                        if let data=str.data(using: .utf8){
+                            try? data.write(to: URL(fileURLWithPath: rrsPath))
+                        }
+                    }
+                    
+                }
+                else{
+                    tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
+                    let str=tmp.rrs.map({ String($0) }).joined(separator: ",")
+                    if let data=str.data(using: .utf8){
+                        try? data.write(to: URL(fileURLWithPath: rrsPath))
+                    }
+                }
+                
                 
                 tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
                 tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
@@ -293,7 +361,7 @@ extension Storage{
         
     }
     
-
+    
     
     struct UserInfo{
         let dateOfBirth: Date
