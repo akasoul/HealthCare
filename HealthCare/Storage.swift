@@ -29,7 +29,7 @@ class Storage: ObservableObject{
     private let genderType=HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.biologicalSex)
     
     
-    private func getRecords(){
+    func getRecords(){
         if(self.healthStore.authorizationStatus(for: self.ecgType) == .sharingDenied){
             var queryIsFinished:[Bool]=[]
             var expectedCount=0
@@ -89,14 +89,17 @@ class Storage: ObservableObject{
             
             
             self.healthStore.execute(ecgQuery)
-            while(queryIsFinished == []){
-                usleep(100)
+            if(expectedCount > 0){
+                while(queryIsFinished == []){
+                    print("waiting \(queryIsFinished.count) \(expectedCount)")
+                    usleep(100)
+                }
+                while(queryIsFinished.count != expectedCount){
+                    print("waiting \(queryIsFinished.count) \(expectedCount)")
+                    usleep(100)
+                }
             }
-            while(queryIsFinished.count != expectedCount){
-                usleep(100)
-            }
-            
-            
+            print("query is finished")
         }
         
     }
@@ -195,7 +198,7 @@ class Storage: ObservableObject{
     
     private init() {
         if let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first{
-        self.appFolder = url.path + "/EcgAnalyzer/"
+            self.appFolder = url.path + "/EcgAnalyzer/"
             var isDir: ObjCBool=false
             if !FileManager.default.fileExists(atPath: self.appFolder,isDirectory: &isDir){
                 do {
@@ -218,6 +221,12 @@ class Storage: ObservableObject{
                 DispatchQueue.global().async {
                     self.getUserInfo()
                     self.getRecords()
+                    let observerQuery = HKObserverQuery.init(sampleType: self.ecgType, predicate: nil, updateHandler: { query,completionHandler,error in
+                        print(query)
+                        self.getRecords()
+                        print("new data received")
+                    })
+                    self.healthStore.execute(observerQuery)
                 }
             } else {
                 print("HealthKit Auth Error")
@@ -280,7 +289,7 @@ extension Storage{
                 var isDir: ObjCBool=false
                 
                 tmp.ecg=self.ecgData
-
+                
                 if(!FileManager.default.fileExists(atPath: self.path, isDirectory: &isDir)){
                     do{
                         try FileManager.default.createDirectory(at: URL(fileURLWithPath: self.path), withIntermediateDirectories: true, attributes: [:])

@@ -19,6 +19,14 @@ struct RecordsNavigationView: View {
     @ObservedObject var model = NavigationViewModel()
     let colors: Colors
     let navigationItems: [NavigationItemView]=[]
+    @State var update: Bool = false{
+        didSet{
+            DispatchQueue.global().async{
+                sleep(10)
+                self.update=false
+            }
+        }
+    }
     init(colors: Colors) {
         self.colors=colors
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -39,7 +47,10 @@ struct RecordsNavigationView: View {
                 NavigationView{
                     ScrollView{
                         VStack{
-                            ForEach(self.model.records, id: \.self.date){ i in
+                            if(self.update){
+                                ProgressView(value: 1.0).progressViewStyle(CircularProgressViewStyle())
+                            }
+                            ForEach(self.model.records.sorted(by: { $0.date>$1.date}), id: \.self.date){ i in
                                 NavigationLink(destination: DetailView(record: i,colors: self.colors)){
                                     NavigationItemView(data: i,colors: self.colors)
                                         .equatable()
@@ -62,6 +73,15 @@ struct RecordsNavigationView: View {
                 BackgroundView()
             }
         }
+//        .gesture(
+//        DragGesture()
+//            .onChanged({ i in
+//                if(!self.update){
+//                    self.model.storage.getRecords()
+//                    self.update=true
+//                }
+//            })
+//        )
     }
 }
 
