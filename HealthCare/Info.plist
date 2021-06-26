@@ -25,11 +25,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string>The app would like to write simulated heart data to HealthKit</string>
+	<string>The app would like to read data from HealthKit</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>The app would like to write simulated heart data to HealthKit</string>
+	<string>The app would like to read data from HealthKit</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>The app would like to read simulated heart rate data from HealthKit</string>
+	<string>The app would like to read data from HealthKit</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

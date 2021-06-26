@@ -35,7 +35,7 @@
 "IDS_CHART_INFO_DURATION"="Record duration:";
 "IDS_CHART_INFO_HEARTRATE"="Heart rate:";
 "IDS_CHART_INFO_HEALTH"="Health:";
-"IDS_CHART_INFO_RELIABILITY"="Survey reliability:";
+"IDS_CHART_INFO_RELIABILITY"="Calculations reliability:";
 "IDS_CHART_INFO_HRVINDEX"="Heart rate variablity";
 
 

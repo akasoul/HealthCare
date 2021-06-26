@@ -42,18 +42,8 @@ struct MainView: View {
                             //                            .equatable()
                             .frame(width: g.size.width-2*self.offset, height: 120)
                             .onAppear(perform: {
-                                self.chartUserInfo.setData(descriptions: [
-                                    Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
-                                    Localization.getString("IDS_CHART_USERINFO_GENDER"),
-                                    Localization.getString("IDS_CHART_USERINFO_HEIGHT"),
-                                    Localization.getString("IDS_CHART_USERINFO_WEIGHT")
-                                    
-                                ], values: [
-                                    "","","",""
-                                ])
-                            })
-                            .onReceive(self.model.$info, perform: { i in
-                                if let userInfo = i{
+                                
+                                if let userInfo = self.model.info{
                                     var values=[String]()
                                     let formatter = DateFormatter()
                                     formatter.dateStyle = .long
@@ -61,18 +51,68 @@ struct MainView: View {
                                     let str = formatter.string(from: userInfo.dateOfBirth)
                                     values.append(str)
                                     
-                                    values.append(userInfo.gender)
-                                    values.append(String(format:"%.1f",userInfo.height))
-                                    values.append(String(format:"%.1f",userInfo.weight))
+                                    values.append(String(format: "%.0f",self.model.records.count))
+//                                    values.append(userInfo.gender)
+//                                    values.append(String(format:"%.1f",userInfo.height))
+//                                    values.append(String(format:"%.1f",userInfo.weight))
                                     
                                     self.chartUserInfo.setData(descriptions: [
                                         Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
-                                        Localization.getString("IDS_CHART_USERINFO_GENDER"),
-                                        Localization.getString("IDS_CHART_USERINFO_HEIGHT"),
-                                        Localization.getString("IDS_CHART_USERINFO_WEIGHT")
-                                        
+                                        Localization.getString("IDS_CHART_USERINFO_COUNTOFRECORDS")
                                     ], values: values)
                                 }
+
+                                else{
+                                self.chartUserInfo.setData(descriptions: [
+                                    Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
+                                    Localization.getString("IDS_CHART_USERINFO_COUNTOFRECORDS")
+                                ], values: [
+                                    "","","",""
+                                ])
+                                }
+                            })
+                            .onReceive(self.model.$info, perform: { i in
+                                print("b",self.model.records.count)
+                                if let userInfo = i{
+                                    var values=[String]()
+                                    let formatter = DateFormatter()
+                                    formatter.dateStyle = .long
+                                    formatter.timeStyle = .none
+                                    let str = formatter.string(from: userInfo.dateOfBirth)
+                                    values.append(str)
+                                    let tmp = self.model.records.count
+                                    values.append(String(tmp))
+//                                    values.append(userInfo.gender)
+//                                    values.append(String(format:"%.1f",userInfo.height))
+//                                    values.append(String(format:"%.1f",userInfo.weight))
+                                    
+                                    self.chartUserInfo.setData(descriptions: [
+                                        Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
+                                        Localization.getString("IDS_CHART_USERINFO_COUNTOFRECORDS")
+                                    ], values: values)
+                                }
+                            })
+                            .onReceive(self.model.$records, perform: { _ in
+                                print("a",self.model.records.count)
+                                if let userInfo = self.model.info{
+                                    var values=[String]()
+                                    let formatter = DateFormatter()
+                                    formatter.dateStyle = .long
+                                    formatter.timeStyle = .none
+                                    let str = formatter.string(from: userInfo.dateOfBirth)
+                                    values.append(str)
+                                    let tmp = self.model.records.count
+                                    values.append(String(tmp))
+//                                    values.append(userInfo.gender)
+//                                    values.append(String(format:"%.1f",userInfo.height))
+//                                    values.append(String(format:"%.1f",userInfo.weight))
+                                    
+                                    self.chartUserInfo.setData(descriptions: [
+                                        Localization.getString("IDS_CHART_USERINFO_DATEOFBIRTH"),
+                                        Localization.getString("IDS_CHART_USERINFO_COUNTOFRECORDS")
+                                    ], values: values)
+                                }
+
                             })
                         
                         self.chartDistribution
