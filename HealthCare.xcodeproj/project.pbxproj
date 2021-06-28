@@ -37,6 +37,8 @@
 		31722B14263ADB65007AE1B9 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B13263ADB65007AE1B9 /* Storage.swift */; };
 		31722B19263ADF44007AE1B9 /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */; };
 		317FC62F264FBB7E00F09527 /* model1505.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 317FC62E264FBB7E00F09527 /* model1505.mlmodel */; };
+		319317A92689CCC90007C563 /* ChartSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319317A72689CC020007C563 /* ChartSwitcher.swift */; };
+		319317AA2689CCCC0007C563 /* ChartSwitcherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319317A82689CC020007C563 /* ChartSwitcherModel.swift */; };
 		31AA5A6A266E737C00516113 /* ChartCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AA5A69266E737C00516113 /* ChartCompare.swift */; };
 		31AA5A6E266E738B00516113 /* ChartCompareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AA5A6D266E738B00516113 /* ChartCompareModel.swift */; };
 		31DBAC43263DB22900F55CDE /* NavigationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DBAC42263DB22900F55CDE /* NavigationItemView.swift */; };
@@ -97,6 +99,8 @@
 		31722B13263ADB65007AE1B9 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		31722B18263ADF44007AE1B9 /* NavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewModel.swift; sourceTree = "<group>"; };
 		317FC62E264FBB7E00F09527 /* model1505.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = model1505.mlmodel; sourceTree = "<group>"; };
+		319317A72689CC020007C563 /* ChartSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSwitcher.swift; sourceTree = "<group>"; };
+		319317A82689CC020007C563 /* ChartSwitcherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSwitcherModel.swift; sourceTree = "<group>"; };
 		31AA5A69266E737C00516113 /* ChartCompare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCompare.swift; sourceTree = "<group>"; };
 		31AA5A6D266E738B00516113 /* ChartCompareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCompareModel.swift; sourceTree = "<group>"; };
 		31DBAC42263DB22900F55CDE /* NavigationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItemView.swift; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 			children = (
 				315ED3C32632C03600BE453C /* Offset.swift */,
 				31ED56C3263FE51900828A5B /* ChartBase.swift */,
+				319317A62689CBDD0007C563 /* ChartSwitcher */,
 				31AA5A68266E735000516113 /* ChartCompare */,
 				31DE43A52646EBA0007A2D91 /* ChartDistribution */,
 				31FC7F3726677288008922EC /* ChartInfo */,
@@ -284,6 +289,15 @@
 				31004C32263BE1290073F8FB /* DetailView */,
 			);
 			path = RecordsNavigationView;
+			sourceTree = "<group>";
+		};
+		319317A62689CBDD0007C563 /* ChartSwitcher */ = {
+			isa = PBXGroup;
+			children = (
+				319317A72689CC020007C563 /* ChartSwitcher.swift */,
+				319317A82689CC020007C563 /* ChartSwitcherModel.swift */,
+			);
+			path = ChartSwitcher;
 			sourceTree = "<group>";
 		};
 		31AA5A68266E735000516113 /* ChartCompare */ = {
@@ -459,6 +473,7 @@
 				31004C2F263BDD000073F8FB /* modelPeaksDetection3.mlmodel in Sources */,
 				31722B14263ADB65007AE1B9 /* Storage.swift in Sources */,
 				315ED3C72632C21000BE453C /* Math.swift in Sources */,
+				319317AA2689CCCC0007C563 /* ChartSwitcherModel.swift in Sources */,
 				31ED56D326413C7300828A5B /* ChartHistogram.swift in Sources */,
 				31FBF2812668F7FD006DB1EB /* ChartInfo.swift in Sources */,
 				315ED3C42632C03700BE453C /* Offset.swift in Sources */,
@@ -472,6 +487,7 @@
 				317FC62F264FBB7E00F09527 /* model1505.mlmodel in Sources */,
 				31FD6FC12657B2E3009D5957 /* healthModel.mlmodel in Sources */,
 				31DE43AD2647DC4C007A2D91 /* mpd500_0905.mlmodel in Sources */,
+				319317A92689CCC90007C563 /* ChartSwitcher.swift in Sources */,
 				31722B11263ACCA7007AE1B9 /* modelPeaksDetection2.mlmodel in Sources */,
 				312E5C602631FDA0005F9B40 /* HealthCareApp.swift in Sources */,
 				3161A4F32634746C00F2D4B1 /* TabSelectionView.swift in Sources */,

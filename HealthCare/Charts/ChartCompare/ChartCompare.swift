@@ -11,19 +11,22 @@ import SwiftUI
 struct ChartCompare: View {
     
     @ObservedObject var model = ChartCompareModel()
+    @State var rotationAngle: Angle = .zero
     @State var delta: chartOffset = chartOffset(dy: 0, dx: 0)
+    @State var detailViesIsPresented: Bool = false
+    @State var showHelp:Bool=false
+    @State var clrLeft=Color.clear
+    @State var clrRight=Color.clear
+    @State var selectedRecord: Storage.Record?
+    
     var dates: [Date]?
     var values: [Double]?
     var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    @State var detailViesIsPresented: Bool = false
     let textHelp=Localization.getString("IDS_CHART_COMPARE_HELP")
-    @State var showHelp:Bool=false
-    @State var clrLeft=Color.clear
-    @State var clrRight=Color.clear
-    @State var selectedRecord: Storage.Record?
+    
     init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
         self.values=values
@@ -55,7 +58,10 @@ struct ChartCompare: View {
     }
     
     func help(){
-        self.showHelp = self.showHelp == true ? false : true
+        withAnimation(.linear(duration: 0.5), {
+            //self.rotationAngle = self.rotationAngle == Angle(degrees: 360) ? Angle(degrees: 0) : Angle(degrees: 360)
+            self.showHelp = self.showHelp == true ? false : true
+        })
     }
     
     var body: some View{
@@ -105,13 +111,21 @@ struct ChartCompare: View {
                                 )
                                 .foregroundColor(self.model.textColor)
                                 .frame(width:self.model.recordWidth)
-//                                .modifier(HoverAndPopover(action: {
-//                                    guard let record=self.model.findRecordByDate(i[0])
-//                                    else{ return }
-//                                    self.model.selectedRecord=record
-//                                    self.detailViesIsPresented=true
-//
-//                                }))
+                                //                                .modifier(HoverAndPopover(action: {
+                                //                                    guard let record=self.model.findRecordByDate(i[0])
+                                //                                    else{ return }
+                                //                                    self.model.selectedRecord=record
+                                //                                    self.detailViesIsPresented=true
+                                //
+                                //                                }))
+                                
+                                //                                .modifier(GesturesModifier(disabled:self.tapIsDisabled,action: {
+                                //                                    let date = i[0].replacingOccurrences(of: "\n", with: ",")
+                                //                                    guard let record=self.model.findRecordByDate(date)
+                                //                                    else{ return }
+                                //                                    self.model.selectedRecord=record
+                                //                                    self.detailViesIsPresented=true
+                                //                                }))
                                 .onLongPressGesture(perform: {
                                     let date = i[0].replacingOccurrences(of: "\n", with: ",")
                                     guard let record=self.model.findRecordByDate(date)
@@ -191,17 +205,51 @@ struct ChartCompare: View {
                 }
             })
         }
+        .rotation3DEffect(
+            self.rotationAngle,
+            axis: (x:0,y:1,z:0)
+        )
         
         
     }
     
     
-
-   
+    
+    
     
     
 }
 
+
+
+struct GesturesModifier:ViewModifier{
+    @State var wasTapped: Bool = false
+    var disabled: Bool
+    var action: ()->Void
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(self.wasTapped ? CGSize(width:0.9,height:0.9) : CGSize(width:1,height:1))
+            .gesture(
+                LongPressGesture(minimumDuration: 1, maximumDistance: 0)
+                    .onChanged({ i in
+                        if(!self.disabled){
+                            self.wasTapped=true
+                            DispatchQueue.global().async{
+                                sleep(1)
+                                self.wasTapped=false
+                            }
+                        }
+                    }
+                    )
+                    .onEnded({ i in
+                        if(!self.disabled){
+                            print("ended")
+                            self.action()
+                        }
+                    })
+            )
+    }
+}
 struct HoverAndPopover: ViewModifier{
     @State var pressed = false
     var action: ()->Void
@@ -226,11 +274,11 @@ struct HoverAndPopover: ViewModifier{
                         self.pressed=false
                         self.action()
                     })
-//                TapGesture()
-//                    .onEnded({
-//                        self.pressed=false
-//                        self.action()
-//                    })
+                //                TapGesture()
+                //                    .onEnded({
+                //                        self.pressed=false
+                //                        self.action()
+                //                    })
             )
     }
 }

@@ -79,3 +79,4 @@ struct ShakeEffect: GeometryEffect {
         set { position = newValue }
     }
 }
+

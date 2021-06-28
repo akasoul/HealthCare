@@ -16,12 +16,14 @@ struct DetailView: View {
     var chartHisto=ChartHistogram()
     var chartRhythmogram=ChartRhythmogram2()
     var chartAttention=ChartInfo()
+    var chartSwitcher=ChartSwitcher()
     let colors: Colors
     
     @ObservedObject var model =  DetailViewModel()
     @State var ecgScale = CGSize(width: 1, height: 1)
     @GestureState var magnifyBy = CGFloat(1.0)
     @State var counter = 0
+    @State var selectedPeaks=0
     let record: Storage.Record
     let offset:CGFloat=10
     var offsetY:CGFloat=0
@@ -35,6 +37,7 @@ struct DetailView: View {
             self.offsetY=self.offset
         }
         self.chartInfo.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color)
+        self.chartSwitcher.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color)
         self.chartAttention.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color)
         self.chartEcg.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color, lineColor: self.colors.detViewChartEcgLineColor,marksColor: self.colors.detViewChartEcgMarksColor, axisColor: self.colors.detViewChartAxisColor)
         self.chartScat.setColors(titleColor: self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color, fillColor: self.colors.detViewChartScatFillColor, axisColor: self.colors.detViewChartAxisColor)
@@ -42,6 +45,7 @@ struct DetailView: View {
         self.chartHisto.setColors(titleColor:self.colors.detViewChartTitleColor.color, textColor:self.colors.detViewChartTextColor.color,topColor: self.colors.detViewChartHistogramTopColor, bottomColor: self.colors.detViewChartHistogramBottomColor, axisColor: self.colors.detViewChartAxisColor)
         
         self.chartInfo.setTitle(Localization.getString("IDS_CHART_INFO_TITLE"))
+        self.chartSwitcher.setTitle(Localization.getString("IDS_CHART_SWITCHER_TITLE"))
         self.chartAttention.setTitle(Localization.getString("IDS_CHART_ATTENTION_TITLE"))
         self.chartEcg.setTitle(Localization.getString("IDS_CHART_ECG_TITLE"))
         self.chartScat.setTitle(Localization.getString("IDS_CHART_SCATEROGRAM_TITLE"))
@@ -49,6 +53,8 @@ struct DetailView: View {
         self.chartHisto.setTitle(Localization.getString("IDS_CHART_HISTOGRAM_TITLE"))
         
         self.chartAttention.setAttention(Localization.getString("IDS_CHART_ATTENTION_TEXT"))
+    
+        self.chartSwitcher.setAction(action: self.switchPeaks(selection:))
 
     }
     
@@ -57,6 +63,10 @@ struct DetailView: View {
             .updating($magnifyBy) { currentState, gestureState, transaction in
                 gestureState = currentState
             }
+    }
+    
+    func switchPeaks(selection: Int){
+        self.selectedPeaks=selection
     }
     
     var body: some View {
@@ -73,6 +83,9 @@ struct DetailView: View {
                             .frame(width: g.size.width-2*self.offset, height: 100)
                         }
                         
+//                        self.chartSwitcher
+//                            .frame(width: g.size.width-2*self.offset, height: 100)
+
                         self.chartEcg
                             .frame(width: g.size.width-2*self.offset, height: 200)
                             .scaleEffect(self.ecgScale)

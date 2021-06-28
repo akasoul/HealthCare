@@ -17,7 +17,7 @@ class ChartHistogramModel: ObservableObject{
     @Published var textColor = Color.blue
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
-
+    
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
@@ -29,6 +29,7 @@ class ChartHistogramModel: ObservableObject{
     var data: [Double]?
     var frequency: Double?
     let divider: Double = 10
+    
     init() {
         
     }

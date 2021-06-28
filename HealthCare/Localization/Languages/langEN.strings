@@ -84,3 +84,10 @@
 
 "IDS_CHART_ATTENTION_TITLE"="Attention";
 "IDS_CHART_ATTENTION_TEXT"="The reliability is low. Results cannot be taken into account.";
+
+
+"IDS_CHART_SWITCHER_TITLE"="Peaks selection";
+"IDS_CHART_SWITCHER_RR"="R-R";
+"IDS_CHART_SWITCHER_QT"="Q-T";
+"IDS_CHART_SWITCHER_HELP"="";
+

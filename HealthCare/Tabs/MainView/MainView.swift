@@ -72,7 +72,6 @@ struct MainView: View {
                                 }
                             })
                             .onReceive(self.model.$info, perform: { i in
-                                print("b",self.model.records.count)
                                 if let userInfo = i{
                                     var values=[String]()
                                     let formatter = DateFormatter()
@@ -93,7 +92,6 @@ struct MainView: View {
                                 }
                             })
                             .onReceive(self.model.$records, perform: { _ in
-                                print("a",self.model.records.count)
                                 if let userInfo = self.model.info{
                                     var values=[String]()
                                     let formatter = DateFormatter()

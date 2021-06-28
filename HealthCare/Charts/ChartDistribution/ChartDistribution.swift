@@ -15,6 +15,8 @@ struct ChartDistribution: View {
     @ObservedObject var model = ChartDistributionModel()
     @State var pickerIsPresented = false
     @State var timePicker: String = Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY")
+    @State var showHelp: Bool=false
+    
     let timePickerOptions=[
         Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_DAILY"),
         Localization.getString("IDS_CHART_DISTRIBUTION_PICKER_WEEKLY")
@@ -26,7 +28,6 @@ struct ChartDistribution: View {
     let cornerRadius: CGFloat = 20
     var offset: CGFloat=20
     let miniature: Bool
-    @State var showHelp: Bool=false
     
     init(dates:[Date]? = nil,values:[Double]?=nil,miniature: Bool=false){
         self.dates=dates
@@ -62,7 +63,10 @@ struct ChartDistribution: View {
     }
 
     func help(){
-        self.showHelp = self.showHelp == true ? false : true
+        withAnimation(.linear(duration: 0.5), {
+            //self.rotationAngle = self.rotationAngle == Angle(degrees: 360) ? Angle(degrees: 0) : Angle(degrees: 360)
+            self.showHelp = self.showHelp == true ? false : true
+        })
     }
 
     var body: some View{

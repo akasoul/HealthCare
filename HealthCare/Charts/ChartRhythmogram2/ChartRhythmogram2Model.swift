@@ -18,7 +18,7 @@ class ChartRhythmogram2Model: ObservableObject{
     @Published var textColor = Color.blue
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
-
+    
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
@@ -29,6 +29,7 @@ class ChartRhythmogram2Model: ObservableObject{
     var bottomColor: UIColor?
     var data: [Double]?
     var frequency: Double?
+    
     init() {
         
     }
@@ -58,7 +59,7 @@ class ChartRhythmogram2Model: ObservableObject{
               let height=self.height,
               let width=self.width
         else{ return }
-
+        
         var tmpData: [Double]=[]
         for i in 0..<data.count{
             tmpData.append(data[i])
@@ -67,13 +68,13 @@ class ChartRhythmogram2Model: ObservableObject{
         guard var min = tmpData.min(),
               let max = tmpData.max()
         else{ return }
-
+        
         
         min = 0
         
-//        max += 100
+        //        max += 100
         min = 0
-//        max = 2000
+        //        max = 2000
         let dataHeight=max-min
         let step = width/CGFloat(tmpData.count-1)
         
@@ -108,7 +109,7 @@ class ChartRhythmogram2Model: ObservableObject{
         
         
         grLayer.mask=layer
-
+        
         let renderer = UIGraphicsImageRenderer(bounds: grLayer.bounds)
         self.img = renderer.image(actions: { context in
             grLayer.render(in: context.cgContext)
@@ -120,21 +121,21 @@ class ChartRhythmogram2Model: ObservableObject{
         let xMarksStartValue:CGFloat=0
         let xMarksEndValue:CGFloat=CGFloat(data.count)
         let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT"))
-
+        
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
         var yMarksEndValue:CGFloat=1
         if(frequency != 0){
-        yMarksEndValue=CGFloat(Double(max)/frequency)
+            yMarksEndValue=CGFloat(Double(max)/frequency)
         }
         let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT"))
-
+        
         //axis x
         do{
             let layer = CALayer()
             layer.frame=CGRect(x: 0, y: 0, width: width, height: axisHeight)
-
+            
             let count = xMarksCount
             let step = width/CGFloat(count)
             if( count<=0){
@@ -178,7 +179,7 @@ class ChartRhythmogram2Model: ObservableObject{
                 textLayer.foregroundColor=self.axisColor.cgColor
                 textLayer.fontSize=self.axisFontSize
                 textLayer.alignmentMode = .right
-
+                
                 layer.addSublayer(textLayer)
             }
             

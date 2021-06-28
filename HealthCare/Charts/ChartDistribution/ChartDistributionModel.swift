@@ -17,22 +17,20 @@ class ChartDistributionModel: ObservableObject{
         var imgAxisX: UIImage?
         var imgAxisY: UIImage?
     }
+    
     @Published var daily = ChartImages()
     @Published var weekly = ChartImages()
-    
     @Published var titleColor=Color.blue
     @Published var textColor = Color.blue
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
-
+    
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 30
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=12
-    
     var axisYMin: CGFloat?
     var axisYMax: CGFloat?
-    
     var height: CGFloat?
     var width: CGFloat?
     var data: [Storage.Record]?
@@ -61,7 +59,7 @@ class ChartDistributionModel: ObservableObject{
         self.axisYMin = CGFloat(minValue)
         self.axisYMax = CGFloat(maxValue)
     }
-
+    
     private func getColor(value: Double)->UIColor{
         if(value<25){
             return self.colors[0]
@@ -89,12 +87,12 @@ class ChartDistributionModel: ObservableObject{
         self.values=values
         self.update()
     }
-
+    
     func update(){
         guard
-              let height=self.height,
-              let width=self.width,
-              let dates=self.dates,
+            let height=self.height,
+            let width=self.width,
+            let dates=self.dates,
             var values=self.values,
             let ymin=self.axisYMin,
             let ymax=self.axisYMax
@@ -152,7 +150,7 @@ class ChartDistributionModel: ObservableObject{
                 
                 //gridLayer.addSublayer(maskLayer)
                 gridLayer.addSublayer(recordLayer)
-
+                
             }
             let renderer = UIGraphicsImageRenderer(bounds: gridLayer.bounds)
             self.daily.img = renderer.image(actions: { context in
@@ -245,7 +243,7 @@ class ChartDistributionModel: ObservableObject{
             gridLayer.fillColor = UIColor.clear.cgColor
             gridLayer.strokeColor = self.gridColor.cgColor
             gridLayer.lineWidth=self.gridSize
-
+            
             let path = UIBezierPath()
             let step = width/7
             for i in 0..<7{
@@ -279,7 +277,7 @@ class ChartDistributionModel: ObservableObject{
                 maskLayer.endPoint = .init(x: 1, y: 1)
                 maskLayer.colors=[UIColor.white.cgColor,UIColor.white.withAlphaComponent(0).cgColor]
                 recordLayer.mask=maskLayer
-
+                
                 
                 gridLayer.addSublayer(recordLayer)
             }

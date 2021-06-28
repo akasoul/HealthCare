@@ -16,9 +16,6 @@ class ChartCompareModel: ObservableObject {
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
     @Published var width: CGFloat=0
-    var colors: Colors?
-    var chartWidth: CGFloat=0
-    var chartHeight: CGFloat=0
     @Published var descriptions = [String]()
     @Published var values = [[String]]()
     @Published var descriptionWidth:CGFloat=0.1
@@ -29,6 +26,10 @@ class ChartCompareModel: ObservableObject {
     @Published var clrRight: Color = .clear
     @Published var stringHeight: CGFloat=0
     @Published var selectedRecord: Storage.Record?
+    
+    var colors: Colors?
+    var chartWidth: CGFloat=0
+    var chartHeight: CGFloat=0
     var clrBad=Color.red.opacity(0.3)
     var clrGood=Color.green.opacity(0.3)
     var clrDefault=Color.yellow.opacity(0.3)
@@ -86,10 +87,10 @@ class ChartCompareModel: ObservableObject {
         if(position+1>self.values.count-1){
             return
         }
-
+        
         self.valLeft=self.values[position]
         self.valRight=self.values[position+1]
-
+        
         guard let left=Double(valLeft[2]),
               let right=Double(valRight[2])
         else{

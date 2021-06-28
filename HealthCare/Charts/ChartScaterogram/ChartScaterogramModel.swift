@@ -17,18 +17,18 @@ class ChartScaterogramModel: ObservableObject{
     @Published var textColor = Color.blue
     @Published var title: String=""
     @Published var backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.2)
-
+    
     var axisColor=UIColor.blue
     var axisWidth: CGFloat = 60
     var axisHeight: CGFloat = 20
     let axisFontSize:CGFloat=11
-
+    
     var height: CGFloat?
     var width: CGFloat?
     var fillColor: UIColor?
     var data: [Double]?
     var frequency: Double?
-
+    
     init() {
         
     }
@@ -106,24 +106,24 @@ class ChartScaterogramModel: ObservableObject{
         let xMarksStartValue:CGFloat=0
         var xMarksEndValue:CGFloat=1
         if(frequency != 0){
-        xMarksEndValue=CGFloat(Double(dataMax)/frequency)
+            xMarksEndValue=CGFloat(Double(dataMax)/frequency)
         }
         let xMarksFormat=NSString(string: Localization.getString("IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT"))
-
+        
         let yMarksPeriod=25
         let yMarksCount = Int(height/CGFloat(yMarksPeriod))
         let yMarksStartValue:CGFloat=0
         var yMarksEndValue:CGFloat=1
         if(frequency != 0){
-        yMarksEndValue=CGFloat(Double(dataMax)/frequency)
+            yMarksEndValue=CGFloat(Double(dataMax)/frequency)
         }
         let yMarksFormat=NSString(string: Localization.getString("IDS_CHART_SCATEROGRAM_Y_MARKS_FORMAT"))
-
+        
         //axis x
         do{
             let layer = CALayer()
             layer.frame=CGRect(x: 0, y: 0, width: width, height: axisHeight)
-
+            
             let count = xMarksCount
             let step = width/CGFloat(count)
             if(count<=0){
