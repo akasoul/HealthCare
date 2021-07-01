@@ -21,7 +21,8 @@ struct ChartEcg: View,Equatable {
     @State var showHelp:Bool=false
     
     let data: [Double]?
-    let marks: [Double]?
+    let marks: [[Double]]?
+    let marksOrientation: [Int]?
     let duration: Double?
     let backgroundColor: Color
     let cornerRadius: CGFloat = 20
@@ -30,9 +31,10 @@ struct ChartEcg: View,Equatable {
     var lineColor: UIColor
     let textHelp=Localization.getString("IDS_CHART_ECG_HELP")
     
-    init(data:[Double]? = nil,marks:[Double]? = nil,duration: Double? = nil,titleColor: Color?=nil,marksColor:UIColor?=nil,lineColor: UIColor=UIColor.blue,axisColor:UIColor?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
+    init(data:[Double]? = nil,marks:[[Double]]? = nil,marksOrientation:[Int]?=nil,duration: Double? = nil,titleColor: Color?=nil,marksColor:UIColor?=nil,lineColor: UIColor=UIColor.blue,axisColor:UIColor?=nil,backgroundColor: Color = Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: Bool=false){
         self.data=data
         self.marks=marks
+        self.marksOrientation=marksOrientation
         self.duration=duration
         self.miniature=miniature
         self.backgroundColor=backgroundColor
@@ -48,8 +50,8 @@ struct ChartEcg: View,Equatable {
             self.model.backgroundColor=backgroundColor
             self.model.setColors(lineColor:lineColor,marksColor:marksColor!,axisColor:axisColor!)
         }
-        if(self.data != nil && self.marks != nil){
-            self.model.setData(data: self.data!, marks: self.marks!)
+        if(self.data != nil && self.marks != nil && self.marksOrientation != nil){
+            self.model.setData(data: self.data!, marks: self.marks!,marksOrientation: self.marksOrientation!)
         }
     }
     
@@ -65,8 +67,8 @@ struct ChartEcg: View,Equatable {
     }
     
     
-    func setData(data: [Double],marks: [Double],duration: Double?=nil){
-        self.model.setData(data: data, marks: marks,duration: duration)
+    func setData(data: [Double],marks: [[Double]],marksOrientation:[Int],duration: Double?=nil){
+        self.model.setData(data: data, marks: marks,marksOrientation: marksOrientation,duration: duration)
     }
     
     func help(){

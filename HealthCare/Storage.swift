@@ -248,7 +248,7 @@ extension Storage{
             return lhs.ecgData==rhs.ecgData && lhs.calculatedData?.health==rhs.calculatedData?.health && lhs.date == rhs.date
         }
         func hash(into hasher: inout Hasher) {
-            hasher.combine(self.calculatedData?.marks)
+            hasher.combine(self.calculatedData?.rMarks)
         }
         var path: String
         let date: Date
@@ -298,39 +298,64 @@ extension Storage{
                         print(error)
                     }
                 }
-                let marksPath=self.path+"/marks.txt"
+                let rMarksPath=self.path+"/rmarks.txt"
+                let qMarksPath=self.path+"/qmarks.txt"
+                let tMarksPath=self.path+"/tmarks.txt"
                 let rrsPath=self.path+"/rrs.txt"
                 
-                if(FileManager.default.fileExists(atPath: marksPath, isDirectory: &isDir)){
+                if(FileManager.default.fileExists(atPath: rMarksPath, isDirectory: &isDir)){
                     do{
-                        let strArr = try String(contentsOfFile: marksPath).split(separator: ",")
-                        tmp.marks = strArr.compactMap({ Double($0) })
+                        let strArr = try String(contentsOfFile: rMarksPath).split(separator: ",")
+                        tmp.rMarks = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
-                        let str=tmp.marks.map({ String($0) }).joined(separator: ",")
+                        tmp.rMarks=calculations.getMarksR(data: tmp.ecg)
+                        let str=tmp.rMarks.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
-                            try? data.write(to: URL(fileURLWithPath: marksPath))
+                            try? data.write(to: URL(fileURLWithPath: rMarksPath))
                         }
                         
                     }
                 }
                 else{
-                    tmp.marks=calculations.getEcgMarks(data: tmp.ecg)
-                    let str=tmp.marks.map({ String($0) }).joined(separator: ",")
+                    tmp.rMarks=calculations.getMarksR(data: tmp.ecg)
+                    let str=tmp.rMarks.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
-                        try? data.write(to: URL(fileURLWithPath: marksPath))
+                        try? data.write(to: URL(fileURLWithPath: rMarksPath))
                     }
                 }
                 
+                if(FileManager.default.fileExists(atPath: qMarksPath, isDirectory: &isDir)){
+                    do{
+                        let strArr = try String(contentsOfFile: qMarksPath).split(separator: ",")
+                        tmp.qMarks = strArr.compactMap({ Double($0) })
+                    }
+                    catch{
+                        tmp.qMarks=calculations.getMarksQ(data: tmp.ecg)
+                        let str=tmp.qMarks.map({ String($0) }).joined(separator: ",")
+                        if let data=str.data(using: .utf8){
+                            try? data.write(to: URL(fileURLWithPath: qMarksPath))
+                        }
+                        
+                    }
+                }
+                else{
+                    tmp.qMarks=calculations.getMarksQ(data: tmp.ecg)
+                    let str=tmp.qMarks.map({ String($0) }).joined(separator: ",")
+                    if let data=str.data(using: .utf8){
+                        try? data.write(to: URL(fileURLWithPath: qMarksPath))
+                    }
+                }
+                
+
                 if(FileManager.default.fileExists(atPath: rrsPath, isDirectory: &isDir)){
                     do{
                         let strArr = try String(contentsOfFile: rrsPath).split(separator: ",")
-                        tmp.rrs = strArr.compactMap({ Double($0) })
+                        tmp.rr = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
-                        let str=tmp.rrs.map({ String($0) }).joined(separator: ",")
+                        tmp.rr=calculations.getRRs(ecgMarks: tmp.rMarks)
+                        let str=tmp.rr.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
                             try? data.write(to: URL(fileURLWithPath: rrsPath))
                         }
@@ -338,16 +363,16 @@ extension Storage{
                     
                 }
                 else{
-                    tmp.rrs=calculations.getRRs(ecgMarks: tmp.marks)
-                    let str=tmp.rrs.map({ String($0) }).joined(separator: ",")
+                    tmp.rr=calculations.getRRs(ecgMarks: tmp.rMarks)
+                    let str=tmp.rr.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
                         try? data.write(to: URL(fileURLWithPath: rrsPath))
                     }
                 }
                 
                 
-                tmp.hrvIndex=calculations.getHrvIndex(tmp.rrs)
-                tmp.health=calculations.getHealthValue(rrs: tmp.rrs)
+                tmp.hrvIndex=calculations.getHrvIndex(tmp.rr)
+                tmp.health=calculations.getHealthValue(rrs: tmp.rr)
                 self.calculatedData=tmp
             }
             
@@ -359,13 +384,16 @@ extension Storage{
             hasher.combine(self.health)
         }
         var ecg:[Double]=[]
-        var marks:[Double]=[]
-        var rrs:[Double]=[]
+        var rMarks:[Double]=[]
+        var qMarks:[Double]=[]
+        var tMarks:[Double]=[]
+        var rr:[Double]=[]
+        var qt:[Double]=[]
         var heartRate: Double = 0
         var health: Double = 0
         var hrvIndex: Double = 0
         static func ==(lhs:CalculatedData,rhs:CalculatedData)->Bool{
-            return lhs.marks == rhs.marks
+            return lhs.rMarks == rhs.rMarks
         }
         
     }

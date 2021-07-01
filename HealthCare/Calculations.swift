@@ -17,6 +17,8 @@ class Calculations{
     let mpd1505 = try? model1505.init(configuration: MLModelConfiguration())
     let mpd1605 = try? model1605.init(configuration: MLModelConfiguration())
     
+    let qpeaks = try? modelQPeaks.init(configuration: MLModelConfiguration())
+    let tpeaks = try? modelTPeaks.init(configuration: MLModelConfiguration())
     let mh = try? healthModel.init(configuration: MLModelConfiguration())
     let mh2605 = try? healthModel2605.init(configuration: MLModelConfiguration())
 
@@ -39,7 +41,7 @@ class Calculations{
         return rrs
     }
     
-    func getEcgMarks(data: [Double])->[Double]{
+    func getMarksR(data: [Double])->[Double]{
         var data=data
         let str = data.map({ String($0) }).joined(separator: " ")
         try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/current.txt"))
@@ -48,6 +50,8 @@ class Calculations{
         guard let minValue=data.min(),
               let maxValue=data.max(),
               let model = self.mpd1605
+//              let model=self.qpeaks
+        
         else{ return [] }
         let scaledMin:Double=0
         let scaledMax:Double=1
@@ -90,6 +94,59 @@ class Calculations{
         return marks
     }
     
+    func getMarksQ(data: [Double])->[Double]{
+        var data=data
+        let str = data.map({ String($0) }).joined(separator: " ")
+        try? str.data(using: .utf8)!.write(to: URL(fileURLWithPath: "/Users/antonvoloshuk/Desktop/AppleWatch ECG Samples/current.txt"))
+        
+        
+        guard let minValue=data.min(),
+              let maxValue=data.max(),
+              let model=self.qpeaks
+        
+        else{ return [] }
+        let scaledMin:Double=0
+        let scaledMax:Double=1
+        
+        for j in 0..<data.count{
+            let value = (scaledMax-scaledMin)*(data[j]-minValue)/(maxValue-minValue)+scaledMin
+            data[j]=value
+        }
+        let frameWidth=500
+        
+        let step = frameWidth/2
+        var marks:[Double] = .init(repeating: 0, count: data.count*2)
+        let count = data.count/step + 1
+        data.append(contentsOf: [Double].init(repeating: 0, count: frameWidth))
+        for j in 0..<count{
+            if let tmpMLarr = try? MLMultiArray(shape: [frameWidth as NSNumber], dataType: .float32){
+                let tmpArr=Array(data[j*step..<j*step + frameWidth])
+                for i in 0..<frameWidth{
+                    tmpMLarr[i] = NSNumber(value:tmpArr[i])
+                }
+                let out = try? model.prediction(input1: tmpMLarr)
+                if let output = out?.output1{
+                    for i in 0..<frameWidth{
+                        if(marks[step*j + i] < Double(output[i].doubleValue)){
+                            marks[step*j + i] = Double(output[i].doubleValue)
+                        }
+                    }
+                }
+            }
+        }
+        
+        marks.removeSubrange(data.count..<marks.count)
+        self.filterMarks2(ecg: data, marks: &marks)
+        for i in 0..<marks.count{
+            if(marks[i]>self.treshhold){
+                marks[i]=1
+            }
+        }
+        //self.filterMarks2(ecg: data, marks: &marks)
+        return marks
+    }
+    
+
     func filterMarks(ecg: [Double],marks: inout [Double]){
         for i in 0..<ecg.count{
             if(marks[i]==1){

@@ -67,6 +67,12 @@ struct DetailView: View {
     
     func switchPeaks(selection: Int){
         self.selectedPeaks=selection
+        if(selection==0){
+            self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.rMarks],marksOrientation: [1],duration: self.model.recentEcgData2.duration)
+        }
+        if(selection==1){
+            self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.qMarks],marksOrientation: [-1],duration: self.model.recentEcgData2.duration)
+        }
     }
     
     var body: some View {
@@ -83,8 +89,8 @@ struct DetailView: View {
                             .frame(width: g.size.width-2*self.offset, height: 100)
                         }
                         
-//                        self.chartSwitcher
-//                            .frame(width: g.size.width-2*self.offset, height: 100)
+                        self.chartSwitcher
+                            .frame(width: g.size.width-2*self.offset, height: 100)
 
                         self.chartEcg
                             .frame(width: g.size.width-2*self.offset, height: 200)
@@ -125,10 +131,10 @@ struct DetailView: View {
             self.model.setRecord(self.record)
         })
         .onReceive(self.model.$recentEcgData2, perform: { i in
-            self.chartEcg.setData(data: i.data,marks: i.marks,duration: i.duration)
-            self.chartScat.setData(data: i.rrs,frequency: i.frequency)
-            self.chartHisto.setData(data: i.rrs,frequency: i.frequency)
-            self.chartRhythmogram.setData(data: i.rrs,frequency: i.frequency)
+            self.chartEcg.setData(data: i.data,marks: [i.rMarks],marksOrientation: [1],duration: i.duration)
+            self.chartScat.setData(data: i.rr,frequency: i.frequency)
+            self.chartHisto.setData(data: i.rr,frequency: i.frequency)
+            self.chartRhythmogram.setData(data: i.rr,frequency: i.frequency)
             self.chartInfo.setData(descriptions:[
                 Localization.getString("IDS_CHART_INFO_DATE"),
                 Localization.getString("IDS_CHART_INFO_DURATION"),
@@ -143,7 +149,7 @@ struct DetailView: View {
                 String(format:"%.3f",i.hrvIndex),
                 String(String(format:"%.0f",i.reliability)+"%")
             ])
-            if(i.marks.count>0){
+            if(i.rMarks.count>0){
                 self.loaded=true
             }
         })

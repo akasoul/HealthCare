@@ -32,7 +32,7 @@ struct NavigationItemView: View,Equatable {
                 ChartBase(text: self.dateFormatter.string(from: self.data.date),textColor: self.colors.detViewChartTitleColor.color,backgroundColor:self.backgroundColor)
                 GeometryReader{ g2 in
                     VStack{
-                        ChartEcg(data:self.data.ecgData,marks:[Double](),titleColor: self.colors.navViewItemTitleColor.color,marksColor:self.colors.detViewChartEcgMarksColor,lineColor: self.colors.detViewChartEcgLineColor,axisColor:self.colors.detViewChartAxisColor,backgroundColor: Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: true)
+                        ChartEcg(data:self.data.ecgData,marks:[[Double]](),marksOrientation: [Int](),titleColor: self.colors.navViewItemTitleColor.color,marksColor:self.colors.detViewChartEcgMarksColor,lineColor: self.colors.detViewChartEcgLineColor,axisColor:self.colors.detViewChartAxisColor,backgroundColor: Color(red: 1, green: 1, blue: 1).opacity(0.3),miniature: true)
                             .equatable()
                             .frame(height: g2.size.height*0.5)
                             .allowsHitTesting(false)

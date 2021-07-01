@@ -16,24 +16,28 @@ class DetailViewModel: ObservableObject{
         var data:[Double]=[]{
             didSet{
                 if(self.data != []){
-                    self.marks=self.calculations.getEcgMarks(data: self.data)
-                    self.rrs=self.calculations.getRRs(ecgMarks: self.marks)
-                    self.health = self.calculations.getHealthValue(rrs: self.rrs)
-                    self.hrvIndex = self.calculations.getHrvIndex(self.rrs)
+                    self.rMarks=self.calculations.getMarksR(data: self.data)
+                    self.qMarks=self.calculations.getMarksQ(data: self.data)
+                    self.rr=self.calculations.getRRs(ecgMarks: self.rMarks)
+                    self.health = self.calculations.getHealthValue(rrs: self.rr)
+                    self.hrvIndex = self.calculations.getHrvIndex(self.rr)
                     
                     
                 }
             }
         }
-        var marks:[Double]=[]
-        var rrs:[Double]=[]
+        var rMarks:[Double]=[]
+        var qMarks:[Double]=[]
+        var tMarks:[Double]=[]
+        var rr:[Double]=[]
+        var qt:[Double]=[]
         var duration: Double = 0
         var frequency: Double = 0
         var date: String=""
         var heartRate: Double = 0{
             didSet{
-                let peaksMin=min(self.heartRate * self.duration/60, Double(self.rrs.count))
-                let peaksMax=max(self.heartRate * self.duration/60, Double(self.rrs.count))
+                let peaksMin=min(self.heartRate * self.duration/60, Double(self.rr.count))
+                let peaksMax=max(self.heartRate * self.duration/60, Double(self.rr.count))
                 self.reliability = 100*peaksMin/peaksMax
 
             }

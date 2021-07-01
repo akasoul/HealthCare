@@ -27,7 +27,8 @@ class ChartEcgModel: ObservableObject{
     var height: CGFloat?
     var width: CGFloat?
     var data: [Double]?
-    var marks: [Double]?
+    var marks: [[Double]]?
+    var marksOrientation: [Int]?
     var duration: Double?
     var lineColor: UIColor?
     var marksColor: UIColor = UIColor.red
@@ -57,9 +58,10 @@ class ChartEcgModel: ObservableObject{
         self.axisColor=axisColor
         self.backgroundColor=backgroundColor
     }
-    func setData(data: [Double],marks:[Double],duration: Double?=nil){
+    func setData(data: [Double],marks:[[Double]],marksOrientation:[Int],duration: Double?=nil){
         self.data=data
         self.marks=marks
+        self.marksOrientation=marksOrientation
         self.duration=duration
         self.update()
     }
@@ -67,6 +69,7 @@ class ChartEcgModel: ObservableObject{
     func update(){
         guard let data=self.data,
               let marks=self.marks,
+              let marksOrientation=self.marksOrientation,
               let lineColor=self.lineColor,
               let height=self.height
         else{ return }
@@ -112,13 +115,24 @@ class ChartEcgModel: ObservableObject{
             else{
                 path.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
                 if(self.width == nil){
-                    if(i<marks.count){
-                        if(marks[i]==1){
-                            subPath.move(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)-self.marksSize, y: self.marksSize+CGFloat(pointY)))
-                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)+self.marksSize, y: self.marksSize+CGFloat(pointY)))
+                    for j in 0..<marks.count{
+                    if(i<marks[j].count){
+                        if(marks[j][i]==1){
+                            if(marksOrientation[j] == -1){
+                            subPath.move(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY+5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY+5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)-self.marksSize, y: self.marksSize+CGFloat(pointY+5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)+self.marksSize, y: self.marksSize+CGFloat(pointY+5)))
+                            }
+                            if(marksOrientation[j] == 1){
+                            subPath.move(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY-5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i), y: CGFloat(pointY-5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)-self.marksSize, y: -self.marksSize+CGFloat(pointY-5)))
+                            subPath.addLine(to: .init(x: 0.2*CGFloat(i)+self.marksSize, y: -self.marksSize+CGFloat(pointY-5)))
+                            }
+
                         }
+                    }
                     }
                 }
             }
