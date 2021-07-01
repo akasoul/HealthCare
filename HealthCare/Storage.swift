@@ -347,6 +347,28 @@ extension Storage{
                     }
                 }
                 
+                if(FileManager.default.fileExists(atPath: tMarksPath, isDirectory: &isDir)){
+                    do{
+                        let strArr = try String(contentsOfFile: tMarksPath).split(separator: ",")
+                        tmp.tMarks = strArr.compactMap({ Double($0) })
+                    }
+                    catch{
+                        tmp.tMarks=calculations.getMarksT(data: tmp.ecg)
+                        let str=tmp.tMarks.map({ String($0) }).joined(separator: ",")
+                        if let data=str.data(using: .utf8){
+                            try? data.write(to: URL(fileURLWithPath: tMarksPath))
+                        }
+                        
+                    }
+                }
+                else{
+                    tmp.tMarks=calculations.getMarksT(data: tmp.ecg)
+                    let str=tmp.tMarks.map({ String($0) }).joined(separator: ",")
+                    if let data=str.data(using: .utf8){
+                        try? data.write(to: URL(fileURLWithPath: tMarksPath))
+                    }
+                }
+                
 
                 if(FileManager.default.fileExists(atPath: rrsPath, isDirectory: &isDir)){
                     do{
@@ -372,7 +394,6 @@ extension Storage{
                 
                 
                 tmp.hrvIndex=calculations.getHrvIndex(tmp.rr)
-                tmp.health=calculations.getHealthValue(rrs: tmp.rr)
                 self.calculatedData=tmp
             }
             

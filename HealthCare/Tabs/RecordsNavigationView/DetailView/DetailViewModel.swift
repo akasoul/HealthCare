@@ -18,8 +18,8 @@ class DetailViewModel: ObservableObject{
                 if(self.data != []){
                     self.rMarks=self.calculations.getMarksR(data: self.data)
                     self.qMarks=self.calculations.getMarksQ(data: self.data)
+                    self.tMarks=self.calculations.getMarksT(data: self.data)
                     self.rr=self.calculations.getRRs(ecgMarks: self.rMarks)
-                    self.health = self.calculations.getHealthValue(rrs: self.rr)
                     self.hrvIndex = self.calculations.getHrvIndex(self.rr)
                     
                     

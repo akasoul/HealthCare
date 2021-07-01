@@ -71,7 +71,7 @@ struct DetailView: View {
             self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.rMarks],marksOrientation: [1],duration: self.model.recentEcgData2.duration)
         }
         if(selection==1){
-            self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.qMarks],marksOrientation: [-1],duration: self.model.recentEcgData2.duration)
+            self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.qMarks,self.model.recentEcgData2.tMarks],marksOrientation: [-1,1],duration: self.model.recentEcgData2.duration)
         }
     }
     
