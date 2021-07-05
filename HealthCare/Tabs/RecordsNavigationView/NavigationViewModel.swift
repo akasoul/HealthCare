@@ -19,11 +19,11 @@ class NavigationViewModel: ObservableObject{
     init() {
         self.storage.objectWillChange.sink { _ in
             
-            for i in 0..<self.storage.all.count{
-                    if(!self.records.contains(self.storage.all[i])){
+            for i in 0..<self.storage.records.count{
+                    if(!self.records.contains(self.storage.records[i])){
                         DispatchQueue.main.async{
-                            if(i<self.storage.all.count){
-                            self.records.append(self.storage.all[i])
+                            if(i<self.storage.records.count){
+                            self.records.append(self.storage.records[i])
                             }
                         }
                     }

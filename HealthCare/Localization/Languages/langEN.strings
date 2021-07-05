@@ -10,7 +10,7 @@
 "IDS_CHART_ECG_TITLE"="Electrocardiogram";
 "IDS_CHART_ECG_X_MARKS_FORMAT" = "%.0fs";
 "IDS_CHART_ECG_Y_MARKS_FORMAT" = "%.1fmV";
-"IDS_CHART_ECG_HELP"="Neural network-processed electrocardiogram. Red indicators show the location of the R-peaks.";
+"IDS_CHART_ECG_HELP"="Neural network-processed electrocardiogram. Red indicators show the location of selected peaks.";
 
 "IDS_CHART_SCATEROGRAM_TITLE"="Scaterogram";
 "IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT" = "%.1fs";
@@ -21,13 +21,13 @@
 "IDS_CHART_RHYTHMOGRAM_TITLE"="Rhythmogram";
 "IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT" = "%.0f";
 "IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT" = "%.2fs";
-"IDS_CHART_RHYTHMOGRAM_HELP"="The rhythmogram shows the duration of the R-R intervals.";
+"IDS_CHART_RHYTHMOGRAM_HELP"="The rhythmogram shows the duration of the intervals between the peaks.";
 
 
 "IDS_CHART_HISTOGRAM_TITLE"="Histogram";
 "IDS_CHART_HISTOGRAM_X_MARKS_FORMAT" = "%.2fs";
 "IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT" = "%.0f";
-"IDS_CHART_HISTOGRAM_HELP"="The histogram shows the distribution of R-R intervals by duration.";
+"IDS_CHART_HISTOGRAM_HELP"="The histogram shows the distribution of selected intervals by duration.";
 
 
 "IDS_CHART_INFO_TITLE"="Information";

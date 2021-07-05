@@ -18,7 +18,6 @@
 		3148600326498B51006AB0D6 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3148600226498B51006AB0D6 /* MainViewModel.swift */; };
 		315ED3B5263292DA00BE453C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312E5C752632001E005F9B40 /* HealthKit.framework */; };
 		315ED3C42632C03700BE453C /* Offset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C32632C03600BE453C /* Offset.swift */; };
-		315ED3C72632C21000BE453C /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C62632C21000BE453C /* Math.swift */; };
 		315ED3CA2632C52100BE453C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3C92632C52100BE453C /* Colors.swift */; };
 		315ED3CD2632C80400BE453C /* ChartEcg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3CC2632C80400BE453C /* ChartEcg.swift */; };
 		315ED3D32632E81400BE453C /* ChartEcgModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315ED3D22632E81400BE453C /* ChartEcgModel.swift */; };
@@ -69,7 +68,6 @@
 		312E5C752632001E005F9B40 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		3148600226498B51006AB0D6 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		315ED3C32632C03600BE453C /* Offset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offset.swift; sourceTree = "<group>"; };
-		315ED3C62632C21000BE453C /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		315ED3C92632C52100BE453C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		315ED3CC2632C80400BE453C /* ChartEcg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartEcg.swift; sourceTree = "<group>"; };
 		315ED3D22632E81400BE453C /* ChartEcgModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEcgModel.swift; sourceTree = "<group>"; };
@@ -187,7 +185,6 @@
 				3116EFE22636CF5400442138 /* Neural networks */,
 				312E5C732632001E005F9B40 /* HealthCare.entitlements */,
 				312E5C632631FDA0005F9B40 /* Assets.xcassets */,
-				315ED3C62632C21000BE453C /* Math.swift */,
 				312E5C682631FDA0005F9B40 /* Info.plist */,
 				312E5C652631FDA0005F9B40 /* Preview Content */,
 				31F022F42666396300F3C54C /* Notes */,
@@ -432,7 +429,6 @@
 				311A7A0C266A2CFA0058ADFF /* NavigationItemViewModel.swift in Sources */,
 				312E5C622631FDA0005F9B40 /* DetailView.swift in Sources */,
 				31722B14263ADB65007AE1B9 /* Storage.swift in Sources */,
-				315ED3C72632C21000BE453C /* Math.swift in Sources */,
 				319317AA2689CCCC0007C563 /* ChartSwitcherModel.swift in Sources */,
 				31ED56D326413C7300828A5B /* ChartHistogram.swift in Sources */,
 				31FBF2812668F7FD006DB1EB /* ChartInfo.swift in Sources */,
@@ -588,7 +584,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = akasoul.HealthCare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -612,7 +608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = akasoul.HealthCare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

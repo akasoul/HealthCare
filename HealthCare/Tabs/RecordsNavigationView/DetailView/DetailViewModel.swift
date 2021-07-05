@@ -16,10 +16,13 @@ class DetailViewModel: ObservableObject{
         var data:[Double]=[]{
             didSet{
                 if(self.data != []){
-                    self.rMarks=self.calculations.getMarksR(data: self.data)
-                    self.qMarks=self.calculations.getMarksQ(data: self.data)
-                    self.tMarks=self.calculations.getMarksT(data: self.data)
-                    self.rr=self.calculations.getRRs(ecgMarks: self.rMarks)
+                    self.rMarks=self.calculations.getMarksR(ecg: self.data)
+                    self.qMarks=self.calculations.getMarksQ2(ecg: self.data,marksR: self.rMarks)
+                    self.tMarks=self.calculations.getMarksT2(ecg: self.data,marksR: self.rMarks)
+//                    self.qMarks=self.calculations.getMarksQ2(ecg: self.data,marksR: self.rMarks,hearRate: self.heartRate)
+//                    self.tMarks=self.calculations.getMarksT2(ecg: self.data,marksR: self.rMarks,hearRate: self.heartRate)
+                    self.rr=self.calculations.getRR(rMarks: self.rMarks)
+                    self.qt=self.calculations.getQT(qMarks: self.qMarks, tMarks: self.tMarks)
                     self.hrvIndex = self.calculations.getHrvIndex(self.rr)
                     
                     
@@ -34,14 +37,7 @@ class DetailViewModel: ObservableObject{
         var duration: Double = 0
         var frequency: Double = 0
         var date: String=""
-        var heartRate: Double = 0{
-            didSet{
-                let peaksMin=min(self.heartRate * self.duration/60, Double(self.rr.count))
-                let peaksMax=max(self.heartRate * self.duration/60, Double(self.rr.count))
-                self.reliability = 100*peaksMin/peaksMax
-
-            }
-        }
+        var heartRate: Double = 0
         var health: Double = 0
         var hrvIndex: Double = 0
         var reliability: Double = 0
@@ -60,12 +56,16 @@ class DetailViewModel: ObservableObject{
                     
                     
                     DispatchQueue.main.async{
-                        self.recentEcgData2.data=self.record!.ecgData
                         self.recentEcgData2.duration=self.record!.duration
                         self.recentEcgData2.frequency=self.record!.samplingFrequency ?? 0
                         self.recentEcgData2.date=self.dateFormatter.string(from: self.record!.date)
                         self.recentEcgData2.heartRate=self.record!.heartRate
+                        self.recentEcgData2.data=self.record!.ecgData
                         self.recentRRData=rrValues
+                        
+                        let peaksMin=min(self.recentEcgData2.heartRate * self.recentEcgData2.duration/60, Double(self.recentEcgData2.rr.count))
+                        let peaksMax=max(self.recentEcgData2.heartRate * self.recentEcgData2.duration/60, Double(self.recentEcgData2.rr.count))
+                        self.recentEcgData2.reliability = 100*peaksMin/peaksMax
                     }
                 }
             }

@@ -61,7 +61,7 @@ class ChartScaterogramModel: ObservableObject{
               let fillColor=self.fillColor
         else{ return }
         
-        let dist=0.2*(dataMax-dataMin)
+        let dist = 0.2*(dataMax-dataMin) == 0 ? 0.2*dataMax : 0.2*(dataMax-dataMin)
         dataMin -= dist
         dataMax += dist
         let mainLayer = CALayer()

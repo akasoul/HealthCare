@@ -15,7 +15,7 @@ import Combine
 class Storage: ObservableObject{
     static var shared=Storage()
     var appFolder: String
-    @Published var all: [Record]=[]
+    @Published var records: [Record]=[]
     @Published var userInfo: UserInfo?{
         didSet{
             self.objectWillChange.send()
@@ -47,7 +47,7 @@ class Storage: ObservableObject{
                     return
                 }
                 expectedCount=allSamples.count
-                self.all=[]
+                self.records=[]
                 for i in 0..<allSamples.count{
                     var ecgSamples = [(Double,Double)] ()
                     let query = HKElectrocardiogramQuery(allSamples[i]) { (query, result) in
@@ -72,7 +72,7 @@ class Storage: ObservableObject{
                             
                             let record = Record(date: date, ecgData: ecgData, heartRate: heartRate, symptomsStatus: symtomsStatus, classification: classification, samplingFrequency: samplingFrequency,duration: duration,storage: self)
                             DispatchQueue.main.async{
-                                self.all.append(record)
+                                self.records.append(record)
                             }
                             queryIsFinished.append(true)
                             
@@ -309,7 +309,7 @@ extension Storage{
                         tmp.rMarks = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.rMarks=calculations.getMarksR(data: tmp.ecg)
+                        tmp.rMarks=calculations.getMarksR(ecg: tmp.ecg)
                         let str=tmp.rMarks.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
                             try? data.write(to: URL(fileURLWithPath: rMarksPath))
@@ -318,7 +318,7 @@ extension Storage{
                     }
                 }
                 else{
-                    tmp.rMarks=calculations.getMarksR(data: tmp.ecg)
+                    tmp.rMarks=calculations.getMarksR(ecg: tmp.ecg)
                     let str=tmp.rMarks.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
                         try? data.write(to: URL(fileURLWithPath: rMarksPath))
@@ -331,7 +331,7 @@ extension Storage{
                         tmp.qMarks = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.qMarks=calculations.getMarksQ(data: tmp.ecg)
+                        tmp.qMarks=calculations.getMarksQ(ecg: tmp.ecg)
                         let str=tmp.qMarks.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
                             try? data.write(to: URL(fileURLWithPath: qMarksPath))
@@ -340,7 +340,7 @@ extension Storage{
                     }
                 }
                 else{
-                    tmp.qMarks=calculations.getMarksQ(data: tmp.ecg)
+                    tmp.qMarks=calculations.getMarksQ(ecg: tmp.ecg)
                     let str=tmp.qMarks.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
                         try? data.write(to: URL(fileURLWithPath: qMarksPath))
@@ -353,7 +353,7 @@ extension Storage{
                         tmp.tMarks = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.tMarks=calculations.getMarksT(data: tmp.ecg)
+                        tmp.tMarks=calculations.getMarksT(ecg: tmp.ecg)
                         let str=tmp.tMarks.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
                             try? data.write(to: URL(fileURLWithPath: tMarksPath))
@@ -362,7 +362,7 @@ extension Storage{
                     }
                 }
                 else{
-                    tmp.tMarks=calculations.getMarksT(data: tmp.ecg)
+                    tmp.tMarks=calculations.getMarksT(ecg: tmp.ecg)
                     let str=tmp.tMarks.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
                         try? data.write(to: URL(fileURLWithPath: tMarksPath))
@@ -376,7 +376,7 @@ extension Storage{
                         tmp.rr = strArr.compactMap({ Double($0) })
                     }
                     catch{
-                        tmp.rr=calculations.getRRs(ecgMarks: tmp.rMarks)
+                        tmp.rr=calculations.getRR(rMarks: tmp.rMarks)
                         let str=tmp.rr.map({ String($0) }).joined(separator: ",")
                         if let data=str.data(using: .utf8){
                             try? data.write(to: URL(fileURLWithPath: rrsPath))
@@ -385,7 +385,7 @@ extension Storage{
                     
                 }
                 else{
-                    tmp.rr=calculations.getRRs(ecgMarks: tmp.rMarks)
+                    tmp.rr=calculations.getRR(rMarks: tmp.rMarks)
                     let str=tmp.rr.map({ String($0) }).joined(separator: ",")
                     if let data=str.data(using: .utf8){
                         try? data.write(to: URL(fileURLWithPath: rrsPath))

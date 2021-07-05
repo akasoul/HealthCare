@@ -64,10 +64,10 @@ class ChartCompareModel: ObservableObject {
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         
-        for i in 0..<storage.all.count{
-            let str = formatter.string(from: storage.all[i].date)
+        for i in 0..<storage.records.count{
+            let str = formatter.string(from: storage.records[i].date)
             if(str==date){
-                return storage.all[i]
+                return storage.records[i]
             }
         }
         return nil

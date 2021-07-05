@@ -59,10 +59,10 @@ struct ChartSwitcher: View{
                             
                         }
                         .onTapGesture {
+                            self.model.action?(i)
                             withAnimation(.linear(duration: 0.5), {
                                 self.selectionOffset = CGFloat(i)*g2.size.width/2
                             })
-                            self.model.action?(i)
                         }
                     }
             

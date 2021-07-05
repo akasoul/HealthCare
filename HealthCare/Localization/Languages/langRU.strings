@@ -10,7 +10,7 @@
 "IDS_CHART_ECG_TITLE"="Электрокардиограмма";
 "IDS_CHART_ECG_X_MARKS_FORMAT" = "%.0fс";
 "IDS_CHART_ECG_Y_MARKS_FORMAT" = "%.1fмВ";
-"IDS_CHART_ECG_HELP"="Электрокардиограмма, обработанная нейронной сетью. Красные маркеры указывают положение R пиков.";
+"IDS_CHART_ECG_HELP"="Электрокардиограмма, обработанная нейронной сетью. Красные маркеры указывают положение выбранных пиков.";
 
 "IDS_CHART_SCATEROGRAM_TITLE"="Диаграмма рассеивания";
 "IDS_CHART_SCATEROGRAM_X_MARKS_FORMAT" = "%.1fс";
@@ -21,13 +21,13 @@
 "IDS_CHART_RHYTHMOGRAM_TITLE"="Ритмограмма";
 "IDS_CHART_RHYTHMOGRAM_X_MARKS_FORMAT" = "%.0f";
 "IDS_CHART_RHYTHMOGRAM_Y_MARKS_FORMAT" = "%.2fс";
-"IDS_CHART_RHYTHMOGRAM_HELP"="Ритмограмма показывает длительность R-R интервалов.";
+"IDS_CHART_RHYTHMOGRAM_HELP"="Ритмограмма показывает длительность выбранных интервалов.";
 
 
 "IDS_CHART_HISTOGRAM_TITLE"="Гистограмма";
 "IDS_CHART_HISTOGRAM_X_MARKS_FORMAT" = "%.2fс";
 "IDS_CHART_HISTOGRAM_Y_MARKS_FORMAT" = "%.0f";
-"IDS_CHART_HISTOGRAM_HELP"="Гистограмма показывает распределение R-R интервалов по длительности.";
+"IDS_CHART_HISTOGRAM_HELP"="Гистограмма показывает распределение интервалов по длительности.";
 
 
 "IDS_CHART_INFO_TITLE"="Информация";
@@ -84,3 +84,9 @@
 
 "IDS_CHART_ATTENTION_TITLE"="Внимание";
 "IDS_CHART_ATTENTION_TEXT"="Низкая достоверность вычислений. Не принимайте результаты во внимание.";
+
+
+"IDS_CHART_SWITCHER_TITLE"="Выбор интервала";
+"IDS_CHART_SWITCHER_RR"="R-R";
+"IDS_CHART_SWITCHER_QT"="Q-T";
+"IDS_CHART_SWITCHER_HELP"="";

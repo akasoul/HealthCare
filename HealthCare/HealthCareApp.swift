@@ -21,19 +21,21 @@ struct HealthCareApp: App {
         WindowGroup {
             TabSelectionView(colors: self.colors)
                 .onAppear(perform: {
-                    if var counter = UserDefaults.standard.value(forKey: "EcgAnalyzerCounter") as? Int{
+                    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String{
+
+                    if var counter = UserDefaults.standard.value(forKey: "EcgAnalyzerCounter"+appVersion) as? Int{
                         print(counter)
-                        if(counter % 10 == 0){
+                        if(counter == 10){
                             if let windowScene = UIApplication.shared.windows.first?.windowScene { SKStoreReviewController.requestReview(in: windowScene)
                             }
                         }
                         counter += 1
-                        UserDefaults.standard.setValue(counter, forKey: "EcgAnalyzerCounter")
+                        UserDefaults.standard.setValue(counter, forKey: "EcgAnalyzerCounter"+appVersion)
                     }
                     else{
-                        UserDefaults.standard.setValue(0, forKey: "EcgAnalyzerCounter")
+                        UserDefaults.standard.setValue(0, forKey: "EcgAnalyzerCounter"+appVersion)
                     }
-
+                    }
                 })
         }
     }

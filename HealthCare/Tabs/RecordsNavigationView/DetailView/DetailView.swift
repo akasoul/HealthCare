@@ -69,10 +69,16 @@ struct DetailView: View {
         self.selectedPeaks=selection
         if(selection==0){
             self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.rMarks],marksOrientation: [1],duration: self.model.recentEcgData2.duration)
+            self.chartRhythmogram.setData(data: self.model.recentEcgData2.rr, frequency: self.model.recentEcgData2.frequency)
+            self.chartHisto.setData(data: self.model.recentEcgData2.rr, frequency: self.model.recentEcgData2.frequency)
+            self.chartScat.setData(data: self.model.recentEcgData2.rr, frequency: self.model.recentEcgData2.frequency)
         }
         if(selection==1){
             self.chartEcg.setData(data: self.model.recentEcgData2.data,marks: [self.model.recentEcgData2.qMarks,self.model.recentEcgData2.tMarks],marksOrientation: [-1,1],duration: self.model.recentEcgData2.duration)
-        }
+            self.chartRhythmogram.setData(data: self.model.recentEcgData2.qt, frequency: self.model.recentEcgData2.frequency)
+            self.chartHisto.setData(data: self.model.recentEcgData2.qt, frequency: self.model.recentEcgData2.frequency)
+            self.chartScat.setData(data: self.model.recentEcgData2.qt, frequency: self.model.recentEcgData2.frequency)
+}
     }
     
     var body: some View {

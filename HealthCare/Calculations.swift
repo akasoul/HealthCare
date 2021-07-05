@@ -19,10 +19,10 @@ class Calculations{
     let treshholdT: Double = 0.2
     let filterRadius: Int = 10
     
-    func getRRs(ecgMarks: [Double])->[Double]{
+    func getRR(rMarks: [Double])->[Double]{
         var indexes: [Int]=[]
-        for i in 0..<ecgMarks.count{
-            if(ecgMarks[i]>self.treshholdR){
+        for i in 0..<rMarks.count{
+            if(rMarks[i]>self.treshholdR){
                 indexes.append(i)
             }
         }
@@ -35,8 +35,24 @@ class Calculations{
         return rrs
     }
     
-    func getMarksR(data: [Double])->[Double]{
-        var data=data
+    func getQT(qMarks: [Double],tMarks: [Double])->[Double]{
+        var qt=[Double]()
+        for i in 0..<qMarks.count{
+            if(qMarks[i]>self.treshholdQ){
+                if(tMarks.count-i>0){
+                for j in 0..<tMarks.count-i{
+                    if(tMarks[i+j]>treshholdT){
+                        qt.append(Double(j))
+                        break
+                    }
+                }
+                }
+            }
+        }
+        return qt
+    }
+    func getMarksR(ecg: [Double])->[Double]{
+        var data=ecg
         
         guard let minValue=data.min(),
               let maxValue=data.max(),
@@ -85,8 +101,8 @@ class Calculations{
         return marks
     }
     
-    func getMarksQ(data: [Double])->[Double]{
-        var data=data
+    func getMarksQ(ecg: [Double])->[Double]{
+        var data=ecg
         
         guard let minValue=data.min(),
               let maxValue=data.max(),
@@ -136,8 +152,8 @@ class Calculations{
     
 
     
-    func getMarksT(data: [Double])->[Double]{
-        var data=data
+    func getMarksT(ecg: [Double])->[Double]{
+        var data=ecg
         
         guard let minValue=data.min(),
               let maxValue=data.max(),
@@ -190,6 +206,96 @@ class Calculations{
         return marks
     }
     
+    func getMarksQ2(ecg: [Double],marksR: [Double],hearRate: Double=0)->[Double]{
+        var output=[Double](repeating: 0, count: ecg.count)
+        var countR=0
+        for i in 0..<marksR.count{
+            if(marksR[i]==1){
+                countR += 1
+            }
+        }
+        if(countR==0){
+            return output
+        }
+        if(hearRate != 0){
+            countR=Int(hearRate)
+        }
+        let len = Int(0.5*Double(ecg.count)/Double(countR))
+        for i in 0..<ecg.count{
+            if(marksR[i]==1){
+                var index=i
+                var value=ecg[i]
+                for j in 0..<len{
+                    if(i-j>0){
+                        if(ecg[i-j]<value){
+                            index=i-j
+                            value=ecg[i-j]
+                        }
+                    }
+                }
+                output[index]=1
+            }
+        }
+        return output
+    }
+    
+
+    func getMarksT2(ecg: [Double],marksR: [Double],hearRate: Double=0)->[Double]{
+        var output=[Double](repeating: 0, count: ecg.count)
+        
+        var countR=0
+        for i in 0..<marksR.count{
+            if(marksR[i]==1){
+                countR += 1
+            }
+        }
+        if(countR==0){
+            return output
+        }
+        if(hearRate != 0){
+            countR=Int(hearRate)
+        }
+
+        let len = Int(0.5*Double(ecg.count)/Double(countR))
+        
+//        print("len: \(len)")
+        for i in 0..<ecg.count{
+            if(marksR[i]==1){
+                var nextLen=len
+                var index1=i
+//                print("found R peak at: \(i)")
+                var value1=ecg[i]
+                for j in 0..<len{
+                    if(i+j<ecg.count){
+                        if(ecg[i+j]<value1){
+                            index1=i+j
+                            value1=ecg[i+j]
+                            nextLen -= 1
+                        }
+                    }
+                }
+//                print("found S peak at: \(index1)")
+//                print("search for T peak in range \(index1)..\(index1+nextLen)")
+                var index2=index1
+                var value2=value1
+                if(nextLen>0){
+                for j in 0..<nextLen{
+                    if(j+index1<ecg.count){
+                        if(ecg[j+index1]>value2){
+                            index2=j+index1
+                            value2=ecg[j+index1]
+                        }
+                    }
+                }
+//                    print("found T peak at: \(index2)")
+                output[index2]=1
+                }
+            }
+        }
+        return output
+    }
+    
+
     func filterMarks(ecg: [Double],marks: inout [Double]){
         for i in 0..<ecg.count{
             if(marks[i]==1){
