@@ -93,7 +93,7 @@ struct ChartCompare: View {
                                 VStack{
                                     Text(i[0])
                                         .font(.system(size: 12))
-                                        .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.center)
+                                        .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.bottom)
                                     Text(i[1])
                                         .font(.system(size: 12))
                                         .frame(width: self.model.recordWidth,height: self.model.stringHeight,alignment:.center)

@@ -135,6 +135,7 @@ struct DetailView: View {
         }
         .onAppear(perform: {
             self.model.setRecord(self.record)
+            print("detail appear")
         })
         .onReceive(self.model.$recentEcgData2, perform: { i in
             self.chartEcg.setData(data: i.data,marks: [i.rMarks],marksOrientation: [1],duration: i.duration)

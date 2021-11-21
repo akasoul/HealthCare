@@ -94,6 +94,7 @@ struct ChartDistribution: View {
                         
                     })
                     .frame(width: g.size.width-2*self.offset, height: 100,alignment: . topLeading)
+                    .pickerStyle(WheelPickerStyle())
                     .offset(x: self.offset, y: 2*self.offset)
                     
                 }
