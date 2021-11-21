@@ -79,6 +79,9 @@ class DetailViewModel: ObservableObject{
     init() {
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
+        print("test")
+        let a = 40
+        print(a)
     }
     
     func setRecord(_ record: Storage.Record){
