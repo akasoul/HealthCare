@@ -15,8 +15,7 @@ extension UIColor{
     public var color: Color{ get{
         guard let components = self.cgColor.components
         else{ return Color.clear }
-        let clr=Color(red: Double(components[0]), green: Double(components[1]), blue: Double(components[2]), opacity: Double(components[3]))
-        return clr
+         return Color(red: Double(components[0]), green: Double(components[1]), blue: Double(components[2]), opacity: Double(components[3]))
     }}
 }
 
